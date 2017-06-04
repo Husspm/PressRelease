@@ -4,7 +4,7 @@ function setup() {
     mic = new p5.AudioIn();
     mic.start();
 }
-
+var ne = 0;
 var amount = 0;
 var stopAdjust = 0;
 var offset = 0;
