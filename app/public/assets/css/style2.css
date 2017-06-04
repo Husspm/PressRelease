@@ -1,0 +1,10 @@
+header {
+    background: black;
+    box-shadow: inset -2px 0 2px 2px white;
+}
+
+h1 {
+    color: black;
+    text-shadow: 1px 1px 0 white, 2px 2px 1px darkslategray, 3px 3px 0 white;
+    font-family: 'Bungee Inline', monospace;
+}
