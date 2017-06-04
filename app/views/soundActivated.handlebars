@@ -1,0 +1,19 @@
+<div class="container">
+  <nav class="navigate">
+    <h1>Patrick Hussey</h1>
+  </nav>
+  <form action="/create" method="POST">
+    <input type="text" name="name">
+    <button type="submit">Make NEW</button>
+  </form>
+  <div class="row">
+  <div class="lightbulb"></div>
+    {{#each contents}}
+    <h2>{{this.name}}</h2>
+    {{/each}}
+  </div>
+</div>
+<link rel="stylesheet" href="/assets/css/style.css">
+<script src="/assets/js/p5.min.js"></script>
+<script src="/assets/js/p5.sound.min.js"></script>
+<script src="/assets/js/logic.js"></script>

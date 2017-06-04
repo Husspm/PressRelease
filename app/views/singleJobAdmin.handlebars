@@ -1,0 +1,27 @@
+{{> elements/header}}
+<div class="well well-lg">
+{{#unless contents}}
+<h1>No Bidders, Yet</h1>
+{{/unless}}
+    {{#each contents}}
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <h2 class="panel-title">Job Title: {{this.Job.name}}</h2>
+        </div>
+        <div class="panel-body">
+            <h4>Made By: <a href="/users/{{this.Client.username}}/profile">{{this.Client.username}}</a></h4>
+            <h4>Email: {{this.Client.email}}</h4>
+            <h4>Contact Number: {{this.Client.contact}}</h4>
+            <h4>Bid Amount: {{this.bid}}</h4>
+            <form action="/jobs/{{this.Job.id}}?_method=PUT" method="POST">
+                <input type = "hidden" value="1" name="accepted">
+                <input type="hidden" value="{{this.Client.id}}" name="worker">
+                <input type = "hidden" value="{{this.Job.ClientId}}" name="id">
+                <button class="btn btn-primary" type="submit">
+                    Accept this offer
+                </button>
+            </form>
+        </div>
+    </div>
+    {{/each}}
+</div>

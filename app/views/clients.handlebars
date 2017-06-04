@@ -1,0 +1,49 @@
+{{> elements/header}}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 col-lg-12"> 
+            <div class="jumbotron">
+            <h2>Welcome {{contents.username}}</h2>
+                <blockquote class="blockquote-reverse">
+                <p class="text-warning">Please finsish Creating Your Profile</p>    
+                </blockquote>    
+            </div>  
+        </div>
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <span class="label label-warning">Email on file {{contents.email}}</span>
+                <form class="form-horizontal" action="/users/{{contents.username}}?_method=PUT" method="POST">
+                    <fieldset>
+                    <div class="form-group has-success">
+                        <label for ="name">Enter your full name</label>
+                        <input type="text" id = "name" name="name" value="{{contents.name}}" class="form-control">
+                    </div>
+                    <div class="form-group has-success">
+                    <label for ="address">Enter your address</label>
+                    <input type="text" id = "address" name="address" value="{{contents.address}}" class="form-control">
+                    </div>
+                    
+                    <div class="form-group has-success">
+                        <label for ="phone">Enter your contact number</label>
+                        <input type="text" id = "phone" name="contact" value="{{contents.contact}}" class="form-control">
+                    </div>
+                    
+                    <div class="form-group has-success">
+                        <h4><a href="/image">Upload your image</a></h4>
+                    </div>
+                        <button class="btn btn-large btn-success">
+                            Update your info
+                        </button>
+                </fieldset>
+                </form> 
+            </div>
+        </div>
+   
+    <div class="row">
+        <div class="col-md-12">    
+        <h3>{{contents.name}}</h3>
+        <h3>{{contents.address}}</h3>
+        <h3>{{contents.contact}}</h3>
+        </div>
+    </div>
+</div>
