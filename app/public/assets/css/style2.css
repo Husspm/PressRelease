@@ -3,6 +3,24 @@ body {
     background-size: 30px 30px;
 }
 
+.bgMask,
+.bgMask2 {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    z-index: 0;
+    background: url(../images/blank2.png);
+    background-size: 600px 600px;
+    opacity: 0.4;
+}
+
+.bgMask2 {
+    background: url(../images/glass.png);
+    background-size: 200px 200px;
+    opacity: 0.28;
+}
+
 header {
     background: black;
     padding: 20px 15px 15px 20px;
@@ -45,6 +63,8 @@ h1:hover,
     background: radial-gradient(white, 10%, black);
     background-size: 40px 40px;
     opacity: 0.3;
+    padding: 10px;
+    border: 8px solid black;
 }
 
 .side-bar,
@@ -54,13 +74,14 @@ h1:hover,
     border-left: 1px solid white;
     background: linear-gradient(to bottom right, #000, #111, #222, #111, #000);
     background-size: 80px 80px;
+    opacity: 0.9;
 }
 
 h2,
 h3 {
     font-family: "Audiowide";
     color: white;
-    text-shadow: 0.5px 0.5px 0 #333, 1px 1px 0 #666, 1.5px 1.5px 0 #999, 2px 2px 0 #333, 2.5px 2.5px 0 #666, 3px 3px 0 #999
+    text-shadow: 0.5px 0.5px 0 #333, 1px 1px 0 #666, 1.5px 1.5px 0 #999, 2px 2px 0 #333, 2.5px 2.5px 0 #666, 3px 3px 0 #999;
 }
 
 h3 {

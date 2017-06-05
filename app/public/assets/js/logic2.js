@@ -20,10 +20,6 @@ function draw() {
     }
     offset += 0.008;
     var cAmt = noise(offset) * 80;
-    $(".headerMask").css({
-        "background": "radial-gradient(#fff, #666," + stopChange + "%,#333, #000)",
-        "background-size": "20px 20px"
-    });
     $(".main-body").css({
         "background": "linear-gradient(to bottom left, #000, #111," + stopChange + "%, #222, #111, #000)",
         "background-size": "80px 80px"
@@ -33,7 +29,7 @@ function draw() {
         "background-size": "80px 80px"
     });
     $("body").css({
-        "background": "linear-gradient(to bottom right, #000, #111, #222," + stopChange + "%,#333, #222, #111, #000)",
-        "background-size": "30px 30px"
+        "background": "linear-gradient(to bottom right, #000, #333, #666," + stopChange + "%,#999, #666, #333, #000)",
+        "background-size": "130px 130px"
     });
 }
