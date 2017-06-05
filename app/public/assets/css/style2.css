@@ -33,7 +33,7 @@ h1 {
     font-family: 'Bungee Inline', monospace;
     display: inline-block;
     mix-blend-mode: overlay;
-    transition: filter 2s;
+    transition: filter 8s;
 }
 
 h1:hover,
@@ -77,6 +77,10 @@ h1:hover,
     opacity: 0.9;
 }
 
+.main-body {
+    border-left: 0;
+}
+
 h2,
 h3 {
     font-family: "Audiowide";
@@ -90,7 +94,7 @@ h3 {
 
 .nav-text {
     display: inline;
-    transition: filter 2s;
+    transition: filter 6s;
 }
 
 p,
