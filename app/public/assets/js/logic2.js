@@ -9,13 +9,13 @@ function draw() {
     if (stopDirection === true) {
         stopChange += 0.15;
     }
-    if (stopChange > 110) {
+    if (stopChange > 120) {
         stopDirection = false;
     }
     if (stopDirection === false) {
         stopChange -= 0.15;
     }
-    if (stopChange < -10) {
+    if (stopChange < 0) {
         stopDirection = true;
     }
     offset += 0.008;
