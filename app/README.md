@@ -1,2 +1,3 @@
 # PressRelease
-testing server and making a press release page, similar to bandcamp, but more customized
+testing server and making a portfolio page
+
