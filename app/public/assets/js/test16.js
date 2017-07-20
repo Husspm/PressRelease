@@ -125,8 +125,8 @@ function randomize() {
 }
 
 function randomizeC() {
-    var target = Math.floor(random(0, 2));
-    if (target === 0) {
+    var target = Math.floor(random(0, 3));
+    if (target === 1) {
         makeMusicGroupC();
     }
 }

@@ -3,7 +3,7 @@
         <div class="headerWrap">
             <h1 class="nav-text">Patrick Hussey</h1>
             <h3 class="nav-text">Full Stack Devoloper</h3>
-            <h4 class ="nav-text">Coding/Music/Art</h4>
+            <h4 class ="nav-text tst">Coding/Music/Art</h4>
         </div>
         <div class="headerMask"></div>
 </header>
@@ -13,30 +13,49 @@
 
 <script src="/assets/js/test16.js"></script>
 <div class="container-fluid canvasTarget">
+    <div class='row'>
+        <div class='col-md-12 main-body'>
+            <h2 class='text-center'>Random Music Generator</h2>
+        </div>
+    </div>
     <div class="row">
-        <div class="col-md-3 side-bar">
-            <h2 class="text-center">Demos:</h2>
-                <a href="/soundActivated"><h3 class="text-center">Microphones</h3></a>
+        <div class="col-md-6 main-body">
+            <h3 class="text-center">The Algorithm Part 1</h3>
                 <hr>
-            <h2 class="text-center">Contact:</h2>
-                <a href="https://github.com/Husspm" target="_blank"><h3 class="text-center">Github</h3></a>
-                <a href="https://www.linkedin.com/in/patrick-hussey-535508136/" target="_blank"><h3 class="text-center">LinkedIn</h3></a>
+                <h4>Based on the musical concept of <a href='https://en.wikipedia.org/wiki/Serialism' target='_blank'>serialism, </a>
+                this algorithm selects notes at random from an array of 15 notes. Once a note has been selected, it is removed from the
+                list. This process repeats until all of the notes have been selected, at which point the array is returned to its original
+                state and the whole process starts over.
         </div>
         <div class="col-md-6 main-body">
-            <h2>Welcome to my demo site</h2>
+            <h3 class='text-center'>The Algorithm Part 2</h3>
             <hr>
-                <h3>I will be updating this periodically</h3>
-                <p>Feel free to check back to stay up to date with current projects and to 
-                    find more demonstrations</p>
-                <ul>Resources Used to Create this site:
-                    <h3>Back End</h3>
-                    <li>Node</li>
-                    <li>Express</li>
-                    <li>Handlebars</li>
-                    <h3>Front End</h3>
-                    <li>p5</li>
-                    <li>jQuery</li>
-                    <li>Bootstrap</li>
-                </ul>
+                <h4>For each element in the array, there is a switch which controls what note will be used for accompaniment. 
+                When a note is passed through the switch there are 4 different notes which can be returned. A random 
+                number is generated each time the function is called to determine which one of the four notes it will return. 
         </div>
-</div>
+    </div>
+    <div class='row'>
+        <div class='col-md-3 main-body a'>
+            <h3 class='text-center'>Group A</h3>
+            <hr>
+            <h4>Group A is 2 sine oscillators that are called once every four seconds. However, it skips every fourth
+                 iteration.
+        </div>
+        <div class='col-md-3 main-body a'>
+            <h3 class='text-center'>Group B</h3>
+            <hr>
+            <h4>Group B is 2 trianle oscillators that have a 10% chance of being played every second.
+        </div>
+        <div class='col-md-3 main-body a'>
+            <h3 class='text-center'>Group C</h3>
+            <hr>
+            <h4>Group C is 2 square oscillators that have a 33% chance of being played every three seconds.
+        </div>
+        <div class='col-md-3 main-body a'>
+            <h3 class='text-center'>User Input</h3>
+            <hr>
+            <h4>The second and third row on the computer keyboard can be used to play along with the music if you 
+                choose. The second row is a trianle oscillator with a long attack to create sweeping sounds. The third row 
+                is a square oscillator with a very short attack to create more rhythmic sounds. 
+        </div>
