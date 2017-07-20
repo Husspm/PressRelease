@@ -30,6 +30,6 @@ function draw() {
     });
     $("body").css({
         "background": "linear-gradient(to bottom right, #000, #333, #666," + stopChange + "%,#999, #666, #333, #000)",
-        "background-size": "130px 130px"
+        "background-size": "160px 160px"
     });
 }
