@@ -19,7 +19,7 @@ function setup() {
     cDist = new p5.Distortion(0.0299); //groupB distortion
     filter = new p5.BandPass();
     Tfilter = new p5.BandPass();
-    env.setRange(2, 0);
+    env.setRange(1, 0);
     Tenv.setRange(0.4, 0);
     Cenv.setRange(0.3, 0);
     env2.setRange(0.05, 0);
@@ -92,6 +92,8 @@ function setup() {
     Tosc2.start();
     Sawosc.start();
     Sawosc2.start();
+    recorder = new p5.SoundRecorder();
+    soundFile = new p5.SoundFile();
 }
 var sOscArray = [48, 50, 52, 54, 55, 57, 59, 60, 62, 64, 66, 67, 69, 71, 72];
 var sOscCopy = [48, 50, 52, 54, 55, 57, 59, 60, 62, 64, 66, 67, 69, 71, 72];
@@ -103,11 +105,12 @@ var cOscCopy = [48, 50, 52, 54, 55, 57, 59, 60, 62, 64, 66, 67, 69, 71, 72];
 var auto = setInterval(function() { makeMusicGroupA(); }, 4000);
 var auto2 = setInterval(function() { randomize(); }, 1000);
 var auto3 = setInterval(function() { valueListener(); }, 0.2);
-var auto4 = setInterval(function() { randomizeC(); }, 3000);
+//var auto4 = setInterval(function() { randomizeC(); }, 3000);
 
 var fOffset = 0;
 
 function valueListener() {
+    recorder.record(soundFile);
     fOffset += 0.1;
     filter.freq(noise(fOffset) * 7000);
     filter.res(noise(fOffset) * 60);
@@ -123,14 +126,14 @@ function randomize() {
         makeMusicGroupB();
     }
 }
-
+/*
 function randomizeC() {
     var target = Math.floor(random(0, 3));
     if (target === 1) {
         makeMusicGroupC();
     }
 }
-
+*/
 var group_A_iterations = 0;
 
 function makeMusicGroupA() {
@@ -166,7 +169,7 @@ function makeMusicGroupB() {
         tOscArray = tOscCopy.slice();
     }
 }
-
+/*
 function makeMusicGroupC() {
     console.log("HIT on group C");
     var idx = Math.floor(random(cOscArray.length));
@@ -180,7 +183,7 @@ function makeMusicGroupC() {
         cOscArray = cOscCopy.slice();
     }
 }
-
+*/
 function findNote(note) {
     var selector = Math.floor(random(0, 4));
     switch (note) {
@@ -337,6 +340,10 @@ function findNote(note) {
 
 function keyPressed() {
     console.log(key);
+    if (keyCode === BACKSPACE) {
+        recorder.stop();
+        save(soundFile, 'algorithm.wav');
+    }
     switch (key) {
         case 'A':
         case 'Q':
