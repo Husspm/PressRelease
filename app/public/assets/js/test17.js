@@ -115,7 +115,7 @@ function valueListener() {
     filter.freq(noise(fOffset) * 7000);
     filter.res(noise(fOffset) * 60);
     Tfilter.freq(noise(fOffset) * 6000);
-    Tfilter.res(noise(fOffset) * 120);
+    Tfilter.res(noise(fOffset) * 50);
 }
 
 function randomize() {
@@ -211,7 +211,7 @@ function findNote(note) {
             } else if (selector === 1) {
                 return (note - 12);
             } else if (selector === 2) {
-                return (note + 10);
+                return (note + 15);
             } else {
                 return (note + 3);
             }
@@ -331,7 +331,7 @@ function findNote(note) {
             } else if (selector === 1) {
                 return (note + 24);
             } else {
-                return (note - 24);
+                return (note - 12);
             }
     }
 }
