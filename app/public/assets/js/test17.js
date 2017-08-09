@@ -105,16 +105,6 @@ var auto2 = setInterval(function() { randomize(); }, 1000);
 var auto3 = setInterval(function() { valueListener(); }, 0.2);
 //var auto4 = setInterval(function() { randomizeC(); }, 3000);
 
-var fOffset = 0;
-
-function valueListener() {
-    fOffset += 0.1;
-    filter.freq(noise(fOffset) * 7000);
-    filter.res(noise(fOffset) * 60);
-    Tfilter.freq(noise(fOffset) * 6000);
-    Tfilter.res(noise(fOffset) * 50);
-}
-
 function randomize() {
     var target = Math.floor(random(0, 10));
     if (target === 3) {
