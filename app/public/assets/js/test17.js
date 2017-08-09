@@ -92,8 +92,6 @@ function setup() {
     Tosc2.start();
     Sawosc.start();
     Sawosc2.start();
-    recorder = new p5.SoundRecorder();
-    soundFile = new p5.SoundFile();
 }
 var sOscArray = [48, 50, 52, 54, 55, 57, 59, 60, 62, 64, 66, 67, 69, 71, 72];
 var sOscCopy = [48, 50, 52, 54, 55, 57, 59, 60, 62, 64, 66, 67, 69, 71, 72];
@@ -110,7 +108,6 @@ var auto3 = setInterval(function() { valueListener(); }, 0.2);
 var fOffset = 0;
 
 function valueListener() {
-    recorder.record(soundFile);
     fOffset += 0.1;
     filter.freq(noise(fOffset) * 7000);
     filter.res(noise(fOffset) * 60);
@@ -338,10 +335,6 @@ function findNote(note) {
 
 function keyPressed() {
     console.log(key);
-    if (keyCode === BACKSPACE) {
-        recorder.stop();
-        save(soundFile, 'algorithm.wav');
-    }
     switch (key) {
         case 'A':
         case 'Q':

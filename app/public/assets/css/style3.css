@@ -13,26 +13,16 @@ body {
     border-radius: 50%;
     font-family: 'Bungee Inline';
     font-size: 25px;
-    transition-duration: 2s;
-    transition-property: background;
-}
-
-#enter:hover {
-    color: black;
-    background: white;
-}
-
-a {
-    color: white;
-    text-decoration: none;
-    transition-duration: 2s;
-    transition-property: color;
-}
-
-a:hover {
-    color: black;
 }
 
 #defaultCanvas0 {
     filter: contrast(2);
+}
+
+.bgMask {
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    z-index: 20;
+    background: rgba(0, 0, 65, 0.2);
 }
