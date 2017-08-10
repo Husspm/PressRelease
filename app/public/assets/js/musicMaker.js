@@ -1,8 +1,11 @@
+w = window.innerWidth;
+h = window.innerHeight;
+
 function setup() {
+    createCanvas(w, h);
+    background(0);
     osc = new p5.SinOsc(); //osc, osc2, and all effects belong to groupA
     osc2 = new p5.SinOsc();
-    Cosc = new p5.SqrOsc(); //Cosc, Cosc2, and all effects belong to groupC
-    Cosc2 = new p5.SqrOsc();
     osc3 = new p5.SqrOsc();
     Tosc = new p5.TriOsc(); //Tosc and Tosc2 and all effects with T before it belong to groupB
     Tosc2 = new p5.TriOsc();
@@ -11,73 +14,53 @@ function setup() {
     env = new p5.Env();
     env2 = new p5.Env();
     Tenv = new p5.Env();
-    Cenv = new p5.Env();
     Sawenv = new p5.Env();
     oDist = new p5.Distortion(0.0099); //groupA distortion
     oDist2 = new p5.Distortion(0.0699); //rowC distortion
     tDist = new p5.Distortion(0.0099); //groupB distortion
-    cDist = new p5.Distortion(0.0299); //groupB distortion
-    filter = new p5.BandPass();
-    Tfilter = new p5.BandPass();
     env.setRange(1, 0);
     Tenv.setRange(0.4, 0);
-    Cenv.setRange(0.3, 0);
     env2.setRange(0.05, 0);
     Sawenv.setRange(0.5, 0);
     reverb = new p5.Reverb();
     reverb2 = new p5.Reverb();
     Treverb = new p5.Reverb();
-    Creverb = new p5.Reverb();
     Sawreverb = new p5.Reverb();
     delay = new p5.Delay();
     delay2 = new p5.Delay();
     Tdelay = new p5.Delay();
-    Cdelay = new p5.Delay();
-    reverb.set(8, 4, 8000);
+    reverb.set(8, 1, 8000);
     reverb2.set(8, 1, 8000);
-    Treverb.set(8, 4, 8000);
-    Creverb.set(2, 2, 4000);
-    Sawreverb.set(10, 4, 8000);
+    Treverb.set(8, 1, 8000);
+    Sawreverb.set(10, 1, 8000);
     osc.disconnect();
     osc.connect(reverb);
     osc2.disconnect();
     osc2.connect(reverb);
-    Cosc.disconnect();
-    Cosc.connect(reverb);
-    Cosc2.disconnect();
-    Cosc2.connect(reverb);
     osc3.disconnect();
     osc3.connect(reverb2);
     reverb.connect(oDist);
     reverb2.connect(oDist2);
-    Creverb.connect(cDist);
-    oDist.connect(filter);
     Tosc.disconnect();
     Tosc.connect(Treverb);
     Tosc2.disconnect();
     Tosc2.connect(Treverb);
     Treverb.connect(tDist);
-    tDist.connect(Tfilter);
     delay.setType(1);
     Tdelay.setType(1);
-    Cdelay.setType(1);
     Sawosc.disconnect();
     Sawosc.connect(Sawreverb);
     Sawosc2.disconnect();
     Sawosc2.connect(Sawreverb);
     env.setADSR(1.5, 0.05, 0, 0.5);
-    Cenv.setADSR(1, 0.05, 0, 0.5);
     env2.setADSR(0.05, 0.05, 0, 0.2);
     Tenv.setADSR(0.9, 0.05, 0, 0.5);
     Sawenv.setADSR(0.9, 0.05, 0, 0.5);
     delay.process(oDist, 0.75, 0.6);
-    Cdelay.process(cDist, 0.65, 0.5);
-    delay2.process(oDist2, 0.25, 0.6);
+    delay2.process(oDist2, 0.25, 0.4);
     Tdelay.process(tDist, 0.75, 0.6);
     osc.amp(env);
     osc2.amp(env);
-    Cosc.amp(Cenv);
-    Cosc2.amp(Cenv);
     osc3.amp(env2);
     Tosc.amp(Tenv);
     Tosc2.amp(Tenv);
@@ -85,25 +68,20 @@ function setup() {
     Sawosc2.amp(Sawenv);
     osc.start();
     osc2.start();
-    Cosc.start();
-    Cosc2.start();
     osc3.start();
     Tosc.start();
     Tosc2.start();
     Sawosc.start();
     Sawosc2.start();
+    volume = new p5.Amplitude();
 }
 var sOscArray = [48, 50, 52, 54, 55, 57, 59, 60, 62, 64, 66, 67, 69, 71, 72];
 var sOscCopy = [48, 50, 52, 54, 55, 57, 59, 60, 62, 64, 66, 67, 69, 71, 72];
 var tOscArray = [48, 50, 52, 54, 55, 57, 59, 60, 62, 64, 66, 67, 69, 71, 72];
 var tOscCopy = [48, 50, 52, 54, 55, 57, 59, 60, 62, 64, 66, 67, 69, 71, 72];
-var cOscArray = [48, 50, 52, 54, 55, 57, 59, 60, 62, 64, 66, 67, 69, 71, 72];
-var cOscCopy = [48, 50, 52, 54, 55, 57, 59, 60, 62, 64, 66, 67, 69, 71, 72];
 
 var auto = setInterval(function() { makeMusicGroupA(); }, 4000);
 var auto2 = setInterval(function() { randomize(); }, 1000);
-var auto3 = setInterval(function() { valueListener(); }, 0.2);
-//var auto4 = setInterval(function() { randomizeC(); }, 3000);
 
 function randomize() {
     var target = Math.floor(random(0, 10));
@@ -111,14 +89,7 @@ function randomize() {
         makeMusicGroupB();
     }
 }
-/*
-function randomizeC() {
-    var target = Math.floor(random(0, 3));
-    if (target === 1) {
-        makeMusicGroupC();
-    }
-}
-*/
+
 var group_A_iterations = 0;
 
 function makeMusicGroupA() {
@@ -154,21 +125,7 @@ function makeMusicGroupB() {
         tOscArray = tOscCopy.slice();
     }
 }
-/*
-function makeMusicGroupC() {
-    console.log("HIT on group C");
-    var idx = Math.floor(random(cOscArray.length));
-    var note = cOscArray[idx];
-    console.log(note, 'was selected for group C');
-    Cosc.freq(midiToFreq(note));
-    Cosc2.freq(midiToFreq(findNote(note)));
-    Cenv.play();
-    cOscArray.splice(idx, 1);
-    if (cOscArray.length === 0) {
-        cOscArray = cOscCopy.slice();
-    }
-}
-*/
+
 function findNote(note) {
     var selector = Math.floor(random(0, 4));
     switch (note) {
@@ -459,4 +416,19 @@ function keyPressed() {
             }
             break;
     }
+}
+
+function draw() {
+    level = volume.getLevel();
+    amount = map(level, 0, 1, 1, 455);
+    strokeWeight(amount / 4);
+    stroke(amount, 60);
+    noFill();
+    point(random(0, w), random(0, h));
+    push();
+    strokeWeight(amount / 2);
+    stroke(amount / 2, 30);
+    noFill();
+    point(random(0, w), random(0, h));
+    pop();
 }

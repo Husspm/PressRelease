@@ -14,7 +14,7 @@ createPoints();
 function setup() {
     createCanvas(w, h);
     background(0);
-    frameRate(30);
+    frameRate(60);
 }
 var startRadius = 6000;
 var sW = 40;
