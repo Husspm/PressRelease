@@ -1,3 +1,7 @@
 body {
     background: black;
 }
+
+#defaultCanvas0 {
+    filter: contrast(5);
+}
