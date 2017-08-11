@@ -91,6 +91,7 @@ function randomize() {
 }
 
 var group_A_iterations = 0;
+var key_change_iterations_A = 0;
 
 function makeMusicGroupA() {
     if (group_A_iterations < 3) {
@@ -103,6 +104,15 @@ function makeMusicGroupA() {
         env.play();
         sOscArray.splice(idx, 1);
         if (sOscArray.length === 0) {
+            for (var i = 0; i < sOscCopy.length; i++) {
+                if (key_change_iterations_A % 2 === 0) {
+                    sOscCopy[i] += 5;
+                } else {
+                    sOscCopy[i] -= 7;
+                }
+            }
+            key_change_iterations_A++;
+            console.log('gA array', sOscCopy);
             sOscArray = sOscCopy.slice();
         }
     }
@@ -111,6 +121,7 @@ function makeMusicGroupA() {
         group_A_iterations = 0;
     }
 }
+var key_change_iterations_B = 0;
 
 function makeMusicGroupB() {
     console.log("HIT on group B");
@@ -122,6 +133,15 @@ function makeMusicGroupB() {
     Tenv.play();
     tOscArray.splice(idx, 1);
     if (tOscArray.length === 0) {
+        for (var i = 0; i < sOscCopy.length; i++) {
+            if (key_change_iterations_B % 2 === 0) {
+                tOscCopy[i] += 5;
+            } else {
+                tOscCopy[i] -= 7;
+            }
+        }
+        key_change_iterations_B++;
+        console.log('gB array', tOscCopy);
         tOscArray = tOscCopy.slice();
     }
 }
@@ -129,7 +149,8 @@ function makeMusicGroupB() {
 function findNote(note) {
     var selector = Math.floor(random(0, 4));
     switch (note) {
-        case 48:
+        case sOscCopy[0]:
+        case tOscCopy[0]:
             if (selector === 0) {
                 return (note + 7);
             } else if (selector === 1) {
@@ -139,7 +160,8 @@ function findNote(note) {
             } else {
                 return (note + 21);
             }
-        case 50:
+        case sOscCopy[1]:
+        case tOscCopy[1]:
             if (selector === 0) {
                 return (note + 9);
             } else if (selector === 1) {
@@ -149,7 +171,8 @@ function findNote(note) {
             } else {
                 return (note + 26);
             }
-        case 52:
+        case sOscCopy[2]:
+        case tOscCopy[2]:
             if (selector === 0) {
                 return (note + 7);
             } else if (selector === 1) {
@@ -159,7 +182,8 @@ function findNote(note) {
             } else {
                 return (note + 3);
             }
-        case 54:
+        case sOscCopy[3]:
+        case tOscCopy[3]:
             if (selector === 0) {
                 return (note - 6);
             } else if (selector === 1) {
@@ -169,7 +193,8 @@ function findNote(note) {
             } else {
                 return (note + 8);
             }
-        case 55:
+        case sOscCopy[4]:
+        case tOscCopy[4]:
             if (selector === 0) {
                 return (note + 4);
             } else if (selector === 1) {
@@ -179,7 +204,8 @@ function findNote(note) {
             } else {
                 return (note - 12);
             }
-        case 57:
+        case sOscCopy[5]:
+        case tOscCopy[5]:
             if (selector === 0) {
                 return (note + 2);
             } else if (selector === 1) {
@@ -189,7 +215,8 @@ function findNote(note) {
             } else {
                 return (note - 12);
             }
-        case 59:
+        case sOscCopy[6]:
+        case tOscCopy[6]:
             if (selector === 0) {
                 return (note + 1);
             } else if (selector === 1) {
@@ -199,7 +226,8 @@ function findNote(note) {
             } else {
                 return (note - 21);
             }
-        case 60:
+        case sOscCopy[7]:
+        case tOscCopy[7]:
             if (selector === 0) {
                 return (note + 11);
             } else if (selector === 1) {
@@ -209,7 +237,8 @@ function findNote(note) {
             } else {
                 return (note - 12);
             }
-        case 62:
+        case sOscCopy[8]:
+        case tOscCopy[8]:
             if (selector === 0) {
                 return (note + 26);
             } else if (selector === 1) {
@@ -219,7 +248,8 @@ function findNote(note) {
             } else {
                 return (note - 5);
             }
-        case 64:
+        case sOscCopy[9]:
+        case tOscCopy[9]:
             if (selector === 0) {
                 return (note + 27);
             } else if (selector === 1) {
@@ -229,7 +259,8 @@ function findNote(note) {
             } else {
                 return (note + 2);
             }
-        case 66:
+        case sOscCopy[10]:
+        case tOscCopy[10]:
             if (selector === 0) {
                 return (note - 6);
             } else if (selector === 1) {
@@ -239,7 +270,8 @@ function findNote(note) {
             } else {
                 return (note + 1);
             }
-        case 67:
+        case sOscCopy[11]:
+        case tOscCopy[11]:
             if (selector === 0) {
                 return (note + 2);
             } else if (selector === 1) {
@@ -249,7 +281,8 @@ function findNote(note) {
             } else {
                 return (note - 24);
             }
-        case 69:
+        case sOscCopy[12]:
+        case tOscCopy[12]:
             if (selector === 0) {
                 return (note - 9);
             } else if (selector === 1) {
@@ -259,7 +292,8 @@ function findNote(note) {
             } else {
                 return (note - 26);
             }
-        case 71:
+        case sOscCopy[13]:
+        case tOscCopy[13]:
             if (selector === 0) {
                 return (note + 1);
             } else if (selector === 1) {
@@ -286,132 +320,132 @@ function keyPressed() {
         case 'A':
         case 'Q':
             if (key === 'A') {
-                Sawosc.freq(midiToFreq(60));
-                Sawosc2.freq(midiToFreq(60) + 1);
+                Sawosc.freq(midiToFreq(sOscCopy[0]));
+                Sawosc2.freq(midiToFreq(sOscCopy[0]) + random(-3, 3));
                 Sawenv.play();
             }
             if (key === 'Q') {
-                osc3.freq(midiToFreq(72));
+                osc3.freq(midiToFreq(sOscCopy[0] + 12));
                 env2.play();
             }
             break;
         case 'S':
         case 'W':
             if (key === 'S') {
-                Sawosc.freq(midiToFreq(62));
-                Sawosc2.freq(midiToFreq(62) + 1);
+                Sawosc.freq(midiToFreq(sOscCopy[1]));
+                Sawosc2.freq(midiToFreq(sOscCopy[1]) + random(-3, 3));
                 Sawenv.play();
             }
             if (key === 'W') {
-                osc3.freq(midiToFreq(74));
+                osc3.freq(midiToFreq(sOscCopy[1] + 12));
                 env2.play();
             }
             break;
         case 'D':
         case 'E':
             if (key === 'D') {
-                Sawosc.freq(midiToFreq(64));
-                Sawosc2.freq(midiToFreq(64) + 1);
+                Sawosc.freq(midiToFreq(sOscCopy[2]));
+                Sawosc2.freq(midiToFreq(sOscCopy[2]) + random(-3, 3));
                 Sawenv.play();
             }
             if (key === 'E') {
-                osc3.freq(midiToFreq(76));
+                osc3.freq(midiToFreq(sOscCopy[2] + 12));
                 env2.play();
             }
             break;
         case 'F':
         case 'R':
             if (key === 'F') {
-                Sawosc.freq(midiToFreq(66));
-                Sawosc2.freq(midiToFreq(66) + 1);
+                Sawosc.freq(midiToFreq(sOscCopy[3]));
+                Sawosc2.freq(midiToFreq(sOscCopy[3]) + random(-3, 3));
                 Sawenv.play();
             }
             if (key === 'R') {
-                osc3.freq(midiToFreq(78));
+                osc3.freq(midiToFreq(sOscCopy[3] + 12));
                 env2.play();
             }
             break;
         case 'G':
         case 'T':
             if (key === 'G') {
-                Sawosc.freq(midiToFreq(67));
-                Sawosc2.freq(midiToFreq(67) + 1);
+                Sawosc.freq(midiToFreq(sOscCopy[4]));
+                Sawosc2.freq(midiToFreq(sOscCopy[4]) + random(-3, 3));
                 Sawenv.play();
             }
             if (key === 'T') {
-                osc3.freq(midiToFreq(79));
+                osc3.freq(midiToFreq(sOscCopy[4] + 12));
                 env2.play();
             }
             break;
         case 'H':
         case 'Y':
             if (key === 'H') {
-                Sawosc.freq(midiToFreq(69));
-                Sawosc2.freq(midiToFreq(69) + 1);
+                Sawosc.freq(midiToFreq(sOscCopy[5]));
+                Sawosc2.freq(midiToFreq(sOscCopy[5]) + random(-3, 3));
                 Sawenv.play();
             }
             if (key === 'Y') {
-                osc3.freq(midiToFreq(81));
+                osc3.freq(midiToFreq(sOscCopy[5] + 12));
                 env2.play();
             }
             break;
         case 'J':
         case 'U':
             if (key === 'J') {
-                Sawosc.freq(midiToFreq(71));
-                Sawosc2.freq(midiToFreq(71) + 1);
+                Sawosc.freq(midiToFreq(sOscCopy[6]));
+                Sawosc2.freq(midiToFreq(sOscCopy[6]) + random(-3, 3));
                 Sawenv.play();
             }
             if (key === 'U') {
-                osc3.freq(midiToFreq(83));
+                osc3.freq(midiToFreq(sOscCopy[6] + 12));
                 env2.play();
             }
             break;
         case 'K':
         case 'I':
             if (key === 'K') {
-                Sawosc.freq(midiToFreq(72));
-                Sawosc2.freq(midiToFreq(72) + 1);
+                Sawosc.freq(midiToFreq(sOscCopy[7]));
+                Sawosc2.freq(midiToFreq(sOscCopy[7]) + random(-3, 3));
                 Sawenv.play();
             }
             if (key === 'I') {
-                osc3.freq(midiToFreq(84));
+                osc3.freq(midiToFreq(sOscCopy[7] + 12));
                 env2.play();
             }
             break;
         case 'L':
         case 'O':
             if (key === 'L') {
-                Sawosc.freq(midiToFreq(74));
-                Sawosc2.freq(midiToFreq(74) + 1);
+                Sawosc.freq(midiToFreq(sOscCopy[8]));
+                Sawosc2.freq(midiToFreq(sOscCopy[8]) + random(-3, 3));
                 Sawenv.play();
             }
             if (key === 'O') {
-                osc3.freq(midiToFreq(86));
+                osc3.freq(midiToFreq(sOscCopy[8] + 12));
                 env2.play();
             }
             break;
         case 'º':
         case 'P':
             if (key === 'º') {
-                Sawosc.freq(midiToFreq(76));
-                Sawosc2.freq(midiToFreq(76) + 1);
+                Sawosc.freq(midiToFreq(sOscCopy[9]));
+                Sawosc2.freq(midiToFreq(sOscCopy[9]) + random(-3, 3));
                 Sawenv.play();
             }
             if (key === 'P') {
-                osc3.freq(midiToFreq(88));
+                osc3.freq(midiToFreq(sOscCopy[9] + 12));
                 env2.play();
             }
             break;
         case 'Þ':
         case 'Û':
             if (key === 'Þ') {
-                Sawosc.freq(midiToFreq(79));
-                Sawosc2.freq(midiToFreq(79) + 1);
+                Sawosc.freq(midiToFreq(sOscCopy[10]));
+                Sawosc2.freq(midiToFreq(sOscCopy[10]) + random(-3, 3));
                 Sawenv.play();
             }
             if (key === 'Û') {
-                osc3.freq(midiToFreq(91));
+                osc3.freq(midiToFreq(sOscCopy[10] + 12));
                 env2.play();
             }
             break;
@@ -421,8 +455,8 @@ function keyPressed() {
 function draw() {
     level = volume.getLevel();
     amount = map(level, 0, 1, 1, 455);
-    strokeWeight(amount / 4);
-    stroke(amount, 60);
+    strokeWeight(amount / 1.5);
+    stroke(random(0, 255), 60);
     noFill();
     point(random(0, w), random(0, h));
     push();
