@@ -111,9 +111,9 @@ function makeMusicGroupA() {
                     sOscCopy[i] -= 7;
                 }
             }
-            key_change_iterations_A++;
             console.log('gA array', sOscCopy);
             sOscArray = sOscCopy.slice();
+            key_change_iterations_A++;
         }
     }
     group_A_iterations++;
@@ -140,9 +140,9 @@ function makeMusicGroupB() {
                 tOscCopy[i] -= 7;
             }
         }
-        key_change_iterations_B++;
         console.log('gB array', tOscCopy);
         tOscArray = tOscCopy.slice();
+        key_change_iterations_B++;
     }
 }
 
@@ -454,15 +454,23 @@ function keyPressed() {
 
 function draw() {
     level = volume.getLevel();
-    amount = map(level, 0, 1, 1, 455);
-    strokeWeight(amount / 1.5);
+    amount = map(level, 0, 1, 1, 755);
+    strokeWeight(amount / 2);
     stroke(random(0, 255), 60);
     noFill();
-    point(random(0, w), random(0, h));
+    posX = random(0, w);
+    posY = random(0, h);
+    point(posX, posY);
     push();
     strokeWeight(amount / 2);
-    stroke(amount / 2, 30);
+    stroke(random(0, 255), 30);
     noFill();
-    point(random(0, w), random(0, h));
+    point(posX, posY);
+    pop();
+    push();
+    strokeWeight(amount / 3);
+    stroke(random(0, 255), 30);
+    noFill();
+    point(posX, posY);
     pop();
 }
