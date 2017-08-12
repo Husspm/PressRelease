@@ -29,9 +29,9 @@ function setup() {
     delay = new p5.Delay();
     delay2 = new p5.Delay();
     Tdelay = new p5.Delay();
-    reverb.set(8, 1, 8000);
-    reverb2.set(8, 1, 8000);
-    Treverb.set(8, 1, 8000);
+    reverb.set(10, 1, 6000);
+    reverb2.set(10, 1, 7000);
+    Treverb.set(10, 1, 8000);
     Sawreverb.set(10, 1, 8000);
     osc.disconnect();
     osc.connect(reverb);
@@ -455,22 +455,33 @@ function keyPressed() {
 function draw() {
     level = volume.getLevel();
     amount = map(level, 0, 1, 1, 755);
+    trans = 0;
+    if (level > 0.2) {
+        trans = 10;
+    } else {
+        trans = 60;
+    }
     strokeWeight(amount / 2);
-    stroke(random(0, 255), 60);
+    stroke(amount * 0.8, trans);
     noFill();
     posX = random(0, w);
     posY = random(0, h);
     point(posX, posY);
     push();
     strokeWeight(amount / 2);
-    stroke(random(0, 255), 30);
+    stroke(amount * 0.6, trans);
     noFill();
-    point(posX, posY);
-    pop();
+    point(posX + amount, posY);
     push();
     strokeWeight(amount / 3);
-    stroke(random(0, 255), 30);
+    stroke(amount * 0.4, trans);
     noFill();
-    point(posX, posY);
+    point(posX - amount, posY);
+    push();
+    strokeWeight(amount * 0.1);
+    noFill();
+    line(posX - amount, posY, posX + amount, posY);
+    pop();
+    pop();
     pop();
 }
