@@ -7,7 +7,7 @@ module.exports = function(app) {
             res.render("entry", { contents: data });
         });
     }); //home page route
-    app.get("/soundGenerator", function(req, res) {
+    app.get("/musicMaker", function(req, res) {
         database.Item.findAll({}).then(function(data) {
             res.render("home", { contents: data });
         });

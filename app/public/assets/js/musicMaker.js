@@ -1,5 +1,5 @@
-w = window.innerWidth;
-h = window.innerHeight;
+w = window.innerWidth - 20;
+h = window.innerHeight - 15;
 
 function setup() {
     createCanvas(w, h);
@@ -16,12 +16,12 @@ function setup() {
     Tenv = new p5.Env();
     Sawenv = new p5.Env();
     oDist = new p5.Distortion(0.0099); //groupA distortion
-    oDist2 = new p5.Distortion(0.0699); //rowC distortion
+    oDist2 = new p5.Distortion(0.0099); //rowC distortion
     tDist = new p5.Distortion(0.0099); //groupB distortion
     env.setRange(1, 0);
-    Tenv.setRange(0.4, 0);
-    env2.setRange(0.05, 0);
-    Sawenv.setRange(0.5, 0);
+    Tenv.setRange(0.7, 0);
+    env2.setRange(0.1, 0);
+    Sawenv.setRange(1, 0);
     reverb = new p5.Reverb();
     reverb2 = new p5.Reverb();
     Treverb = new p5.Reverb();
@@ -47,6 +47,7 @@ function setup() {
     Tosc2.connect(Treverb);
     Treverb.connect(tDist);
     delay.setType(1);
+    delay2.setType(1);
     Tdelay.setType(1);
     Sawosc.disconnect();
     Sawosc.connect(Sawreverb);
@@ -55,9 +56,9 @@ function setup() {
     env.setADSR(1.5, 0.05, 0, 0.5);
     env2.setADSR(0.05, 0.05, 0, 0.2);
     Tenv.setADSR(0.9, 0.05, 0, 0.5);
-    Sawenv.setADSR(0.9, 0.05, 0, 0.5);
+    Sawenv.setADSR(0.05, 0.05, 0, 0.05);
     delay.process(oDist, 0.75, 0.6);
-    delay2.process(oDist2, 0.25, 0.4);
+    delay2.process(oDist2, 0.9, 0.4);
     Tdelay.process(tDist, 0.75, 0.6);
     osc.amp(env);
     osc2.amp(env);
@@ -144,6 +145,33 @@ function makeMusicGroupB() {
         tOscArray = tOscCopy.slice();
         key_change_iterations_B++;
     }
+}
+
+var dl4 = new Tone.PingPongDelay(0.9, 0.4).toMaster();
+var synth = new Tone.Synth({
+    oscillator: {
+        type: 'sawtooth6'
+    },
+    envelope: {
+        attack: 2,
+        decay: 1,
+        sustain: 0.5,
+        release: 3
+    }
+}).chain(dl4, Tone.Master);
+var noteLength = ['8n', '4n', '2n'];
+
+function mousePressed() {
+    var noteToPlay = map(mouseX, 0, w, 0, 15);
+    noteToPlay = Math.floor(noteToPlay);
+    console.log(noteToPlay);
+    synth.triggerAttackRelease(midiToFreq(sOscCopy[noteToPlay]), noteLength[Math.floor(random(noteLength.length))]);
+    push();
+    strokeWeight(10);
+    stroke(10, 100);
+    fill(200, 50);
+    ellipse(mouseX, mouseY, noteToPlay * 10);
+    pop();
 }
 
 function findNote(note) {
@@ -454,27 +482,27 @@ function keyPressed() {
 
 function draw() {
     level = volume.getLevel();
-    amount = map(level, 0, 1, 1, 755);
+    amount = map(level, 0, 1, 1, 1055);
     trans = 0;
     if (level > 0.2) {
         trans = 10;
     } else {
-        trans = 60;
+        trans = 80;
     }
     strokeWeight(amount / 2);
-    stroke(amount * 0.8, trans);
+    stroke(amount * 0.6, trans);
     noFill();
     posX = random(0, w);
     posY = random(0, h);
     point(posX, posY);
     push();
     strokeWeight(amount / 2);
-    stroke(amount * 0.6, trans);
+    stroke(amount * 0.4, trans);
     noFill();
     point(posX + amount, posY);
     push();
     strokeWeight(amount / 3);
-    stroke(amount * 0.4, trans);
+    stroke(amount * 0.2, trans);
     noFill();
     point(posX - amount, posY);
     push();
