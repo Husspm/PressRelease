@@ -75,6 +75,7 @@ function setup() {
     Sawosc.start();
     Sawosc2.start();
     volume = new p5.Amplitude();
+    frameRate(30);
 }
 var sOscArray = [48, 50, 52, 54, 55, 57, 59, 60, 62, 64, 66, 67, 69, 71, 72];
 var sOscCopy = [48, 50, 52, 54, 55, 57, 59, 60, 62, 64, 66, 67, 69, 71, 72];
@@ -488,6 +489,9 @@ function draw() {
         trans = 10;
     } else {
         trans = 80;
+    }
+    if (amount > 200) {
+        amount = 500;
     }
     strokeWeight(amount / 2);
     stroke(amount * 0.6, trans);
