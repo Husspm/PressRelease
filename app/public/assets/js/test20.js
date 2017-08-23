@@ -1,4 +1,6 @@
-function setup() {}
+function setup() {
+    createCanvas(w - 20, h - 20);
+}
 var delay = new Tone.PingPongDelay(0.8, 0.8);
 var synth = new Tone.AMSynth({
     harmonicity: 4,
@@ -23,6 +25,9 @@ var h = window.innerHeight;
 function mousePressed() {
     var indexOfNote = Math.floor(map(mouseX, 0, w, 0, notes.length));
     var noteToPlay = notes[indexOfNote];
+    strokeWeight(50);
+    stroke(255, 50);
+    point(mouseX, mouseY);
     synth.harmonicity = random(2, 20);
     synth.triggerAttackRelease(midiToFreq(noteToPlay), '2n');
 }
