@@ -6,10 +6,15 @@ module.exports = function(app) {
         database.Item.findAll({}).then(function(data) {
             res.render("entry", { contents: data });
         });
-    }); //home page route
-    app.get("/musicMaker", function(req, res) {
+    });
+    app.get("/home", function(req, res) {
         database.Item.findAll({}).then(function(data) {
             res.render("home", { contents: data });
         });
-    }); //home page route
+    });
+    app.get("/musicMaker", function(req, res) {
+        database.Item.findAll({}).then(function(data) {
+            res.render("musicMaker", { contents: data });
+        });
+    });
 }; //ends exports function

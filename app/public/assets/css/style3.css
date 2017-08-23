@@ -1,5 +1,14 @@
 html,
 body {
+    width: 98%;
+    height: 98%;
+    background: black;
+}
+
+.bgMask {
+    background: rgba(30, 0, 0, 0.3);
+    position: fixed;
+    z-index: 1;
     width: 100%;
     height: 100%;
 }
@@ -9,20 +18,13 @@ body {
     z-index: 20;
     padding: 30px;
     color: white;
-    background: black;
+    background: radial-gradient(black, 80%, darkgray, black);
     border-radius: 50%;
     font-family: 'Bungee Inline';
     font-size: 25px;
+    opacity: 0;
 }
 
 #defaultCanvas0 {
     filter: contrast(2);
-}
-
-.bgMask {
-    height: 100%;
-    width: 100%;
-    position: fixed;
-    z-index: 20;
-    background: rgba(0, 0, 65, 0.2);
 }

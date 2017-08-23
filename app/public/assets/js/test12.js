@@ -1,5 +1,5 @@
-var w = window.innerWidth,
-    h = window.innerHeight,
+var w = window.innerWidth - 20,
+    h = window.innerHeight - 20,
     anglePoints = [],
     sizeChange = [1, 2, 4];
 
@@ -33,11 +33,11 @@ function draw() {
     }
     var circle = new Circle(0, 0, startRadius);
     translate(w / 2, h / 2);
-    sW *= 0.92;
+    sW *= 0.94;
     strokeWeight(sW);
     noFill();
-    stroke('rgba(250, 250, 250, 0.28)');
-    startRadius = startRadius * random(0.5, 0.95);
+    stroke(250, 40);
+    startRadius = startRadius * random(0.85, 0.95);
     for (i = 0; i < anglePoints.length - 1; i++) {
         let a = anglePoints[i];
         var smallerCircle = new Circle(circle.radius * (sin(a)), circle.radius * (cos(a)), startRadius * sizeChange[changeIterations]);
@@ -58,5 +58,5 @@ $('document').ready(function() {
     var a = document.getElementById('enter');
     buttonW = a.clientWidth;
     buttonH = a.clientHeight;
-    $("#enter").css({ "left": (w / 2) - buttonW / 2, 'top': ((h / 2) - buttonH / 2) - 5 });
+    $("#enter").css({ "left": (w / 2) - buttonW / 2 + 5, 'top': ((h / 2) - buttonH / 2 - 4), 'opacity': 1 })
 });
