@@ -7,7 +7,7 @@ var delay2 = new Tone.PingPongDelay(0.4, 0.8);
 var verb2 = new Tone.Freeverb(0.9);
 var synth = new Tone.Synth({
     harmonicity: 4,
-    detune: 10,
+    detune: 5,
     oscillator: {
         type: 'sawtooth4'
     },
@@ -25,7 +25,7 @@ var synth2 = new Tone.Synth({
     harmonicity: 4,
     detune: 10,
     oscillator: {
-        type: 'sawtooth4'
+        type: 'square'
     },
     envelope: {
         attack: 0.1,
@@ -48,25 +48,93 @@ Tone.Transport.loop = true;
 Tone.Transport.start();
 
 function triggerSound(time) {
-    console.log('HIT');
-    var note = notes[Math.floor(random(notes.length))];
+    var noteIndex = Math.floor(random(notes.length));
+    var posX = map(noteIndex, 0, notes.length, 0, w);
+    console.log(noteIndex);
     strokeWeight(200);
-    stroke(random(255), random(255), random(255), 10);
-    point(random(w), random(h));
-    synth2.triggerAttackRelease(midiToFreq(note), '16n', time);
+    switch (noteIndex) {
+        case 0:
+            stroke(0, 255, 0, 10);
+            break;
+        case 1:
+            stroke(200, 255, 0, 10);
+            break;
+        case 2:
+            stroke(200, 0, 0, 10);
+            break;
+        case 3:
+            stroke(200, 0, 200, 10);
+            break;
+        case 4:
+            stroke(200, 100, 200, 10);
+            break;
+        case 5:
+            stroke(200, 200, 200, 10);
+            break;
+        case 6:
+            stroke(20, 0, 0, 10);
+            break;
+        default:
+            stroke(10, 10, 210, 10);
+    }
+    point(posX, random(h));
+    synth2.triggerAttackRelease(midiToFreq(notes[noteIndex]), '16n', time);
 }
+
+function triggerSound2(time) {
+    var noteIndex = Math.floor(random(notes.length));
+    var posX = map(noteIndex, 0, notes.length, 0, w);
+    console.log(noteIndex);
+    strokeWeight(200);
+    switch (noteIndex) {
+        case 0:
+            stroke(0, 255, 0, 10);
+            break;
+        case 1:
+            stroke(200, 255, 0, 10);
+            break;
+        case 2:
+            stroke(200, 0, 0, 10);
+            break;
+        case 3:
+            stroke(200, 50, 200, 10);
+            break;
+        case 4:
+            stroke(100, 100, 200, 10);
+            break;
+        case 5:
+            stroke(200, 200, 200, 10);
+            break;
+        case 6:
+            stroke(20, 0, 200, 10);
+            break;
+        default:
+            stroke(10, 10, 210, 10);
+    }
+    point(posX, random(h));
+    synth.triggerAttackRelease(midiToFreq(notes[noteIndex]), '2n', time);
+}
+var selector = 0;
 
 function mousePressed() {
     var indexOfNote = Math.floor(map(mouseX, 0, w, 0, notes.length));
     if (indexOfNote === -1) {
         indexOfNote = 0;
     }
-    console.log(indexOfNote);
     var noteToPlay = notes[indexOfNote];
-    dot = new Dot(mouseX, mouseY, 250);
+    dot = new Dot(mouseX, mouseY, 210);
     dots.push(dot);
     synth.harmonicity = random(2, 20);
     synth.triggerAttackRelease(midiToFreq(noteToPlay), '2n');
+    var when = Tone.Transport.seconds.toFixed(2);
+    if (selector % 2 === 0) {
+        Tone.Transport.schedule(triggerSound, when);
+    } else {
+        Tone.Transport.schedule(triggerSound2, when);
+    }
+    console.log('selector is', selector);
+    selector++;
+    console.log('selector is', selector);
 }
 
 function draw() {
@@ -83,8 +151,8 @@ function Dot(x, y, initial) {
     this.y = y;
     this.initial = initial;
     this.show = function() {
-        strokeWeight(50);
-        stroke(initial *= 0.99);
+        strokeWeight(100);
+        stroke(initial *= 0.99, 10);
         point(this.x, this.y);
     }
 }
