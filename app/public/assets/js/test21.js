@@ -1,10 +1,9 @@
 function setup() {
     createCanvas(w - 20, h - 20);
 }
-var delay = new Tone.PingPongDelay(0.8, 0.8);
-var verb = new Tone.Freeverb(0.3);
-var delay2 = new Tone.PingPongDelay(0.4, 0.8);
-var verb2 = new Tone.Freeverb(0.9);
+Tone.Transport.bpm.value = 200;
+var delay = new Tone.PingPongDelay('2n', 0.8);
+var delay2 = new Tone.PingPongDelay('4n', 0.8);
 var synth = new Tone.Synth({
     harmonicity: 4,
     detune: 5,
@@ -12,7 +11,7 @@ var synth = new Tone.Synth({
         type: 'sawtooth4'
     },
     envelope: {
-        attack: 1,
+        attack: 0.2,
         decay: 1,
         sustain: 0.5,
         release: 1
@@ -20,7 +19,7 @@ var synth = new Tone.Synth({
     modulation: {
         type: 'sine'
     }
-}).chain(delay, verb, Tone.Master);
+}).chain(delay, Tone.Master);
 var synth2 = new Tone.Synth({
     harmonicity: 4,
     detune: 10,
@@ -36,7 +35,7 @@ var synth2 = new Tone.Synth({
     modulation: {
         type: 'square'
     }
-}).chain(delay2, verb2, Tone.Master);
+}).chain(delay2, Tone.Master);
 
 var notes = [60, 62, 63, 65, 67, 68, 70, 72];
 var w = window.innerWidth;
@@ -122,8 +121,6 @@ function mousePressed() {
         indexOfNote = 0;
     }
     var noteToPlay = notes[indexOfNote];
-    dot = new Dot(mouseX, mouseY, 210);
-    dots.push(dot);
     synth.harmonicity = random(2, 20);
     synth.triggerAttackRelease(midiToFreq(noteToPlay), '2n');
     var when = Tone.Transport.seconds.toFixed(2);
@@ -132,27 +129,5 @@ function mousePressed() {
     } else {
         Tone.Transport.schedule(triggerSound2, when);
     }
-    console.log('selector is', selector);
     selector++;
-    console.log('selector is', selector);
-}
-
-function draw() {
-    for (var i = 0; i < dots.length; i++) {
-        dots[i].show();
-        if (dots[i].initial < 10) {
-            dots.splice(i, 1);
-        }
-    }
-}
-
-function Dot(x, y, initial) {
-    this.x = x;
-    this.y = y;
-    this.initial = initial;
-    this.show = function() {
-        strokeWeight(100);
-        stroke(initial *= 0.99, 10);
-        point(this.x, this.y);
-    }
 }
