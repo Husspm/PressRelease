@@ -135,7 +135,7 @@ var auto = setInterval(function() {
 }, 10);
 
 function monitor() {
-    if (Tone.Transport._timeline._timeline.length > 12) {
+    if (Tone.Transport._timeline._timeline.length > 20) {
         Tone.Transport._timeline._timeline.shift();
     }
 }
