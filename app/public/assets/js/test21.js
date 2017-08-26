@@ -1,7 +1,7 @@
 function setup() {
     createCanvas(w - 20, h - 20);
 }
-Tone.Transport.bpm.value = 100;
+Tone.Transport.bpm.value = 150;
 var delay = new Tone.PingPongDelay('16n', 0.8);
 var delay2 = new Tone.PingPongDelay('4n', 0.8);
 var synth = new Tone.Synth({
@@ -27,7 +27,7 @@ var synth2 = new Tone.Synth({
         sustain: 0.5,
         release: 0.8
     }
-}).chain(delay2, delay2, Tone.Master);
+}).chain(delay2, delay, Tone.Master);
 
 var notes = [60, 62, 63, 65, 67, 68, 70, 72];
 var w = window.innerWidth;
