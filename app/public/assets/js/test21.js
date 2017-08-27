@@ -3,7 +3,7 @@ function setup() {
 }
 Tone.Transport.bpm.value = 150;
 var delay = new Tone.PingPongDelay('16n', 0.8);
-var delay2 = new Tone.PingPongDelay('4n', 0.8);
+var delay2 = new Tone.PingPongDelay('8n', 0.8);
 var synth = new Tone.Synth({
     oscillator: {
         type: 'sine'
@@ -16,25 +16,23 @@ var synth = new Tone.Synth({
     }
 }).chain(delay, Tone.Master);
 var synth2 = new Tone.Synth({
-    harmonicity: 4,
-    detune: 10,
     oscillator: {
         type: 'sine'
     },
     envelope: {
-        attack: 0.8,
+        attack: 0.01,
         decay: 0.2,
         sustain: 0.5,
-        release: 0.8
+        release: 0.1
     }
-}).chain(delay2, delay, Tone.Master);
+}).chain(delay2, Tone.Master);
 
 var notes = [60, 62, 63, 65, 67, 68, 70, 72];
 var w = window.innerWidth;
 var h = window.innerHeight;
 var dots = [];
 
-Tone.Transport.loopEnd = '8m';
+Tone.Transport.loopEnd = '4m';
 Tone.Transport.loop = true;
 Tone.Transport.start();
 var memorySim = [];
@@ -52,6 +50,7 @@ function triggerSound(time) {
     strokeWeight(200);
     switch (noteIndex) {
         case 0:
+        case 7:
             stroke(0, 255, 0, 10);
             break;
         case 1:
@@ -74,7 +73,7 @@ function triggerSound(time) {
             break;
     }
     point(posX + random(-20, 20), random(h));
-    synth2.triggerAttackRelease(midiToFreq(note), '4n', time);
+    synth2.triggerAttackRelease(midiToFreq(note), '16n', time);
 }
 
 function triggerSound2(time) {
@@ -126,15 +125,7 @@ function mousePressed() {
     memorySim.push(saver);
     console.log(saver);
     Tone.Transport.schedule(triggerSound, when);
-}
-var auto = setInterval(function() {
-    monitor();
-}, 10);
-
-function monitor() {
-    if (Tone.Transport._timeline._timeline.length > 20) {
-        Tone.Transport._timeline._timeline.shift();
+    if (memorySim.length > 12) {
         memorySim.shift();
-
     }
 }
