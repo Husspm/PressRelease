@@ -1,12 +1,12 @@
 function setup() {
     createCanvas(w - 20, h - 20);
 }
-Tone.Transport.bpm.value = 150;
+Tone.Transport.bpm.value = 130;
 var delay = new Tone.PingPongDelay('16n', 0.8);
 var delay2 = new Tone.PingPongDelay('4n', 0.8);
 var synth = new Tone.Synth({
     oscillator: {
-        type: 'sine'
+        type: 'sawtooth2'
     },
     envelope: {
         attack: 0.2,
@@ -17,7 +17,7 @@ var synth = new Tone.Synth({
 }).chain(delay, Tone.Master);
 var synth2 = new Tone.Synth({
     oscillator: {
-        type: 'sine'
+        type: 'sawtooth2'
     },
     envelope: {
         attack: 0.4,
@@ -118,7 +118,7 @@ function mousePressed() {
     }
     var noteToPlay = notes[indexOfNote];
     synth.oscillator.type = types[Math.floor(random(types.length))];
-    synth.triggerAttackRelease(midiToFreq(noteToPlay), '2n');
+    synth.triggerAttackRelease(midiToFreq(noteToPlay), '4n');
     var tick = Tone.Transport.ticks;
     var when = Tone.Transport.seconds.toFixed(2);
     var saver = { note: notes[indexOfNote], time: when, tick: tick };
