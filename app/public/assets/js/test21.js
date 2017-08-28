@@ -3,7 +3,7 @@ function setup() {
 }
 Tone.Transport.bpm.value = 150;
 var delay = new Tone.PingPongDelay('16n', 0.8);
-var delay2 = new Tone.PingPongDelay('8n', 0.8);
+var delay2 = new Tone.PingPongDelay('4n', 0.8);
 var synth = new Tone.Synth({
     oscillator: {
         type: 'sine'
@@ -20,10 +20,10 @@ var synth2 = new Tone.Synth({
         type: 'sine'
     },
     envelope: {
-        attack: 0.01,
+        attack: 0.4,
         decay: 0.2,
         sustain: 0.5,
-        release: 0.1
+        release: 0.8
     }
 }).chain(delay2, Tone.Master);
 
@@ -41,7 +41,6 @@ function triggerSound(time) {
     var check = Tone.Transport.seconds.toFixed(2);
     for (var i = 0; i < memorySim.length; i++) {
         if (memorySim[i].time === check) {
-            console.log(check, 'HIT');
             note = memorySim[i].note;
         }
     }
@@ -73,7 +72,7 @@ function triggerSound(time) {
             break;
     }
     point(posX + random(-20, 20), random(h));
-    synth2.triggerAttackRelease(midiToFreq(note), '16n', time);
+    synth2.triggerAttackRelease(midiToFreq(note), '4n', time);
 }
 
 function triggerSound2(time) {
@@ -120,12 +119,19 @@ function mousePressed() {
     var noteToPlay = notes[indexOfNote];
     synth.oscillator.type = types[Math.floor(random(types.length))];
     synth.triggerAttackRelease(midiToFreq(noteToPlay), '2n');
+    var tick = Tone.Transport.ticks;
     var when = Tone.Transport.seconds.toFixed(2);
-    var saver = { note: notes[indexOfNote], time: when };
+    var saver = { note: notes[indexOfNote], time: when, tick: tick };
     memorySim.push(saver);
-    console.log(saver);
     Tone.Transport.schedule(triggerSound, when);
     if (memorySim.length > 12) {
-        memorySim.shift();
+        var finder = memorySim.shift();
+        for (var i = 0; i < Tone.Transport._timeline._timeline.length; i++) {
+            var diff = Tone.Transport._timeline._timeline[i].time - finder.tick;
+            diff = Math.abs(diff);
+            if (diff < 5) {
+                Tone.Transport._timeline._timeline.splice(i, 1);
+            }
+        }
     }
 }
