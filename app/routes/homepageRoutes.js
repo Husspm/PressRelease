@@ -12,6 +12,16 @@ module.exports = function(app) {
             res.render("home", { contents: data });
         });
     });
+    app.get("/melodyMaker", function(req, res) {
+        database.Item.findAll({}).then(function(data) {
+            res.render("melodyMaker", { contents: data });
+        });
+    });
+    app.get("/loopMaker", function(req, res) {
+        database.Item.findAll({}).then(function(data) {
+            res.render("loopMaker", { contents: data });
+        });
+    });
     app.get("/musicMaker", function(req, res) {
         database.Item.findAll({}).then(function(data) {
             res.render("musicMaker", { contents: data });

@@ -229,6 +229,7 @@ function findNote(note) {
     switch (note) {
         case sOscCopy[0]:
         case tOscCopy[0]:
+        case newOscCopy[0]:
             if (selector === 0) {
                 return (note + 7);
             } else if (selector === 1) {
@@ -240,6 +241,7 @@ function findNote(note) {
             }
         case sOscCopy[1]:
         case tOscCopy[1]:
+        case newOscCopy[1]:
             if (selector === 0) {
                 return (note + 9);
             } else if (selector === 1) {
@@ -251,6 +253,7 @@ function findNote(note) {
             }
         case sOscCopy[2]:
         case tOscCopy[2]:
+        case newOscCopy[2]:
             if (selector === 0) {
                 return (note + 7);
             } else if (selector === 1) {
@@ -262,6 +265,7 @@ function findNote(note) {
             }
         case sOscCopy[3]:
         case tOscCopy[3]:
+        case newOscCopy[3]:
             if (selector === 0) {
                 return (note - 6);
             } else if (selector === 1) {
@@ -273,6 +277,7 @@ function findNote(note) {
             }
         case sOscCopy[4]:
         case tOscCopy[4]:
+        case newOscCopy[4]:
             if (selector === 0) {
                 return (note + 4);
             } else if (selector === 1) {
@@ -284,6 +289,7 @@ function findNote(note) {
             }
         case sOscCopy[5]:
         case tOscCopy[5]:
+        case newOscCopy[5]:
             if (selector === 0) {
                 return (note + 2);
             } else if (selector === 1) {
@@ -295,6 +301,7 @@ function findNote(note) {
             }
         case sOscCopy[6]:
         case tOscCopy[6]:
+        case newOscCopy[6]:
             if (selector === 0) {
                 return (note + 1);
             } else if (selector === 1) {
@@ -306,6 +313,7 @@ function findNote(note) {
             }
         case sOscCopy[7]:
         case tOscCopy[7]:
+        case newOscCopy[7]:
             if (selector === 0) {
                 return (note + 11);
             } else if (selector === 1) {
@@ -317,6 +325,7 @@ function findNote(note) {
             }
         case sOscCopy[8]:
         case tOscCopy[8]:
+        case newOscCopy[8]:
             if (selector === 0) {
                 return (note + 26);
             } else if (selector === 1) {
@@ -328,6 +337,7 @@ function findNote(note) {
             }
         case sOscCopy[9]:
         case tOscCopy[9]:
+        case newOscCopy[9]:
             if (selector === 0) {
                 return (note + 27);
             } else if (selector === 1) {
@@ -339,6 +349,7 @@ function findNote(note) {
             }
         case sOscCopy[10]:
         case tOscCopy[10]:
+        case newOscCopy[10]:
             if (selector === 0) {
                 return (note - 6);
             } else if (selector === 1) {
