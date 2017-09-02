@@ -20,6 +20,7 @@ var startRadius = 6000;
 var sW = 60;
 var iterations = 0;
 var changeIterations = 0;
+var shrinkAmount = 0.66;
 
 function draw() {
     iterations++;
@@ -27,17 +28,18 @@ function draw() {
         setup();
         iterations = 0;
         sW = 60;
+        shrinkAmount = random(0.3, 0.9);
     }
     if (startRadius < 500) {
         startRadius = 6000;
     }
     var circle = new Circle(0, 0, startRadius);
     translate(w / 2, h / 2);
-    sW *= 0.96;
+    sW *= 0.93;
     strokeWeight(sW);
-    fill(50, 2);
-    stroke(250, 40);
-    startRadius = startRadius * random(0.75, 0.99);
+    noFill();
+    stroke(250, 60);
+    startRadius = startRadius * shrinkAmount;
     for (i = 0; i < anglePoints.length - 1; i++) {
         let a = anglePoints[i];
         var smallerCircle = new Circle(circle.radius * (sin(a)), circle.radius * (cos(a)), startRadius * sizeChange[changeIterations]);
@@ -69,5 +71,5 @@ function windowResized() {
     createCanvas(w, h);
     buttonW = a.clientWidth;
     buttonH = a.clientHeight;
-    $("#enter").css({ "left": (w / 2) - buttonW / 2, 'top': ((h / 2) - buttonH / 2), 'opacity': 1 });
+    $("#enter").css({ "left": (w / 2) - buttonW / 2, 'top': ((h / 2) - buttonH / 2 - 2), 'opacity': 1 });
 }
