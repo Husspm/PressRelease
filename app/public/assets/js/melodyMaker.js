@@ -82,7 +82,7 @@ $(document).ready(function() {
         if (this.id === 'fF') {
             soundFilter.frequency.value = this.value;
         }
-        if (this.id === 'fB') {
+        if (this.id === 'fb') {
             delay.feedback.value = this.value;
         }
     });

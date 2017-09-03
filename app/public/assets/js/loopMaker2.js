@@ -39,28 +39,7 @@ var dots = [];
 Tone.Transport.loopEnd = '4m';
 Tone.Transport.loop = true;
 Tone.Transport.start();
-var loopIterations = 0;
-var switchChords = false;
-var chords = [
-    ['C4', 'E4', 'G4', 'B4'],
-    ['G4', 'A4', 'D5', 'E5']
-];
-var loop = new Tone.Loop(function(time) {
-    loopIterations++;
-    if (loopIterations % 2 === 0) {
-        if (switchChords === false) {
-            switchChords = true;
-        } else {
-            switchChords = false;
-        }
-    }
-    if (switchChords === false) {
-        synth.triggerAttackRelease(chords[0], '16n');
-    } else {
-        synth.triggerAttackRelease(chords[1], '16n');
 
-    }
-}, "2m").start(0);
 var memorySim = [];
 
 function triggerSound(time) {
