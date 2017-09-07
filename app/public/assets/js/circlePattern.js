@@ -1,3 +1,5 @@
+w = window.innerWidth;
+h = window.innerHeight;
 anglePoints = [],
     sizeChange = [2, 3, 4, 5];
 
@@ -10,8 +12,6 @@ function createPoints() {
 createPoints();
 
 function setup() {
-    w = window.innerWidth;
-    h = window.innerHeight;
     createCanvas(w, h);
     background(0);
     frameRate(30);
