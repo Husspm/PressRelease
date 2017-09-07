@@ -4,7 +4,6 @@ function setup() {
 var soundFilter = new Tone.Filter(250, "bandpass");
 soundFilter.Q.value = 3;
 var delay = new Tone.PingPongDelay(0.2, 0.8);
-var trem = new Tone.Tremolo('4n').start();
 var synth = new Tone.Synth({
     harmonicity: 4,
     oscillator: {
@@ -16,7 +15,11 @@ var synth = new Tone.Synth({
         sustain: 0.5,
         release: 1
     }
-}).chain(trem, soundFilter, delay, Tone.Master);
+}).chain(delay, Tone.Master);
+var chorus = new Tone.Chorus('1m', 2.5, 0.5);
+var pitch = new Tone.PitchShift();
+
+Tone.Master.chain(soundFilter, chorus);
 var notes = [
     [48, 50, 51, 53, 55, 56, 58, 60, 62, 63, 65, 67, 68, 70, 72],
     [48, 50, 52, 54, 55, 57, 58, 60, 62, 64, 66, 67, 69, 70, 72],
@@ -42,6 +45,7 @@ function mousePressed() {
 }
 
 function draw() {
+    pitch.pitch = Math.floor(random(12));
     for (var i = 0; i < dots.length; i++) {
         dots[i].show();
         if (dots[i].initial < 10) {

@@ -71,5 +71,5 @@ function windowResized() {
     createCanvas(w, h);
     buttonW = a.clientWidth;
     buttonH = a.clientHeight;
-    $("#enter").css({ "left": (w / 2) - buttonW / 2, 'top': ((h / 2) - buttonH / 2 - 2), 'opacity': 1 });
+    $("#enter").css({ "left": (w / 2) - buttonW / 2, 'top': ((h / 2) - buttonH / 2), 'opacity': 1 });
 }
