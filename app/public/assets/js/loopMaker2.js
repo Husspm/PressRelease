@@ -10,12 +10,15 @@ function setup() {
     line(0, h / 2, w, h / 2)
 }
 Tone.Transport.bpm.value = 100;
-var delay = new Tone.PingPongDelay('2n', 0.6);
-var reverb = new Tone.JCReverb(0.8);
-var delay2 = new Tone.PingPongDelay('4n', 0.6);
+var delay = new Tone.PingPongDelay('2n', 0.7);
+var reverb = new Tone.JCReverb(0.2);
+reverb.wet.value = 0.5;
+var delay2 = new Tone.PingPongDelay('4n', 0.7);
+var delay3 = new Tone.PingPongDelay('8n', 0.7);
+delay3.wet.value = 0.3;
 var synth = new Tone.Synth({
     oscillator: {
-        type: 'sawtooth8'
+        type: 'sine4'
     },
     envelope: {
         attack: 1.2,
@@ -37,9 +40,11 @@ var synth2 = new Tone.Synth({
     }
 }).chain(delay2, Tone.Master);
 
+Tone.Master.chain(reverb, delay3);
+
 var notes = [60, 62, 64, 65, 67, 69, 71, 72];
 
-Tone.Transport.loopEnd = '2m';
+Tone.Transport.loopEnd = '8m';
 Tone.Transport.loop = true;
 Tone.Transport.start();
 
@@ -55,7 +60,7 @@ function triggerSound(time) {
     }
     var noteIndex = notes.indexOf(note);
     var posX = map(noteIndex, 0, notes.length, 0, w);
-    var lengths = ['8n', '4n', '2n', '1n'];
+    var lengths = ['32n', '16n', '8n', '4n'];
     strokeWeight(w * 0.15);
     switch (noteIndex) {
         case 0:
@@ -91,6 +96,7 @@ function triggerSound2(time) {
         if (memorySim2[i].time === check) {
             note = memorySim2[i].note;
             howLong = memorySim2[i].noteLength;
+            posY = memorySim2[i].yPos;
         }
     }
     var noteIndex = notes.indexOf(note);
@@ -120,7 +126,7 @@ function triggerSound2(time) {
             stroke(200, 200, 200, 10);
             break;
     }
-    point(posX, random(h / 2, 0));
+    point(posX, posY);
     synth.triggerAttackRelease(midiToFreq(note), howLong, time);
 }
 
@@ -137,7 +143,7 @@ function mousePressed() {
         var saver = { note: notes[indexOfNote], time: when, tick: tick };
         memorySim.push(saver);
         Tone.Transport.schedule(triggerSound, when);
-        if (memorySim.length > 20) {
+        if (memorySim.length > 8) {
             var finder = memorySim.shift();
             for (var i = 0; i < Tone.Transport._timeline._timeline.length; i++) {
                 var diff = Tone.Transport._timeline._timeline[i].time - finder.tick;
@@ -148,15 +154,16 @@ function mousePressed() {
             }
         }
     } else if (mouseY < h / 2) {
-        synth.triggerAttackRelease(midiToFreq(noteToPlay), '4n');
         var tick = Tone.Transport.ticks;
         var when = Tone.Transport.seconds.toFixed(2);
-        var howLong = ['16n', '8n', '4n', '2n'];
-        var length = map(mouseY, 0, h / 2, 0, howLong.length);
-        var saver = { note: notes[indexOfNote], time: when, tick: tick, noteLength: howLong[length] };
+        var howLong = ['16n', '8n', '4n'];
+        var length = Math.floor(map(mouseY, 0, h / 2, 0, howLong.length));
+        var yMarker = mouseY;
+        var saver = { note: notes[indexOfNote], time: when, tick: tick, noteLength: howLong[length], yPos: yMarker };
         memorySim2.push(saver);
+        synth.triggerAttackRelease(midiToFreq(noteToPlay), howLong[length]);
         Tone.Transport.schedule(triggerSound2, when);
-        if (memorySim2.length > 20) {
+        if (memorySim2.length > 8) {
             var finder = memorySim2.shift();
             for (var i = 0; i < Tone.Transport._timeline._timeline.length; i++) {
                 var diff = Tone.Transport._timeline._timeline[i].time - finder.tick;
