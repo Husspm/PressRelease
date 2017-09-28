@@ -7,21 +7,21 @@ function setup() {
         stroke(255);
         line(x, 0, x, h);
     }
-    line(0, h / 2, w, h / 2)
+    line(0, h / 2, w, h / 2);
 }
-Tone.Transport.bpm.value = 100;
+Tone.Transport.bpm.value = 200;
 var delay = new Tone.PingPongDelay('2n', 0.7);
 var reverb = new Tone.JCReverb(0.2);
-reverb.wet.value = 0.5;
+reverb.wet.value = 0.8;
 var delay2 = new Tone.PingPongDelay('4n', 0.7);
 var delay3 = new Tone.PingPongDelay('8n', 0.7);
-delay3.wet.value = 0.3;
+delay3.wet.value = 0.8;
 var synth = new Tone.Synth({
     oscillator: {
         type: 'sine4'
     },
     envelope: {
-        attack: 1.2,
+        attack: 0.6,
         decay: 0.8,
         sustain: 0.6,
         release: 0.9
@@ -33,7 +33,7 @@ var synth2 = new Tone.Synth({
         type: 'sawtooth8'
     },
     envelope: {
-        attack: 0.9,
+        attack: 0.4,
         decay: 0.2,
         sustain: 0.5,
         release: 0.8
@@ -61,7 +61,7 @@ function triggerSound(time) {
     var noteIndex = notes.indexOf(note);
     var posX = map(noteIndex, 0, notes.length, 0, w);
     var lengths = ['32n', '16n', '8n', '4n'];
-    strokeWeight(w * 0.15);
+    strokeWeight(w * 0.2);
     switch (noteIndex) {
         case 0:
         case 7:
@@ -101,7 +101,7 @@ function triggerSound2(time) {
     }
     var noteIndex = notes.indexOf(note);
     var posX = map(noteIndex, 0, notes.length, 0, w);
-    strokeWeight(w * 0.15);
+    strokeWeight(w * 0.2);
     switch (noteIndex) {
         case 0:
         case 7:

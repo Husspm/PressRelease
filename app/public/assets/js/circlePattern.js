@@ -60,7 +60,7 @@ $('document').ready(function() {
     var a = document.getElementById('enter');
     buttonW = a.clientWidth;
     buttonH = a.clientHeight;
-    $("#enter").css({ "left": (w / 2) - buttonW / 2, 'top': ((h / 2) - buttonH / 2), 'opacity': 1 })
+    $("#enter").css({ "left": (w / 2) - buttonW / 2 - w * 0.001, 'top': ((h / 2) - buttonH / 2 - h * 0.0012), 'opacity': 1 })
 });
 
 function windowResized() {
