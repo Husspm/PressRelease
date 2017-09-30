@@ -1,5 +1,5 @@
-w = window.innerWidth - 20;
-h = window.innerHeight - 15;
+w = window.innerWidth;
+h = window.innerHeight;
 
 function setup() {
     createCanvas(w, h);
@@ -75,7 +75,6 @@ function setup() {
     Sawosc.start();
     Sawosc2.start();
     volume = new p5.Amplitude();
-    frameRate(30);
 }
 var sOscArray = [48, 50, 52, 54, 55, 57, 59, 60, 62, 64, 66, 67, 69, 71, 72];
 var sOscCopy = [48, 50, 52, 54, 55, 57, 59, 60, 62, 64, 66, 67, 69, 71, 72];

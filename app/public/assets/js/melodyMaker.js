@@ -1,9 +1,14 @@
 function setup() {
     createCanvas(w - 20, h - 20);
+    for (var x = 0; x <= w; x += w / notes[0].length) {
+        stroke(255);
+        line(x, 0, x, h);
+    }
 }
 var soundFilter = new Tone.Filter(250, "bandpass");
 soundFilter.Q.value = 3;
 var delay = new Tone.PingPongDelay(0.2, 0.8);
+var pitch = new Tone.PitchShift();
 var synth = new Tone.Synth({
     harmonicity: 4,
     oscillator: {
@@ -15,9 +20,8 @@ var synth = new Tone.Synth({
         sustain: 0.5,
         release: 1
     }
-}).chain(delay, Tone.Master);
+}).chain(pitch, delay, Tone.Master);
 var chorus = new Tone.Chorus('1m', 2.5, 0.5);
-var pitch = new Tone.PitchShift();
 
 Tone.Master.chain(soundFilter, chorus);
 var notes = [
@@ -45,10 +49,9 @@ function mousePressed() {
 }
 
 function draw() {
-    pitch.pitch = Math.floor(random(12));
     for (var i = 0; i < dots.length; i++) {
         dots[i].show();
-        if (dots[i].initial < 10) {
+        if (dots[i].initial < 30) {
             dots.splice(i, 1);
         }
     }
@@ -59,10 +62,9 @@ function Dot(x, y, initial) {
     this.y = y;
     this.initial = initial;
     this.show = function() {
-        strokeWeight(100);
-        stroke(initial *= 0.991);
+        stroke(this.initial *= 0.991);
+        strokeWeight(w * 0.1);
         point(this.x, this.y);
-        this.initial *= 0.99;
     }
 }
 $(document).ready(function() {
@@ -91,3 +93,10 @@ $(document).ready(function() {
         }
     });
 });
+var auto = setInterval(function() {
+    for (var x = 0; x < w; x += w / notes[0].length) {
+        stroke(255);
+        strokeWeight(10);
+        line(x, 0, x, h);
+    }
+}, 1000);
