@@ -43,9 +43,9 @@ var synth2 = new Tone.Synth({
 
 Tone.Master.chain(reverb, delay3);
 
-var notes = [60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72];
+var notes = [48, 50, 52, 53, 55, 57, 59, 60, 62, 64, 65, 67, 69, 71, 72];
 
-Tone.Transport.loopEnd = '2m';
+Tone.Transport.loopEnd = '4m';
 Tone.Transport.loop = true;
 Tone.Transport.start();
 
@@ -192,6 +192,8 @@ $(document).ready(function() {
             delay.delayTime.value = this.value;
         } else if (this.id === 'reverb') {
             reverb.roomSize.value = this.value;
+        } else if (this.id === 'feedback') {
+            delay.feedback.value = this.value;
         } else {
             delay3.delayTime.value = this.value;
         }
