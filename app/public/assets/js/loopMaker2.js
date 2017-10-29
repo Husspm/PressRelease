@@ -147,7 +147,7 @@ function mousePressed() {
             var saver = { note: notes[indexOfNote], time: when, tick: tick };
             memorySim.push(saver);
             Tone.Transport.schedule(triggerSound, when);
-            if (memorySim.length > 4) {
+            if (memorySim.length > 12) {
                 var finder = memorySim.shift();
                 for (var i = 0; i < Tone.Transport._timeline._timeline.length; i++) {
                     var diff = Tone.Transport._timeline._timeline[i].time - finder.tick;
@@ -167,7 +167,7 @@ function mousePressed() {
             memorySim2.push(saver);
             synth.triggerAttackRelease(midiToFreq(noteToPlay), howLong[length]);
             Tone.Transport.schedule(triggerSound2, when);
-            if (memorySim2.length > 4) {
+            if (memorySim2.length > 12) {
                 var finder = memorySim2.shift();
                 for (var i = 0; i < Tone.Transport._timeline._timeline.length; i++) {
                     var diff = Tone.Transport._timeline._timeline[i].time - finder.tick;
