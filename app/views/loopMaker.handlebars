@@ -1,13 +1,59 @@
 <link rel="stylesheet" href="/assets/css/style2.css">
+<link rel="stylesheet" href="/assets/css/range.css">
 <script src="/assets/js/p5.min.js"></script>
 <script src="/assets/js/p5.sound.min.js"></script>
 <script src = "https://tonejs.github.io/build/Tone.min.js"></script>
 <script src="/assets/js/loopMaker2.js"></script>
-<label for='delay'>Delay Time</label>                  
-<input type = 'range' id = 'delay' min ="0.1" max = '1' step="0.01"value='0.2'>
-<label for='feedback'>Feedback</label>                  
-<input type = 'range' id = 'feedback' min ="0.1" max = '1' step="0.01"value='0.2'>
-<label for='reverb'>Reverb</label>
-<input type = 'range' id = 'reverb' min ="0.1" max = '1' step="0.01"value='0.2'>
-<label for='delay3'>Master Delay Time</label>
-<input type = 'range' id = 'delay3' min ="0.1" max = '1' step="0.01"value='0.2'>
+<div class = 'container-fluid'>
+    <button id = 'reset'>Reset the Loops</button>
+    <hr>
+    <div class='row'>
+        <div class = 'col-md-4 box'>
+            <h3>Synth One</h3><hr>
+    <label for 'synthType'>Synth Type</label>
+    <input type = 'range' id ='synthType' min = '0' max = '7' step = '1' value='2'>
+    <label for 'pitchDecay'>Warble Intensity</label>
+    <input type = 'range' id ='pitchDecay' min = '0.001' max = '0.05' step = '0.0001' value='0.005'>
+    <label for 'intensity'>Percussion Intensity</label>
+    <input type = 'range' id ='intensity' min = '1' max = '20' step = '1' value='2'>
+    <label for='delay'>Echo Time</label>                  
+    <input type = 'range' id = 'delay' min ="0.1" max = '1' step="0.01"value='0.2'>
+    <label for='feedback'>Echo Repeats</label>                  
+    <input type = 'range' id = 'feedback' min ="0.1" max = '1' step="0.01"value='0.2'>
+    <label for='delayVolume'>Echo Volume</label>                  
+    <input type = 'range' id = 'delayVolume' min ="0" max = '1' step="0.01"value='0.5'>
+        </div>
+        <div class = 'col-md-4 box'>
+            <h3>Synth Two</h3><hr>
+    <label for 'harmonicity'>Brightness</label>
+    <input type = 'range' id ='harmonicity' min = '1' max = '20' step = '1' value='3'>
+    <label for='attack'>Attack</label>                  
+    <input type = 'range' id = 'attack' min ="0.1" max = '1' step="0.01"value='0.1'>
+    <label for='mod'>Modulation</label>                  
+    <input type = 'range' id = 'mod' min ="1" max = '40' step="1"value='10'>
+    <label for='delay2'>Echo Time</label>                  
+    <input type = 'range' id = 'delay2' min ="0.1" max = '1' step="0.01"value='0.2'>
+    <label for='feedback2'>Echo Repeats</label>                  
+    <input type = 'range' id = 'feedback2' min ="0.1" max = '1' step="0.01"value='0.2'>
+    <label for='dist'>Distortion</label>                  
+    <input type = 'range' id = 'dist' min ="0" max = '1' step="0.01"value='0.1'>
+        </div>
+        <div class = 'col-md-4 box'>
+            <h3>Output Effects</h3><hr>
+    <label for 'pitchDecay'>Percussive Sound Amount</label>
+    <input type = 'range' id ='pitchDecay' min = '0.001' max = '0.05' step = '0.0001' value='0.005'>
+    <label for='attack'>Lower Synth Attack</label>                  
+    <input type = 'range' id = 'attack' min ="0.1" max = '1' step="0.01"value='0.1'>
+    <label for='delay'>Echo Time</label>                  
+    <input type = 'range' id = 'delay' min ="0.1" max = '1' step="0.01"value='0.2'>
+    <label for='feedback'>Echo Repeats</label>                  
+    <input type = 'range' id = 'feedback' min ="0.1" max = '1' step="0.01"value='0.2'>
+    <label for='reverb'>Reverb</label>
+    <input type = 'range' id = 'reverb' min ="0.1" max = '1' step="0.01"value='0.2'>
+    <label for='delay3'>Master Echo Time</label>
+    <input type = 'range' id = 'delay3' min ="0.1" max = '1' step="0.01"value='0.2'>
+    <label for='feedback3'>Master Echo Repeats</label>
+    <input type = 'range' id = 'feedback3' min ="0.1" max = '1' step="0.01"value='0.2'>
+        </div>
+    </div>
+</div>
