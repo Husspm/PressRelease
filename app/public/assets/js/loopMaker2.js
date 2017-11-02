@@ -16,6 +16,7 @@ function setup() {
     line(0, h / 2, w, h / 2);
 }
 
+var types = ['sine', 'sine2', 'sine4', 'sine8', 'triangle', 'triangle2', 'sawtooth', 'square'];
 Tone.Transport.bpm.value = 120;
 var delay = new Tone.PingPongDelay('2n', 0.7);
 var reverb = new Tone.JCReverb(0.2);
@@ -27,7 +28,7 @@ var synth = new Tone.MembraneSynth({
     pitchDecay: 0.005,
     octaves: 2,
     oscillator: {
-        type: 'sine4'
+        type: types[$("#synthType").val()]
     },
     envelope: {
         attack: 0.06,
@@ -268,7 +269,6 @@ $(document).ready(function() {
                 }
             case 'synthType':
                 {
-                    var types = ['sine', 'sine2', 'sine4', 'sine8', 'triangle', 'triangle2', 'sawtooth', 'square'];
                     synth.oscillator.type = types[this.value];
                     break;
                 }
@@ -313,4 +313,5 @@ $(document).ready(function() {
                 }
         }
     });
+    synth.oscillator.type = types[$("#synthType").val()];
 }); //ends doc ready function
