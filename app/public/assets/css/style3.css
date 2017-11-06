@@ -3,20 +3,18 @@ body {
     width: 98%;
     height: 98%;
     background: black;
+    filter: contrast(130%);
 }
 
 #enter {
     position: fixed;
     z-index: 20;
     padding: 30px;
-    color: white;
-    background: radial-gradient(black, 60%, darkgray, black);
+    color: #2f3f73;
+    background: radial-gradient( #ffe19f, 75%, #553c04);
+    border: 2px solid #2f3f73;
     border-radius: 50%;
     font-family: 'Bungee Inline';
     font-size: 25px;
     opacity: 0;
-}
-
-#defaultCanvas0 {
-    filter: contrast(5);
 }

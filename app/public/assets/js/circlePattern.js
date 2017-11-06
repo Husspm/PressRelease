@@ -21,6 +21,15 @@ var sW = 60;
 var iterations = 0;
 var changeIterations = 0;
 var shrinkAmount = 0.66;
+var colorIterations = 0;
+var strokeArray = [
+    [85, 60, 4, 70],
+    [9, 20, 58, 70],
+    [255, 225, 159, 70],
+    [115, 128, 172, 70],
+    [255, 248, 233, 70],
+    [234, 239, 254, 70]
+];
 
 function draw() {
     iterations++;
@@ -38,7 +47,11 @@ function draw() {
     sW *= 0.93;
     strokeWeight(sW);
     noFill();
-    stroke(250, 60);
+    stroke(strokeArray[colorIterations]);
+    colorIterations++;
+    if (colorIterations >= strokeArray.length) {
+        colorIterations = 0;
+    }
     startRadius = startRadius * shrinkAmount;
     for (i = 0; i < anglePoints.length - 1; i++) {
         let a = anglePoints[i];

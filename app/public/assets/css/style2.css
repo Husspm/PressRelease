@@ -1,6 +1,25 @@
 body {
     background: black;
-    color: white;
+    color: #7380ac;
+    filter: contrast(130%);
+}
+
+output {
+    color: #7380ac;
+    background: #ffe19f;
+    text-align: center;
+    border: 3px solid;
+}
+
+input[type=range] {
+    background: #ffe19f;
+    border: 4px solid;
+    border-radius: 20px;
+}
+
+input[type=range]:focus {
+    background: #7380ac;
+    border: 4px solid #ffe19f;
 }
 
 h3,
@@ -15,9 +34,16 @@ label {
 
 .box {
     border: solid white 3px;
-    opacity: 0.6;
 }
 
-#defaultCanvas0 {
-    filter: contrast(3);
+.blinker {
+    border: white solid 4px;
+    background: black;
+    margin: 10px;
+    padding: 10px;
+    text-align: center;
+}
+
+select {
+    background: black;
 }

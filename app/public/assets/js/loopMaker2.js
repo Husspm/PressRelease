@@ -1,13 +1,22 @@
+var storage = [{
+    scale: [48, 50, 52, 53, 55, 57, 59, 60, 62, 64, 65, 67, 69, 71, 72],
+    names: ['C', 'D', 'E', 'F', 'G', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'A', 'B', 'C']
+}, {
+    scale: [48, 50, 52, 55, 57, 60, 62, 64, 67, 69, 72],
+    names: ['C', 'D', 'E', 'G', 'A', 'C', 'D', 'E', 'G', 'A', 'C']
+}];
+startIndex = 0;
+noteNames = storage[0].names;
+
 function setup() {
     w = window.innerWidth - 30;
     h = window.innerHeight;
     createCanvas(w, h);
     strokeWeight(5);
-    noteNames = ['C', 'D', 'E', 'F', 'G', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'A', 'B', 'C'];
     for (var x = 0, nV = 0; x <= w; x += w / notes.length, nV++) {
         stroke(255, 50);
         line(x, 0, x, h);
-        if (nV <= 14) {
+        if (nV < noteNames.length) {
             textSize(w * 0.02);
             text(noteNames[nV], x + 20, 40);
             text(noteNames[nV], x + 20, h / 2 + 40);
@@ -18,12 +27,14 @@ function setup() {
 
 var types = ['sine', 'sine2', 'sine4', 'sine8', 'triangle', 'triangle2', 'sawtooth', 'square'];
 Tone.Transport.bpm.value = 120;
-var delay = new Tone.PingPongDelay('2n', 0.7);
+var delay = new Tone.PingPongDelay(0.5, 0.7);
+delay.wet.value = 0.5;
 var reverb = new Tone.JCReverb(0.2);
-reverb.wet.value = 0.8;
+reverb.wet.value = 0.5;
 var delay2 = new Tone.PingPongDelay('4n', 0.7);
+delay2.wet.value = 0.5;
 var delay3 = new Tone.PingPongDelay('8n', 0.7);
-delay3.wet.value = 0.8;
+delay3.wet.value = 0.5;
 var synth = new Tone.MembraneSynth({
     pitchDecay: 0.005,
     octaves: 2,
@@ -31,7 +42,7 @@ var synth = new Tone.MembraneSynth({
         type: types[$("#synthType").val()]
     },
     envelope: {
-        attack: 0.06,
+        attack: 0.01,
         decay: 0.08,
         sustain: 0.6,
         release: 0.09,
@@ -53,7 +64,8 @@ var synth2 = new Tone.FMSynth({
 }).chain(delay2, distort, Tone.Master);
 Tone.Master.chain(reverb, delay3);
 
-var notes = [48, 50, 52, 53, 55, 57, 59, 60, 62, 64, 65, 67, 69, 71, 72];
+var notes = storage[0].scale;
+
 
 Tone.Transport.loopEnd = '8m';
 Tone.Transport.loop = true;
@@ -106,8 +118,8 @@ function triggerSound(time) {
         case 14:
             stroke(85, 95, 255, 10);
     }
-    point(posX, random(h / 2, h));
     synth2.triggerAttackRelease(midiToFreq(note), lengths[Math.floor(random(lengths.length))], time);
+    point(posX, random(h / 2, h));
 }
 
 function triggerSound2(time) {
@@ -120,6 +132,7 @@ function triggerSound2(time) {
         }
     }
     var noteIndex = notes.indexOf(note);
+    synth.triggerAttackRelease(midiToFreq(note), howLong, time, random(0.2, 1));
     var posX = map(noteIndex, 0, notes.length, 0, w);
     strokeWeight(w * 0.2);
     switch (noteIndex) {
@@ -153,7 +166,6 @@ function triggerSound2(time) {
             break;
     }
     point(posX, posY);
-    synth.triggerAttackRelease(midiToFreq(note), howLong, time);
 }
 
 function mousePressed() {
@@ -185,10 +197,10 @@ function mousePressed() {
             var when = Tone.Transport.seconds.toFixed(2);
             var howLong = ['16n', '8n', '4n'];
             var length = Math.floor(map(mouseY, 0, h / 2, 0, howLong.length));
+            synth.triggerAttackRelease(midiToFreq(noteToPlay), howLong[length]);
             var yMarker = mouseY;
             var saver = { note: notes[indexOfNote], time: when, tick: tick, noteLength: howLong[length], yPos: yMarker };
             memorySim2.push(saver);
-            synth.triggerAttackRelease(midiToFreq(noteToPlay), howLong[length]);
             Tone.Transport.schedule(triggerSound2, when);
             if (memorySim2.length > 12) {
                 var finder = memorySim2.shift();
@@ -242,6 +254,11 @@ $(document).ready(function() {
                     synth2.envelope.attack = this.value;
                     break;
                 }
+            case 'release':
+                {
+                    synth2.envelope.release = this.value;
+                    break;
+                }
             case 'delay3':
                 {
                     delay3.delayTime.value = this.value;
@@ -287,6 +304,16 @@ $(document).ready(function() {
                     distort.distortion = this.value;
                     break;
                 }
+            case 'delay3Vol':
+                {
+                    delay3.wet.value = this.value;
+                    break;
+                }
+            case 'lineVolume':
+                {
+                    synth.volume.input.value = this.value;
+                    break;
+                }
         }
     }); //ends input function
     $('#reset').on('click', function() {
@@ -296,22 +323,39 @@ $(document).ready(function() {
         Tone.Transport._timeline._timeline = [];
         setup();
     });
-    $('.controls').on('click', function() {
-        console.log(this.id);
-        console.log(this.value);
-        switch (this.id) {
-            case 'delay':
-                {
-                    if (this.value == 0) {
-                        delay.wet.value = 0;
-                        this.value = 1;
-                    } else {
-                        delay.wet.value = 1;
-                        this.value = 0;
-                    }
-                    break;
-                }
+    $('#change').on('click', function() {
+        console.log('Clicked');
+        console.log(startIndex);
+        if (startIndex === 0) {
+            noteNames = storage[1].names;
+            notes = storage[1].scale;
+            startIndex = 1;
+        } else {
+            noteNames = storage[0].names;
+            notes = storage[0].scale;
+            startIndex = 0;
         }
+        setup();
+    });
+    var auto = setInterval(function() {
+        blink()
+    }, 500);
+    var iterations = 0;
+
+    function blink() {
+        if (iterations % 4 === 0) {
+            $(".blinker").css('background', 'green');
+        } else {
+            $(".blinker").css('background', 'red');
+        }
+        setTimeout(function() {
+            $(".blinker").css('background', 'black');
+        }, 100);
+        iterations++;
+    }
+    $("select").on('input', function() {
+        console.log(this.value);
+        Tone.Transport.loopEnd = this.value;
     });
     synth.oscillator.type = types[$("#synthType").val()];
 }); //ends doc ready function
