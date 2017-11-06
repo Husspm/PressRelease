@@ -1,7 +1,13 @@
 module.exports = function(sequelize, DataTypes) {
     var Item = sequelize.define("Item", {
-        name: {
-            type: DataTypes.STRING
+        synthType: {
+            type: DataTypes.INTEGER
+        },
+        pitchDecay: {
+            type: DataTypes.FLOAT
+        },
+        intensity: {
+            type: DataTypes.INTEGER
         }
     });
     return Item;

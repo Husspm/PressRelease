@@ -5,30 +5,77 @@
 <script src = "https://tonejs.github.io/build/Tone.min.js"></script>
 <script src="/assets/js/loopMaker2.js"></script>
 <div class = 'container-fluid'>
+    <h1>&#8635 Living Loops &#8634</h1>
     <button id = 'reset'>Reset the Loops</button>
+    <button id = 'change'>Change the Key</button>
+    <select>
+        <option value = '8m'>8 Measures</option>
+        <option value = '4m'>4 Measures</option>
+        <option value = '2m'>2 Measures</option>
+    </select>
     <hr>
     <div class='row'>
         <div class = 'col-md-4 box'>
             <h3>Synth One</h3><hr>
+    {{#each contents}}
+    <form action = "/loopMaker/Save" method="POST">
+    <div class = 'row'>
+        <div class = 'col-md-4'>
     <label for 'synthType'>Synth Type</label>
-    <input type = 'range' id ='synthType' min = '0' max = '7' step = '1' value='2'>
-    <label for 'pitchDecay'>Warble Intensity</label>
-    <input type = 'range' id ='pitchDecay' min = '0.001' max = '0.05' step = '0.0001' value='0.005'>
-    <label for 'intensity'>Percussion Intensity</label>
-    <input type = 'range' id ='intensity' min = '1' max = '20' step = '1' value='2'>
+    <input oninput="sV.value = this.value" type = 'range' id ='synthType' name ='synthType' min = '0' max = '7' step = '1' value={{this.synthType}}>
+    <output name ='sV'>{{this.synthType}}</output>
+    </div>
+    <div class = 'col-md-4'>
+    <label for 'pitchDecay'>Warble</label>
+    <input oninput="wV.value = this.value + 'ms'" type = 'range' id ='pitchDecay' name = 'pitchDecay' min = '0.001' max = '0.05' step = '0.0001' value={{this.pitchDecay}}>
+    <output name = 'wV'>{{this.pitchDecay}}ms</output>
+    </div>
+    <div class = 'col-md-4'>
+    <label for 'intensity'>Percussion</label>
+    <input oninput='pV.value = this.value' type = 'range' id ='intensity' name='intensity' min = '1' max = '20' step = '1' value={{this.intensity}}>
+    <output name = 'pV'>{{this.intensity}}</output>
+    </div>
+    </div>
+    </form>
+    {{/each}}
+    <div class = 'row'>
+        <div class='col-md-4'>
+            <form>
     <label for='delay'>Echo Time</label>                  
-    <input type = 'range' id = 'delay' min ="0.1" max = '1' step="0.01"value='0.2'>
+    <input oninput="eT.value = (this.value * 1000) + 'ms'" type = 'range' id = 'delay' min ="0.1" max = '1' step="0.001"value='0.5'>
+    <output name='eT'>500ms</output>
+            </form>
+        </div>
+        <div class='col-md-4'>
+            <form>
     <label for='feedback'>Echo Repeats</label>                  
-    <input type = 'range' id = 'feedback' min ="0.1" max = '1' step="0.01"value='0.2'>
+    <input oninput="fB.value = Math.floor((this.value * 100)) + '%'" type = 'range' id = 'feedback' min ="0" max = '1' step="0.01"value='0.7'>
+    <output name='fB'>70%</output>
+            </form>
+        </div>
+        <div class='col-md-4'>
+            <form>
     <label for='delayVolume'>Echo Volume</label>                  
-    <input type = 'range' id = 'delayVolume' min ="0" max = '1' step="0.01"value='0.5'>
+    <input oninput="eV.value = this.value" type = 'range' id = 'delayVolume' min ="0" max = '1' step="0.01"value='0.5'>
+    <output name='eV'>0.5</output>
+            </form>
+        </div>
+    </div>
+    <form>
+    <label for='lineVolume'>Line Volume</label>                  
+    <input oninput="lV.value = this.value" type = 'range' id = 'lineVolume' min ="0" max = '1' step="0.01"value='1'>
+    <output name="lV">1</output>
+    </form>
+    <div class = 'blinker'>TICK</div>
         </div>
         <div class = 'col-md-4 box'>
             <h3>Synth Two</h3><hr>
+    <label for='attack'>Attack</label>                  
+    <input type = 'range' id = 'attack' min ="0.1" max = '1' step="0.01"value='0.8'>
+    <label for='release'>Release</label>                  
+    <input type = 'range' id = 'release' min ="0.1" max = '1' step="0.01"value='0.8'>
     <label for 'harmonicity'>Brightness</label>
     <input type = 'range' id ='harmonicity' min = '1' max = '20' step = '1' value='3'>
-    <label for='attack'>Attack</label>                  
-    <input type = 'range' id = 'attack' min ="0.1" max = '1' step="0.01"value='0.1'>
     <label for='mod'>Modulation</label>                  
     <input type = 'range' id = 'mod' min ="1" max = '40' step="1"value='10'>
     <label for='delay2'>Echo Time</label>                  
@@ -52,6 +99,8 @@
     <input type = 'range' id = 'delay3' min ="0.1" max = '1' step="0.01"value='0.2'>
     <label for='feedback3'>Master Echo Repeats</label>
     <input type = 'range' id = 'feedback3' min ="0.1" max = '1' step="0.01"value='0.2'>
+    <label for='delay3Vol'>Master Echo Volume</label>
+    <input type = 'range' id = 'delay3Vol' min ="0" max = '1' step="0.01"value='1'>
         </div>
     </div>
 </div>

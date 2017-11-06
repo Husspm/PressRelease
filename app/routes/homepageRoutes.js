@@ -27,4 +27,16 @@ module.exports = function(app) {
             res.render("musicMaker", { contents: data });
         });
     });
+    app.post('/loopMaker/Save', function(req, res) {
+        console.log(req.body);
+        db.Item.update({
+            synthType: req.body.synthType,
+            pitchDecay: req.body.pitchDecay,
+            intensity: req.body.intensity
+        }, {
+            where: { id: 1 }
+        }).then(function(data) {
+            res.redirect("/loopMaker");
+        });
+    });
 }; //ends exports function
