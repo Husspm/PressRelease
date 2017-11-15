@@ -9,9 +9,9 @@
     <button id = 'reset'>Reset the Loops</button>
     <button id = 'change'>Change the Key</button>
     <select>
-        <option value = '8m'>8 Measures</option>
-        <option value = '4m'>4 Measures</option>
         <option value = '2m'>2 Measures</option>
+        <option value = '4m'>4 Measures</option>
+        <option value = '8m'>8 Measures</option>
     </select>
     <hr>
     <div class='row'>
@@ -22,7 +22,7 @@
     <div class = 'row'>
         <div class = 'col-md-4'>
     <label for 'synthType'>Synth Type</label>
-    <input oninput="sV.value = this.value" type = 'range' id ='synthType' name ='synthType' min = '0' max = '7' step = '1' value={{this.synthType}}>
+    <input oninput="sV.value = this.value" type = 'range' id ='synthType' name ='synthType' min = '0' max = '9' step = '1' value={{this.synthType}}>
     <output name ='sV'>{{this.synthType}}</output>
     </div>
     <div class = 'col-md-4'>
@@ -61,11 +61,8 @@
             </form>
         </div>
     </div>
-    <form>
     <label for='lineVolume'>Line Volume</label>                  
-    <input oninput="lV.value = this.value" type = 'range' id = 'lineVolume' min ="0" max = '1' step="0.01"value='1'>
-    <output name="lV">1</output>
-    </form>
+    <input type = 'range' id = 'lineVolume' min ="0" max = '1' step="0.01"value='1'>
     <div class = 'blinker'>TICK</div>
         </div>
         <div class = 'col-md-4 box'>

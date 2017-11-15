@@ -14,7 +14,7 @@ function setup() {
 
 var synth = new Tone.Synth({
     oscillator: {
-        type: 'fmsquare'
+        type: 'fmsine4'
     },
     envelope: {
         attack: 1.7,
@@ -69,6 +69,7 @@ Tone.Master.chain(masterDelay, reverb);
 var auto = setInterval(function() { playMusicA() }, 4000);
 var auto2 = setInterval(function() { playMusicB() }, 5500);
 var lenDiff = ["+1n", "+2n", "+4n", "+8n"];
+var pauses = [2000, 1000, 500, 250];
 
 function playMusicA() {
     noteIndex = Math.floor(random(notes.length));
@@ -77,24 +78,31 @@ function playMusicA() {
     console.log(note);
     console.log(note2);
     synth.triggerAttackRelease(note, '4n');
-    synth4.triggerAttackRelease(note2, '4n', lenDiff[Math.floor(random(lenDiff.length))]);
+    pauseLength = Math.floor(random(lenDiff.length));
+    synth4.triggerAttackRelease(note2, '4n', lenDiff[pauseLength]);
     strokeWeight(140);
     stroke(255, Math.floor(random(255)), Math.floor(random(255)), 90);
     point(random(w), random(h));
+    setTimeout(function() {
+        push();
+        stroke(255, Math.floor(random(255)), Math.floor(random(255)), 90);
+        point(random(w), random(h));
+        pop();
+    }, pauses[pauseLength]);
 }
 
 function playMusicB() {
-    note = MIDI(notes[(Math.floor(random(notes.length)))]);
-    synth2.triggerAttackRelease(note, '2n');
-    strokeWeight(140);
-    stroke(Math.floor(random(255)), Math.floor(random(255)), 250, 90);
-    point(random(w), random(h));
-    synth3.triggerAttackRelease(MIDI(notes[Math.floor(random(notes.length))]), '2n', '+1n');
-    push();
-    strokeWeight(140);
-    stroke(Math.floor(random(255)), 250, Math.floor(random(255)), 90);
-    point(random(w), random(h));
-    pop();
+    //note = MIDI(notes[(Math.floor(random(notes.length)))]);
+    //synth2.triggerAttackRelease(note, '2n');
+    //strokeWeight(140);
+    //stroke(Math.floor(random(255)), Math.floor(random(255)), 250, 90);
+    //point(random(w), random(h));
+    //synth3.triggerAttackRelease(MIDI(notes[Math.floor(random(notes.length))]), '2n', '+1n');
+    //push();
+    //strokeWeight(140);
+    //stroke(Math.floor(random(255)), 250, Math.floor(random(255)), 90);
+    //point(random(w), random(h));
+    //pop();
 }
 
 function findNote(index) {

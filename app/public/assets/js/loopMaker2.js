@@ -25,7 +25,7 @@ function setup() {
     line(0, h / 2, w, h / 2);
 }
 
-var types = ['sine', 'sine2', 'sine4', 'sine8', 'triangle', 'triangle2', 'sawtooth', 'square'];
+var types = ['sine', 'sine2', 'sine4', 'sine8', 'triangle', 'triangle2', 'triangle4', 'triangle8', 'sawtooth', 'square'];
 Tone.Transport.bpm.value = 120;
 var delay = new Tone.PingPongDelay(0.5, 0.7);
 delay.wet.value = 0.5;
@@ -44,9 +44,9 @@ var synth = new Tone.MembraneSynth({
     envelope: {
         attack: 0.01,
         decay: 0.08,
-        sustain: 0.6,
+        sustain: 0.05,
         release: 0.09,
-        attackCurve: 'bounce'
+        attackCurve: 'ripple'
     }
 }).chain(delay, Tone.Master);
 
@@ -67,7 +67,7 @@ Tone.Master.chain(reverb, delay3);
 var notes = storage[0].scale;
 
 
-Tone.Transport.loopEnd = '8m';
+Tone.Transport.loopEnd = '2m';
 Tone.Transport.loop = true;
 Tone.Transport.start();
 

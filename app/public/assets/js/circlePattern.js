@@ -1,7 +1,7 @@
 w = window.innerWidth;
 h = window.innerHeight;
 anglePoints = [],
-    sizeChange = [2, 3, 4, 5];
+    sizeChange = [1, 1.2, 1.5, 2, 3, 4, 5];
 
 function createPoints() {
     for (var angle = 0; angle <= 2; angle += 0.25) {
@@ -44,7 +44,7 @@ function draw() {
     }
     var circle = new Circle(0, 0, startRadius);
     translate(w / 2, h / 2);
-    sW *= 0.93;
+    sW *= 0.97;
     strokeWeight(sW);
     noFill();
     stroke(strokeArray[colorIterations]);
