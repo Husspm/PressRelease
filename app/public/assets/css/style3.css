@@ -10,9 +10,9 @@ body {
     position: fixed;
     z-index: 20;
     padding: 30px;
-    color: #2f3f73;
-    background: radial-gradient( #ffe19f, 75%, #553c04);
-    border: 2px solid #2f3f73;
+    color: #323643;
+    background: radial-gradient( #ffe19f70, 75%, #553c04);
+    border: 0px solid #40434c;
     border-radius: 50%;
     font-family: 'Bungee Inline';
     font-size: 25px;
