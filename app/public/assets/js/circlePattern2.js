@@ -70,8 +70,8 @@ function routineOne() {
         let a = anglePoints[i];
         stroke(strokeArray[Math.floor(random(strokeArray.length))]);
         var smallerCircle = new Circle(circle.radius * (sin(a)), circle.radius * (cos(a)), startRadius * sizeChange[changeIterations]);
-        noFill();
-        //fill(strokeArray[Math.floor(random(strokeArray.length))]);
+        //noFill();
+        fill(strokeArray[Math.floor(random(strokeArray.length))]);
         ellipse(smallerCircle.x, smallerCircle.y, smallerCircle.radius, smallerCircle.radius / random(2, 4));
         rect(smallerCircle.x, smallerCircle.y, smallerCircle.x + smallerCircle.radius - random(-300, 300), smallerCircle.y + smallerCircle.radius - random(200, 560));
     }
