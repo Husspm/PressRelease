@@ -2,7 +2,6 @@ html,
 body {
     width: 98%;
     height: 98%;
-    background: black;
     filter: contrast(130%);
 }
 
@@ -17,4 +16,14 @@ body {
     font-family: 'Bungee Inline';
     font-size: 25px;
     opacity: 0;
+}
+
+.boxHolder {
+    color: white;
+    border: solid white 4px;
+}
+
+.boxHolder:nth-child(even) {
+    border-left: 0px;
+    border-right: 0px;
 }

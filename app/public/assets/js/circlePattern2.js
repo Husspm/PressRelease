@@ -10,7 +10,7 @@ function createPoints(amt) {
         anglePoints.push(pointOnCircle);
     }
 }
-createPoints(0.125);
+createPoints(0.15);
 
 function setup() {
     createCanvas(w, h);
@@ -24,16 +24,16 @@ var changeIterations = 0;
 var shrinkAmount = 0.66;
 var colorIterations = 0;
 var strokeArray = [
-    [85, 27, 4, 70],
-    [170, 89, 57, 70],
-    [85, 44, 4, 70],
-    [170, 113, 57, 70],
-    [4, 44, 53, 70],
-    [37, 92, 105, 70],
-    [3, 59, 35, 70],
-    [39, 117, 84, 70],
-    [0, 0, 0, 70],
-    [255, 255, 255, 70]
+    [85, 27, 4, 40],
+    [140, 89, 57, 40],
+    [85, 44, 4, 40],
+    [140, 113, 57, 40],
+    [4, 44, 53, 40],
+    [37, 92, 105, 40],
+    [3, 59, 35, 40],
+    [39, 117, 84, 40],
+    [0, 0, 0, 40],
+    [255, 255, 255, 40]
 ];
 
 function draw() {
@@ -46,7 +46,7 @@ var offset = 0;
 function routineOne() {
     offset += 0.01;
     $('body').css('filter', 'contrast(' + noise(offset) * 600 + '%)');
-    $('#defaultCanvas0').css('filter', 'blur(' + noise(offset) * 8 + 'px)');
+    $('#defaultCanvas0').css('filter', 'blur(' + noise(offset) * 18 + 'px)');
     iterations++;
     if (iterations > 80) {
         iterations = 0;
@@ -72,8 +72,12 @@ function routineOne() {
         var smallerCircle = new Circle(circle.radius * (sin(a)), circle.radius * (cos(a)), startRadius * sizeChange[changeIterations]);
         //noFill();
         fill(strokeArray[Math.floor(random(strokeArray.length))]);
-        ellipse(smallerCircle.x, smallerCircle.y, smallerCircle.radius, smallerCircle.radius / random(2, 4));
+        ellipse(smallerCircle.x, smallerCircle.y, smallerCircle.radius, smallerCircle.radius / random(0.5, 4));
+        push();
+        fill(strokeArray[Math.floor(random(strokeArray.length))]);
+        stroke(strokeArray[Math.floor(random(strokeArray.length))]);
         rect(smallerCircle.x, smallerCircle.y, smallerCircle.x + smallerCircle.radius - random(-300, 300), smallerCircle.y + smallerCircle.radius - random(200, 560));
+        pop();
     }
     changeIterations++;
     if (changeIterations >= sizeChange.length) {

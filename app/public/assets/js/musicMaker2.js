@@ -14,23 +14,24 @@ function setup() {
 
 var synth = new Tone.Synth({
     oscillator: {
-        type: 'fmsine4'
+        type: 'square'
     },
     envelope: {
-        attack: 1.7,
+        attack: 1.9,
         decay: 0.2,
         sustain: 0,
         release: 0.9
     }
 });
 var delay = new Tone.PingPongDelay("8n", 0.75);
+delay.wet.value = 0.5;
 synth.chain(delay, Tone.Master);
 var synth4 = new Tone.Synth({
     oscillator: {
         type: 'fmsine2'
     },
     envelope: {
-        attack: 1.7,
+        attack: 0.7,
         decay: 0.2,
         sustain: 0,
         release: 0.7
@@ -39,7 +40,7 @@ var synth4 = new Tone.Synth({
 synth4.chain(delay, Tone.Master);
 var synth2 = new Tone.Synth({
     oscillator: {
-        type: 'fmtriangle2'
+        type: 'sawtooth'
     },
     envelope: {
         attack: 1.7,
@@ -63,8 +64,10 @@ var synth3 = new Tone.Synth({
 });
 var delay3 = new Tone.PingPongDelay(0.85, 0.5);
 synth3.chain(delay3, Tone.Master);
-var reverb = new Tone.JCReverb(0.7, 0.9);
-var masterDelay = new Tone.PingPongDelay(0.5, 0.4);
+var reverb = new Tone.JCReverb(0.97);
+reverb.wet.value = 0.5;
+var masterDelay = new Tone.PingPongDelay(0.95, 0.6);
+masterDelay.wet.value = 0.5;
 Tone.Master.chain(masterDelay, reverb);
 var auto = setInterval(function() { playMusicA() }, 4000);
 var auto2 = setInterval(function() { playMusicB() }, 5500);
@@ -73,43 +76,81 @@ var pauses = [2000, 1000, 500, 250];
 
 function playMusicA() {
     noteIndex = Math.floor(random(notes.length));
-    note = MIDI(notes[noteIndex]);
-    note2 = MIDI(notes[Math.floor(random(notes.length))]);
-    console.log(note);
-    console.log(note2);
-    synth.triggerAttackRelease(note, '4n');
-    pauseLength = Math.floor(random(lenDiff.length));
-    synth4.triggerAttackRelease(note2, '4n', lenDiff[pauseLength]);
+    noteValue = notes[noteIndex];
+    var xPos = map(noteValue, 48, 72, 0, w);
+    note = MIDI(noteValue);
+    note2Value = findNote(noteValue);
+    var xPos2 = map(note2Value, 48, 72, 0, w);
+    note2 = MIDI(note2Value);
+    synth.triggerAttackRelease(note, '4n', AudioContext.currentTime, random(0.25, 1));
+    var pauseLength = Math.floor(random(lenDiff.length));
+    synth4.triggerAttackRelease(note2, '4n', lenDiff[pauseLength], random(0.25, 1));
     strokeWeight(140);
     stroke(255, Math.floor(random(255)), Math.floor(random(255)), 90);
-    point(random(w), random(h));
+    point(xPos, random(h));
     setTimeout(function() {
         push();
         stroke(255, Math.floor(random(255)), Math.floor(random(255)), 90);
-        point(random(w), random(h));
+        point(xPos2, random(h));
         pop();
     }, pauses[pauseLength]);
+    notes.splice(noteIndex, 1);
+    if (notes.length === 0) {
+        notes = notesB.slice();
+    }
 }
 
 function playMusicB() {
-    //note = MIDI(notes[(Math.floor(random(notes.length)))]);
-    //synth2.triggerAttackRelease(note, '2n');
-    //strokeWeight(140);
-    //stroke(Math.floor(random(255)), Math.floor(random(255)), 250, 90);
-    //point(random(w), random(h));
-    //synth3.triggerAttackRelease(MIDI(notes[Math.floor(random(notes.length))]), '2n', '+1n');
-    //push();
-    //strokeWeight(140);
-    //stroke(Math.floor(random(255)), 250, Math.floor(random(255)), 90);
-    //point(random(w), random(h));
-    //pop();
+    /*note = MIDI(notes[(Math.floor(random(notes.length)))]);
+    synth2.triggerAttackRelease(note, '2n');
+    strokeWeight(140);
+    stroke(Math.floor(random(255)), Math.floor(random(255)), 250, 90);
+    point(random(w), random(h));
+    var pauseLength = Math.floor(random(lenDiff.length));
+    synth3.triggerAttackRelease(MIDI(notes[Math.floor(random(notes.length))]), '2n', lenDiff[pauseLength]);
+    setTimeout(function() {
+        push();
+        strokeWeight(140);
+        stroke(Math.floor(random(255)), 250, Math.floor(random(255)), 90);
+        point(random(w), random(h));
+        pop();
+    }, pauses[pauseLength]);
+    */
 }
 
-function findNote(index) {
-    switch (index) {
-        case 0:
-            return notes[index] + 7;
+function findNote(notePassed) {
+    console.log(notePassed);
+    switch (notePassed) {
+        case 48:
+        case 60:
+        case 72:
+            return notePassed + 7;
+            break;
+        case 50:
+        case 62:
+            return notePassed + 9;
+            break;
+        case 52:
+        case 64:
+            return notePassed - 5;
+            break;
+        case 53:
+        case 65:
+            return notePassed + 7;
+            break;
+        case 55:
+        case 67:
+            return notePassed + 4;
+            break;
+        case 57:
+        case 69:
+            return notePassed - 9;
+            break;
+        case 59:
+        case 71:
+            return notePassed + 5;
+            break;
         default:
-            return notes[index] + 12;
+            return notePassed + 12;
     }
 }
