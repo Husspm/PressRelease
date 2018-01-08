@@ -1,21 +1,20 @@
-html,
 body {
-    width: 98%;
-    height: 98%;
-    filter: contrast(130%);
+    filter: contrast(200%);
+    background: black;
 }
 
 #enter {
     position: fixed;
     z-index: 20;
     padding: 30px;
-    color: #323643;
-    background: radial-gradient( #ffe19f70, 75%, #553c04);
+    color: #000;
+    background: radial-gradient( #ff000050, 75%, #553c0490);
     border: 0px solid #40434c;
     border-radius: 50%;
     font-family: 'Bungee Inline';
     font-size: 25px;
     opacity: 0;
+    filter: brightness(150%);
 }
 
 .boxHolder {

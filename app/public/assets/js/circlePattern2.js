@@ -10,7 +10,7 @@ function createPoints(amt) {
         anglePoints.push(pointOnCircle);
     }
 }
-createPoints(0.15);
+createPoints(0.25);
 
 function setup() {
     createCanvas(w, h);
