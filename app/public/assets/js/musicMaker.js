@@ -84,8 +84,8 @@ var newOscArray = [48, 50, 52, 55, 57, 60, 62, 64, 67, 69, 72];
 var newOscCopy = [48, 50, 52, 55, 57, 60, 62, 64, 67, 69, 72];
 
 var auto = setInterval(function() { makeMusicGroupA(); }, 4000);
-var auto2 = setInterval(function() { randomize(); }, 1000);
-var auto3 = setInterval(function() { makeMusicGroupC(); }, 7000);
+var auto2 = setInterval(function() { randomize(); }, 2000);
+var auto3 = setInterval(function() { makeMusicGroupC(); }, 6000);
 
 function randomize() {
     var target = Math.floor(random(0, 10));

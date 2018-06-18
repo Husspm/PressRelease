@@ -10,10 +10,10 @@ function createPoints(amt) {
         anglePoints.push(pointOnCircle);
     }
 }
-createPoints(0.25);
+createPoints(0.125);
 
 function setup() {
-    createCanvas(w, h);
+    createCanvas(w, h, P2D);
     background(0);
     frameRate(30);
 }
@@ -46,20 +46,20 @@ var offset = 0;
 function routineOne() {
     offset += 0.01;
     $('body').css('filter', 'contrast(' + noise(offset) * 600 + '%)');
-    $('#defaultCanvas0').css('filter', 'blur(' + noise(offset) * 18 + 'px)');
+    $('#defaultCanvas0').css('filter', 'blur(' + sin(offset) * 18 + 'px)');
     iterations++;
     if (iterations > 80) {
         iterations = 0;
-        sW = random(20, 120);
-        shrinkAmount = random(0.4, 0.95);
+        sW = random(120, 320);
+        shrinkAmount = random(0.74, 0.95);
         //createPoints(potentialAmounts[Math.floor(random(potentialAmounts.length))]);
     }
     if (startRadius < 500) {
-        startRadius = random(6000, 10000);
+        startRadius = random(600, 1000);
     }
     var circle = new Circle(0, 0, startRadius);
     translate(w / 2, h / 2);
-    sW *= 0.97;
+    sW *= noise(offset);
     strokeWeight(sW);
     colorIterations++;
     if (colorIterations >= strokeArray.length) {
@@ -70,11 +70,11 @@ function routineOne() {
         let a = anglePoints[i];
         stroke(strokeArray[Math.floor(random(strokeArray.length))]);
         var smallerCircle = new Circle(circle.radius * (sin(a)), circle.radius * (cos(a)), startRadius * sizeChange[changeIterations]);
-        //noFill();
-        fill(strokeArray[Math.floor(random(strokeArray.length))]);
+        noFill();
+        // fill(strokeArray[Math.floor(random(strokeArray.length))]);
         ellipse(smallerCircle.x, smallerCircle.y, smallerCircle.radius, smallerCircle.radius / random(0.5, 4));
         push();
-        fill(strokeArray[Math.floor(random(strokeArray.length))]);
+        // fill(strokeArray[Math.floor(random(strokeArray.length))]);
         stroke(strokeArray[Math.floor(random(strokeArray.length))]);
         rect(smallerCircle.x, smallerCircle.y, smallerCircle.x + smallerCircle.radius - random(-300, 300), smallerCircle.y + smallerCircle.radius - random(200, 560));
         pop();
