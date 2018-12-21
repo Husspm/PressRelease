@@ -1,5 +1,5 @@
 body {
-    filter: contrast(200%);
+    /* filter: contrast(200%); */
     background: black;
 }
 
@@ -9,7 +9,7 @@ body {
     padding: 30px;
     color: #000;
     background: radial-gradient( #ff000050, 75%, #553c0490);
-    border: 0px solid #40434c;
+    border: 3px solid #000000;
     border-radius: 50%;
     font-family: 'Bungee Inline';
     font-size: 25px;
@@ -21,7 +21,9 @@ body {
     color: white;
     border: solid white 4px;
 }
-
+#defaultCanvas0 {
+    filter: contrast(1.5);
+}
 .boxHolder:nth-child(even) {
     border-left: 0px;
     border-right: 0px;

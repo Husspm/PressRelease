@@ -74,7 +74,7 @@ function setup() {
     Tosc2.start();
     Sawosc.start();
     Sawosc2.start();
-    volume = new p5.Amplitude();
+    volume = new p5.Amplitude(0.25);
 }
 var sOscArray = [48, 50, 52, 54, 55, 57, 59, 60, 62, 64, 66, 67, 69, 71, 72];
 var sOscCopy = [48, 50, 52, 54, 55, 57, 59, 60, 62, 64, 66, 67, 69, 71, 72];
@@ -85,7 +85,7 @@ var newOscCopy = [48, 50, 52, 55, 57, 60, 62, 64, 67, 69, 72];
 
 var auto = setInterval(function() { makeMusicGroupA(); }, 4000);
 var auto2 = setInterval(function() { randomize(); }, 2000);
-var auto3 = setInterval(function() { makeMusicGroupC(); }, 6000);
+var auto3 = setInterval(function() { makeMusicGroupC(); }, 6500);
 
 function randomize() {
     var target = Math.floor(random(0, 10));
@@ -403,7 +403,8 @@ function findNote(note) {
 }
 
 function keyPressed() {
-    console.log(key);
+    console.log(key.toUpperCase());
+    key = key.toUpperCase();
     switch (key) {
         case 'A':
         case 'Q':
@@ -542,12 +543,13 @@ function keyPressed() {
 
 function draw() {
     level = volume.getLevel();
-    amount = map(level, 0, 1, 1, 1055);
+    console.log(level);
+    amount = map(level, 0, 0.2, 1, 1055);
     trans = 0;
-    if (level > 0.2) {
-        trans = 10;
+    if (level < 0.13) {
+        trans = 40;
     } else {
-        trans = 80;
+        trans = 180;
     }
     if (amount > 200) {
         amount = 350;
@@ -576,3 +578,8 @@ function draw() {
     pop();
     pop();
 }
+
+$(document).ready(
+    function(){
+        $("#defaultCanvas0").hide();
+    });
