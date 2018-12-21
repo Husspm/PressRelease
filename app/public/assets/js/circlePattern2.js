@@ -1,5 +1,6 @@
 w = window.innerWidth;
 h = window.innerHeight;
+var isMobile = false;
 anglePoints = [],
     sizeChange = [1, 2, 3, 4, 5];
 
@@ -14,15 +15,18 @@ createPoints(0.125);
 var blendModes;
 var firstLayer;
 var texShade;
-function preload(){
-}
 var p = [];
+var pos;
 function setup() {
     createCanvas(w, h, WEBGL);
     for (var i = 0; i < 4; i ++){
-    var pt = new Particle();
-p.push(pt);
+        var pt = new Particle();
+        p.push(pt);
     }
+    if (w < 500){
+        isMobile = true;
+    }
+    pos = createVector(0,0);
     texShade = createShader(vert, frag);
     firstLayer = createGraphics(w, h, P2D);
     pixelDensity(1);
@@ -50,14 +54,13 @@ var strokeArray = [
     [0, 0, 0, transparency],
     [255, 255, 255, transparency]
 ];
-var pos = {x: 0, y: 0};
 
 function draw() {
     p.forEach(function(pt){
         pt.move();
     }); 
-    pos.x += 0.0001;
-    pos.y += 0.001;
+    pos.x += 0.1;
+    pos.y += 0.01;
     var rNum = Math.floor(random(10));
     routineOne(rNum);
 }
@@ -112,27 +115,48 @@ function routineOne() {
     texture(firstLayer);
     shader(texShade);
     texShade.setUniform('resolution',[width,height]);
-    texShade.setUniform("mousePos", [
-        norm(p[0].pos.x, 0, width), 
-        norm(p[0].pos.y, height, 0)
-    ]);
-    texShade.setUniform("mousePos2", [
-        norm(p[1].pos.x, width, 0), 
-        norm(p[1].pos.y, height, 0)
-    ]);
-    texShade.setUniform("mousePos3", [
-        norm(p[2].pos.x, width, 0), 
-        norm(p[2].pos.y, 0, height)
-    ]);
-    texShade.setUniform("mousePos4", [
-        norm(p[3].pos.x, 0, width), 
-        norm(p[3].pos.y, 0, height)
-    ]);
-    texShade.setUniform('time',millis()/20);
+    renderSetting(isMobile);
+    texShade.setUniform('time',millis() / 20);
     texShade.setUniform('texture',firstLayer);
     plane(w);
 }
-
+function renderSetting(isMobile){
+    if (isMobile){
+        texShade.setUniform("mousePos", [
+            norm(p[0].pos.x, 0, width), 
+            norm(p[0].pos.y, height, 0)
+    ]);
+        texShade.setUniform("mousePos2", [
+            norm(p[1].pos.x, width, 0), 
+            norm(p[1].pos.y, height, 0)
+    ]);
+        texShade.setUniform("mousePos3", [
+            norm(p[2].pos.x, width, 0), 
+            norm(p[2].pos.y, 0, height)
+    ]);
+        texShade.setUniform("mousePos4", [
+            norm(p[3].pos.x, 0, width), 
+            norm(p[3].pos.y, 0, height)
+    ]);
+    }else{
+        texShade.setUniform("mousePos", [
+            norm(mouseX, 0, width), 
+            norm(mouseY, height, 0)
+    ]);
+        texShade.setUniform("mousePos2", [
+            norm(pmouseX, width, 0), 
+            norm(pmouseY, height, 0)
+    ]);
+        texShade.setUniform("mousePos3", [
+            norm(mouseX, width, 0), 
+            norm(mouseY, 0, height)
+    ]);
+        texShade.setUniform("mousePos4", [
+            norm(pmouseX, 0, width), 
+            norm(pmouseY, 0, height)
+    ]);
+    }
+}
 function Circle(x, y, radius) {
     this.x = x;
     this.y = y;
@@ -150,6 +174,11 @@ function windowResized() {
     var a = document.getElementById('enter');
     w = window.innerWidth;
     h = window.innerHeight;
+    if ( w < 500){
+        isMobile = true;
+    }else{
+        isMobile = false;
+    }
     resizeCanvas(w, h);
     firstLayer.remove();
     firstLayer = createGraphics(w, h, P2D);
@@ -208,7 +237,7 @@ uniform vec2 particle;
 uniform float time;
 uniform sampler2D texture;
 float intensity = 10.0;
-float intensity2 = 3.0;
+float intensity2 = 23.0;
 
 void main(void)
 {
@@ -239,10 +268,10 @@ void main(void)
 
 function Particle(){
     this.pos = createVector(w / 2, h / 2);
-    this.acc = createVector(1.5, 2.9);
+    this.acc = createVector(0.5, 0.9);
     this.move = function(){
         this.acc.add(p5.Vector.random2D());
-        this.acc.rotate(random(0.00001, 0.1));
+        this.acc.rotate(random(0.000001, 0.01));
         this.pos.add(this.acc);
         console.log(this.pos);
         if (this.pos.x > w || this.pos.x < 0){

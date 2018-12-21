@@ -1,40 +1,41 @@
-html,
 body {
-    width: 100%;
-    height: 100%;
+    /* filter: contrast(200%); */
+    background: #00000014;
 }
-
-body {
-    background: url("../images/bgLayerv2.png");
-    background-size: 20px 20px;
-    filter: saturate(20%);
+h2 {
+    color: #3b2828;
+    text-align: center;
+    border: solid white 2px;
+    /* border-radius: 50%; */
+    padding: 1%;
 }
-
-.bgMask {
-    height: 100%;
-    width: 100%;
+#enter {
     position: fixed;
-    z-index: -1;
-    background: radial-gradient(black, 40%, white, #3e0000, white, black);
-    background-size: 20px 20px;
+    z-index: 20;
+    padding: 30px;
+    color: #000;
+    background: radial-gradient( #ff000050, 75%, #553c0490);
+    border: 3px solid #000000;
+    border-radius: 50%;
+    font-family: 'Bungee Inline';
+    font-size: 25px;
+    opacity: 0;
+    filter: brightness(150%);
 }
 
-h1,
-h2,
-h3 {
-    color: gold;
-    background: radial-gradient(black, 40%, darkgray, black, white, black);
-    background-size: 20px 20px;
-    display: inline-block;
-    padding: 30px 60px;
-    border: 5px solid white;
-    border-radius: 30px;
-    font-family: 'Ewert', cursive;
+.boxHolder {
+    color: #3b2828;
+    border: solid white 4px;
 }
-
-.lightbulb {
-    box-shadow: 0 0 50px 20px white;
-    position: fixed;
-    z-index: 4;
-    border-radius: 40px;
+#defaultCanvas0 {
+    filter: contrast(1.5);
+    background: #ab702094;
+}
+.boxHolder:nth-child(even) {
+    border-left: 0px;
+    border-right: 0px;
+}
+a {
+    color: #b81414;
+    text-decoration: underline;
 }

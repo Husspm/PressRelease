@@ -23,6 +23,7 @@ body {
 }
 #defaultCanvas0 {
     filter: contrast(1.5);
+    background: #ab702094;
 }
 .boxHolder:nth-child(even) {
     border-left: 0px;
