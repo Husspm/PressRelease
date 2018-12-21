@@ -25,6 +25,8 @@ p.push(pt);
     }
     texShade = createShader(vert, frag);
     firstLayer = createGraphics(w, h, P2D);
+    pixelDensity(1);
+    firstLayer.pixelDensity(1);
     background(0);
     frameRate(30);
     blendModes = [ADD, DODGE, DIFFERENCE];
