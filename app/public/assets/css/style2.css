@@ -1,9 +1,9 @@
 body {
     background: black;
     color: #7380ac;
+    width: 90%;
     filter: contrast(130%);
 }
-
 output {
     color: #7380ac;
     background: #ffe19f;

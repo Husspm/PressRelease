@@ -1,7 +1,14 @@
+var w = window.innerWidth;
+var h = window.innerHeight;
 function setup() {
     var heightOffset = $("#settingsPanel").innerHeight();
     console.log(heightOffset);
-    createCanvas(w - 20, h - heightOffset);
+    canvasHeight = h - heightOffset;
+    if (w > 500){
+    createCanvas(w - 20, canvasHeight);
+    }else{
+        createCanvas(w * 0.9, h / 2);
+    }
     pixelDensity(1);
     for (var x = 0; x <= w; x += w / notes[0].length) {
         stroke(255);
@@ -27,7 +34,6 @@ var synth = new Tone.Synth({
     }
 }).chain(trem, delay, Tone.Master);
 var chorus = new Tone.Chorus('1m', 2.5, 0.5);
-
 Tone.Master.chain(soundFilter, chorus);
 var notes = [
     [48, 50, 51, 53, 55, 56, 58, 60, 62, 63, 65, 67, 68, 70, 72],
@@ -35,11 +41,10 @@ var notes = [
     [48, 49, 52, 53, 55, 56, 59, 60, 61, 64, 65, 67, 68, 71, 72]
 ];
 var currIndex = 0;
-var w = window.innerWidth;
-var h = window.innerHeight;
 var dots = [];
 
 function mousePressed() {
+    console.log(mouseY);
     if (mouseY > 0) {
         lineWeight = 10;
         var indexOfNote = Math.floor(map(mouseX, 0, w, 0, notes[currIndex].length));
@@ -68,7 +73,9 @@ function mouseDragged() {
         }
 }
 var lineWeight = 10;
+
 function draw() {
+    console.log(h);
     background(0);
     push();
     lineWeight *= 0.931;
@@ -114,12 +121,16 @@ $(document).ready(function() {
         console.log(currIndex);
     });
     $("input[type='range']").on("input", function() {
+        Tone.context.resume();
         console.log(this.id);
         if (this.id == 'trem'){
             trem.frequency.value = this.value;
         }
         if (this.id == 'tD'){
             trem.depth.value = this.value;
+        }
+        if (this.id === 'Twet') {
+            trem.wet.value = this.value;
         }
         if (this.id === 'delay') {
             delay.delayTime.value = this.value;
@@ -148,10 +159,10 @@ $(document).ready(function() {
         }
     });
 });
-var auto = setInterval(function() {
-    for (var x = 0; x < w; x += w / notes[0].length) {
-        stroke(255);
-        strokeWeight(1);
-        line(x, 0, x, h);
-    }
-}, 1000);
+// var auto = setInterval(function() {
+//     for (var x = 0; x < w; x += w / notes[0].length) {
+//         stroke(255);
+//         strokeWeight(1);
+//         line(x, 0, x, h);
+//     }
+// }, 1000);
