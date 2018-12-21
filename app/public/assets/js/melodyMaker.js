@@ -2,6 +2,7 @@ function setup() {
     var heightOffset = $("#settingsPanel").innerHeight();
     console.log(heightOffset);
     createCanvas(w - 20, h - heightOffset);
+    pixelDensity(1);
     for (var x = 0; x <= w; x += w / notes[0].length) {
         stroke(255);
         line(x, 0, x, h);
