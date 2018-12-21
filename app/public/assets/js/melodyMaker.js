@@ -6,7 +6,7 @@ function setup() {
     }
 }
 var soundFilter = new Tone.Filter(250, "bandpass");
-soundFilter.Q.value = 3;
+soundFilter.Q.value = 1;
 var delay = new Tone.PingPongDelay(0.2, 0.8);
 var pitch = new Tone.PitchShift();
 var synth = new Tone.Synth({
@@ -96,7 +96,7 @@ $(document).ready(function() {
 var auto = setInterval(function() {
     for (var x = 0; x < w; x += w / notes[0].length) {
         stroke(255);
-        strokeWeight(10);
+        strokeWeight(1);
         line(x, 0, x, h);
     }
 }, 1000);

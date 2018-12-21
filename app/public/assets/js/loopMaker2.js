@@ -88,35 +88,35 @@ function triggerSound(time) {
     switch (noteIndex) {
         case 0:
         case 7:
-            stroke(0, 255, 0, 10);
+            stroke(0, 255, 0, 100);
             break;
         case 1:
         case 8:
-            stroke(200, 255, 0, 10);
+            stroke(200, 255, 0, 100);
             break;
         case 2:
         case 9:
-            stroke(200, 0, 0, 10);
+            stroke(200, 0, 0, 100);
             break;
         case 3:
         case 10:
-            stroke(0, 0, 200, 10);
+            stroke(0, 0, 200, 100);
             break;
         case 4:
         case 11:
-            stroke(200, 100, 200, 10);
+            stroke(200, 100, 200, 100);
             break;
         case 5:
         case 12:
-            stroke(200, 200, 0, 10);
+            stroke(200, 200, 0, 100);
             break;
         case 6:
         case 13:
-            stroke(200, 200, 200, 10);
+            stroke(200, 200, 200, 100);
             break;
         case 7:
         case 14:
-            stroke(85, 95, 255, 10);
+            stroke(85, 95, 255, 100);
     }
     synth2.triggerAttackRelease(midiToFreq(note), lengths[Math.floor(random(lengths.length))], time);
     point(posX, random(h / 2, h));
@@ -125,7 +125,7 @@ function triggerSound(time) {
 function triggerSound2(time) {
     var check = Tone.Transport.seconds.toFixed(2);
     for (var i = 0; i < memorySim2.length; i++) {
-        if (memorySim2[i].time === check) {
+        if (abs(memorySim2[i].time - check) < 0.1) {
             note = memorySim2[i].note;
             howLong = memorySim2[i].noteLength;
             posY = memorySim2[i].yPos;
@@ -138,31 +138,31 @@ function triggerSound2(time) {
     switch (noteIndex) {
         case 0:
         case 7:
-            stroke(0, 255, 0, 10);
+            stroke(0, 255, 0, 100);
             break;
         case 1:
         case 8:
-            stroke(200, 255, 0, 10);
+            stroke(200, 255, 0, 100);
             break;
         case 2:
         case 9:
-            stroke(200, 0, 0, 10);
+            stroke(200, 0, 0, 100);
             break;
         case 3:
         case 10:
-            stroke(0, 0, 200, 10);
+            stroke(0, 0, 200, 100);
             break;
         case 4:
         case 11:
-            stroke(200, 100, 200, 10);
+            stroke(200, 100, 200, 100);
             break;
         case 5:
         case 12:
-            stroke(200, 200, 0, 10);
+            stroke(200, 200, 0, 100);
             break;
         case 6:
         case 13:
-            stroke(200, 200, 200, 10);
+            stroke(200, 200, 200, 100);
             break;
     }
     point(posX, posY);

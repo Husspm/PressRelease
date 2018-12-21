@@ -16,8 +16,13 @@ var firstLayer;
 var texShade;
 function preload(){
 }
+var p = [];
 function setup() {
     createCanvas(w, h, WEBGL);
+    for (var i = 0; i < 4; i ++){
+    var pt = new Particle();
+p.push(pt);
+    }
     texShade = createShader(vert, frag);
     firstLayer = createGraphics(w, h, P2D);
     background(0);
@@ -30,7 +35,7 @@ var iterations = 0;
 var changeIterations = 0;
 var shrinkAmount = 0.66;
 var colorIterations = 0;
-var transparency = 10;
+var transparency = 15;
 var strokeArray = [
     [85, 27, 4, transparency],
     [140, 89, 57, transparency],
@@ -43,8 +48,14 @@ var strokeArray = [
     [0, 0, 0, transparency],
     [255, 255, 255, transparency]
 ];
+var pos = {x: 0, y: 0};
 
 function draw() {
+    p.forEach(function(pt){
+        pt.move();
+    }); 
+    pos.x += 0.0001;
+    pos.y += 0.001;
     var rNum = Math.floor(random(10));
     routineOne(rNum);
 }
@@ -100,20 +111,20 @@ function routineOne() {
     shader(texShade);
     texShade.setUniform('resolution',[width,height]);
     texShade.setUniform("mousePos", [
-        norm(mouseX, 0, width), 
-        norm(mouseY, height, 0)
+        norm(p[0].pos.x, 0, width), 
+        norm(p[0].pos.y, height, 0)
     ]);
     texShade.setUniform("mousePos2", [
-        norm(pmouseX, width, 0), 
-        norm(pmouseY, height, 0)
+        norm(p[1].pos.x, width, 0), 
+        norm(p[1].pos.y, height, 0)
     ]);
     texShade.setUniform("mousePos3", [
-        norm(mouseX, width, 0), 
-        norm(mouseY, 0, height)
+        norm(p[2].pos.x, width, 0), 
+        norm(p[2].pos.y, 0, height)
     ]);
     texShade.setUniform("mousePos4", [
-        norm(mouseX, 0, width), 
-        norm(mouseY, 0, height)
+        norm(p[3].pos.x, 0, width), 
+        norm(p[3].pos.y, 0, height)
     ]);
     texShade.setUniform('time',millis()/20);
     texShade.setUniform('texture',firstLayer);
@@ -191,6 +202,7 @@ uniform vec2 mousePos;
 uniform vec2 mousePos2;
 uniform vec2 mousePos3;
 uniform vec2 mousePos4;
+uniform vec2 particle;
 uniform float time;
 uniform sampler2D texture;
 float intensity = 10.0;
@@ -200,8 +212,8 @@ void main(void)
 {
     vec2 p = gl_FragCoord.xy / resolution.xy;
     float divideMod = 5.0 + p.x;
-    intensity += 0.3;
-    intensity2 += 0.1;
+    intensity += 0.03;
+    intensity2 += 0.01;
 	float colorMod = distance(p.xy, mousePos.xy);
 	float colorMod2 = distance(p.xy, mousePos2.xy);
 	float colorMod3 = distance(p.xy, mousePos3.xy);
@@ -223,3 +235,19 @@ void main(void)
 	gl_FragColor = vec4(mix(endColor, endColor2, 0.5), 0.51);
 }`
 
+function Particle(){
+    this.pos = createVector(w / 2, h / 2);
+    this.acc = createVector(1.5, 2.9);
+    this.move = function(){
+        this.acc.add(p5.Vector.random2D());
+        this.acc.rotate(random(0.00001, 0.1));
+        this.pos.add(this.acc);
+        console.log(this.pos);
+        if (this.pos.x > w || this.pos.x < 0){
+            this.acc.x *= -1;
+        }
+        if (this.pos.y > h || this.pos.y < 0){
+            this.acc.y *= -1;
+        }
+    }
+}
