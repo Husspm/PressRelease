@@ -1,13 +1,15 @@
 var w = window.innerWidth;
 var h = window.innerHeight;
+var layerOne;
 function setup() {
     var heightOffset = $("#settingsPanel").innerHeight();
     console.log(heightOffset);
     canvasHeight = h - heightOffset;
     if (w > 500){
-    createCanvas(w - 20, canvasHeight);
+    createCanvas(w - 20, canvasHeight, P2D);
+    layerOne = createGraphics(w - 20, canvasHeight, P2D);
     }else{
-        createCanvas(w * 0.9, h / 2);
+        createCanvas(w, h / 2);
     }
     pixelDensity(1);
     for (var x = 0; x <= w; x += w / notes[0].length) {
@@ -40,6 +42,7 @@ var notes = [
     [48, 50, 52, 54, 55, 57, 59, 60, 62, 64, 66, 67, 69, 71, 72],
     [48, 49, 52, 53, 55, 56, 59, 60, 61, 64, 65, 67, 68, 71, 72]
 ];
+var noteLengths = ["16n", "8n", "4n", "2n", "1n"];
 var currIndex = 0;
 var dots = [];
 
@@ -55,7 +58,9 @@ function mousePressed() {
         var noteToPlay = notes[currIndex][indexOfNote];
         dot = new Dot(mouseX, mouseY, 200);
         dots.push(dot);
-        synth.triggerAttackRelease(midiToFreq(noteToPlay), '1n');
+        var lengthIndex = floor(map(mouseY, 0, h, 0, noteLengths.length));
+        synth.triggerAttackRelease(midiToFreq(noteToPlay), noteLengths[lengthIndex]);
+        return false;
     }
 }
 function mouseDragged() {
@@ -69,7 +74,9 @@ function mouseDragged() {
             var noteToPlay = notes[currIndex][indexOfNote];
             dot = new Dot(mouseX, mouseY, 200);
             dots.push(dot);
-            synth.triggerAttackRelease(midiToFreq(noteToPlay), '1n');
+            var lengthIndex = floor(map(mouseY, 0, h, 0, noteLengths.length));
+            synth.triggerAttackRelease(midiToFreq(noteToPlay), noteLengths[lengthIndex]);
+            return false;
         }
 }
 var lineWeight = 10;

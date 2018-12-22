@@ -1,9 +1,10 @@
 body {
     background: black;
     color: #7380ac;
-    width: 90%;
+    /* width: 90%; */
     filter: contrast(130%);
-}
+    font-family: 'VT323', monospace;
+    }
 output {
     color: #7380ac;
     background: #ffe19f;
@@ -46,4 +47,16 @@ label {
 
 select {
     background: black;
+}
+canvas {
+    border: #e8d283 solid 2px;
+    box-shadow: #6f80b9 0px 0px 6px 2px;
+}
+#settingsPanel{
+    padding: 10px;
+    margin: 10px;
+}
+.row{
+    border: solid 2px;
+    box-shadow: inset 0px 0px 10px 2px #e8d283;
 }
