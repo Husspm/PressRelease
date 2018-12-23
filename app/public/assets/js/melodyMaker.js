@@ -112,7 +112,12 @@ function mousePressed() {
         dot = new Dot(mouseX, mouseY, 200);
         dots.push(dot);
         var lengthIndex = floor(map(mouseY, 0, h, 0, noteLengths.length));
-        synth.triggerAttackRelease(midiToFreq(noteToPlay + transpose), noteLengths[lengthIndex]);
+        if (useSampler){
+            sampler.releaseAll();
+            sampler.triggerAttackRelease(Tone.Frequency(noteToPlay, "midi").toNote(), "4n");
+        }else{
+            synth.triggerAttackRelease(midiToFreq(noteToPlay), noteLengths[lengthIndex]);
+        }
         return false;
     }
 }
@@ -131,7 +136,12 @@ function mouseDragged() {
             dot = new Dot(mouseX, mouseY, 200);
             dots.push(dot);
             var lengthIndex = floor(map(mouseY, 0, h, 0, noteLengths.length));
-            synth.triggerAttackRelease(midiToFreq(noteToPlay), noteLengths[lengthIndex]);
+            if (useSampler){
+                sampler.releaseAll();
+                sampler.triggerAttackRelease(Tone.Frequency(noteToPlay, "midi").toNote(), "4n");
+            }else{
+                synth.triggerAttackRelease(midiToFreq(noteToPlay), noteLengths[lengthIndex]);
+            }
             return false;
         }
 }
@@ -182,13 +192,15 @@ var currColor = colors[0];
 var lineColor = colors[1];
 var dirMod = 1;
 var synthTypes = ["sine", "sine4", "sine8", "sawtooth", "sawtooth4", "sawtooth8",
-                  "triangle", "triangle4", "triangle8", "square", "square4", "square8"                
+                  "triangle", "triangle4", "triangle8", "square", "square4", "square8", "sampler"                
 ];
+var useSampler = false;
+
 $(document).ready(function() {
     var listTarget = $("#synthType");
     for (var i = 0; i <  synthTypes.length; i++){
     var option = $("<option>").attr({"id": synthTypes[i]});
-    option.html(synthTypes[i] + " wave");
+    option.html(synthTypes[i]);
     listTarget.append(option);
     }
     scale = notes[0].scale;
@@ -228,13 +240,24 @@ $(document).ready(function() {
     });
     $('select').on("change", function(){
         console.log(this.options[this.options.selectedIndex].id);
-        synth.oscillator.type = this.options[this.options.selectedIndex].id;
+        if (this.options[this.options.selectedIndex].id == "sampler"){
+            useSampler = true;
+        }else{
+            useSampler = false;
+            synth.oscillator.type = this.options[this.options.selectedIndex].id;
+        }
     });
 });
-
+var sampler = new Tone.Sampler({
+    "C2" : "/assets/audio/sample1.wav",
+    "E2" : "/assets/audio/sample2.wav",
+    "G2" : "/assets/audio/sample3.wav",
+    "C3" : "/assets/audio/sample4.wav"
+}).chain(trem, delay, Tone.Master);
+sampler.attack = 0.25;
 function windowResized() {
     w = window.innerWidth;
+    h = window.innerHeight;
     $("#settingsPanel").css("width", w - 20);
     resizeCanvas(w, h / 2);
 }
-console.log(navigator.platform);
