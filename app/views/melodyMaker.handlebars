@@ -20,9 +20,9 @@
             <label for = 'delayTime'>Delay Time</label>
             <input data-module = "delay" data-suffix = "value" id='delayTime' type="range" value = '0.2' min='0.1' max = '0.9' step='0.005'>
             <label for = 'fb'>Repeats</label>
-            <input data-module = "delay" data-suffix = "value" id='feedback' type="range" value = '0.2' min='0.1' max = '1' step='0.05'>
+            <input data-module = "delay" data-suffix = "value" id='feedback' type="range" value = '0.8' min='0.1' max = '1' step='0.05'>
             <label for = 'wet'> Delay Volume</label>
-            <input data-module = "delay" data-suffix = "value" id='wet' type="range" value = '0.2' min='0.1' max = '1' step='0.05'>
+            <input data-module = "delay" data-suffix = "value" id='wet' type="range" value = '0.2' min='0.0' max = '1' step='0.05'>
         </div>
         <div class = "col-sm-4">
             <h3>Filter Settings</h3>
@@ -44,6 +44,11 @@
             <label for = "transpose">Key/Transpose</label>
             <input id = "key" type = "range" value = "0" min = "-12" max ="12" step = "1">
             <output id = "keyCenter"></output>
+        </div>
+        <div class = "col-xs-4">
+            <label for="synthType">Synth Type</label>
+            <select id = "synthType">
+            </select>
         </div>
     </div>
 </div>
