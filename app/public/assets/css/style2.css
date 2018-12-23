@@ -1,6 +1,6 @@
 body {
-    background: black;
-    color: #7380ac;
+    background: #e6e6e6;
+    color: #505d8c;
     /* width: 90%; */
     filter: contrast(130%);
     font-family: 'VT323', monospace;
@@ -25,8 +25,11 @@ input[type=range]:focus {
 
 h3,
 button {
-    background: black;
-    margin-left: 5%;
+    text-align: center;
+    padding: 3%;
+    background: #e8d283;
+    border: solid 2px;
+    /* margin-left: 5%; */
 }
 
 label {
@@ -54,9 +57,11 @@ canvas {
 }
 #settingsPanel{
     padding: 10px;
-    margin: 10px;
 }
 .row{
     border: solid 2px;
     box-shadow: inset 0px 0px 10px 2px #e8d283;
+}
+.scaleButtons {
+    padding: 5px;
 }

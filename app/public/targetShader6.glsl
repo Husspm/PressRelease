@@ -28,8 +28,7 @@ float map (float value, float minV, float maxV, float newMin, float newMax){
 
 void main() {
 //	vec4 color = vec4(texture2D(texture, vertTexCoord.xy));
-	divideMod = abs(noise1(vertColor)) * 10;
-	divideMod = map(divideMod, 0, 10, 10, 60);
+	divideMod = 5.0;
 	float colorMod = distance(vertTexCoord.xy, mousePos.xy);
 	float colorMod2 = distance(vertTexCoord.xy, mousePos2.xy);
 	float colorMod3 = distance(vertTexCoord.xy, mousePos3.xy);

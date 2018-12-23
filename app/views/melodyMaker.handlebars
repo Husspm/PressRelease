@@ -5,38 +5,45 @@
 <script src="/assets/js/p5.sound.min.js"></script>
 <script src="/assets/js/melodyMaker.js"></script>
 <div id = "settingsPanel" class ='container'>
-    {{!-- <div class = "row">
-    <button id='minor'>Minor Scale</button>
-    <button id='major'>Major Scale</button>
-    <button id='odd'>Odd Scale</button>
-    </div> --}}
     <div class = "row">
-        <div class="col-md-4">
+        <div class="col-sm-4">
             <h3>Tremolo Settings</h3>
             <label for = 'trem'>Tremolo Rate</label>
-            <input id='trem' type="range" value = '10' min='0.1' max = '20' step='0.005'>
+            <input data-module = "trem" data-suffix = "value" id='frequency' type="range" value = '10' min='0.1' max = '20' step='0.005'>
             <label for = 'tD'>Tremolo Depth</label>
-            <input id='tD' type="range" value = '0.5' min='0.1' max = '1' step='0.05'>
+            <input data-module = "trem" data-suffix = "value" id='depth' type="range" value = '0.5' min='0.1' max = '1' step='0.05'>
             <label for = 'Twet'> Tremolo Volume</label>
-            <input id='Twet' type="range" value = '0.2' min='0.1' max = '1' step='0.05'>
+            <input data-module = "trem" data-suffix = "value" id='wet' type="range" value = '0.2' min='0.1' max = '1' step='0.05'>
         </div>
-        <div class="col-md-4">
+        <div class="col-sm-4">
             <h3>Delay Settings</h3>
-            <label for = 'delay'>Delay Time</label>
-            <input id='delay' type="range" value = '0.2' min='0.1' max = '0.9' step='0.005'>
+            <label for = 'delayTime'>Delay Time</label>
+            <input data-module = "delay" data-suffix = "value" id='delayTime' type="range" value = '0.2' min='0.1' max = '0.9' step='0.005'>
             <label for = 'fb'>Repeats</label>
-            <input id='fb' type="range" value = '0.2' min='0.1' max = '1' step='0.05'>
+            <input data-module = "delay" data-suffix = "value" id='feedback' type="range" value = '0.2' min='0.1' max = '1' step='0.05'>
             <label for = 'wet'> Delay Volume</label>
-            <input id='wet' type="range" value = '0.2' min='0.1' max = '1' step='0.05'>
+            <input data-module = "delay" data-suffix = "value" id='wet' type="range" value = '0.2' min='0.1' max = '1' step='0.05'>
         </div>
-        <div class = "col-md-4">
+        <div class = "col-sm-4">
             <h3>Filter Settings</h3>
             <label for = 'fT'>Filter Type</label>
-            <input id='fT' type="range" value = '2' min='1' max = '3' step='1'>
+            <input data-module = "soundFilter" data-suffix = "" id='type' type="range" value = '1' min='0' max = '2' step='1'>
             <label for = 'fF'>Filter Freq</label>
-            <input id='fF' type="range" value = '500' min='50' max = '15000' step='1'>
+            <input data-module = "soundFilter" data-suffix = "value" id='frequency' type="range" value = '500' min='50' max = '15000' step='1'>
             <label for = 'fW'>Filter Width</label>
-            <input id='fW' type="range" value = '1' min='0.1' max = '4' step='0.01'>
+            <input data-module = "soundFilter" data-suffix = "value" id='Q' type="range" value = '1' min='0.1' max = '4' step='0.01'>
+        </div>
+    </div>
+    <div class = "row scaleButtons">
+        <div class = "col-xs-4">
+            <label for = "scale">Scale/Chord</label>
+            <input id = "scale" type = "range" value = "0" min = "0" max ="2" step = "1">
+            <output id = "scaleText"></output>
+        </div>
+        <div class = "col-xs-4">
+            <label for = "transpose">Key/Transpose</label>
+            <input id = "key" type = "range" value = "0" min = "-12" max ="12" step = "1">
+            <output id = "keyCenter"></output>
         </div>
     </div>
 </div>

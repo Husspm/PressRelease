@@ -1,8 +1,10 @@
 w = window.innerWidth;
 h = window.innerHeight;
-
+var dots = [];
+var layerOne;
 function setup() {
-    createCanvas(w, h);
+    createCanvas(w, h, P2D);
+    pixelDensity(1);
     background(0);
     osc = new p5.SinOsc(); //osc, osc2, and all effects belong to groupA
     osc2 = new p5.SinOsc();
@@ -19,8 +21,8 @@ function setup() {
     oDist2 = new p5.Distortion(0.0099); //rowC distortion
     tDist = new p5.Distortion(0.0099); //groupB distortion
     env.setRange(1, 0);
-    Tenv.setRange(0.7, 0);
-    env2.setRange(0.4, 0);
+    Tenv.setRange(0.8, 0);
+    env2.setRange(0.8, 0);
     Sawenv.setRange(1, 0);
     reverb = new p5.Reverb();
     reverb2 = new p5.Reverb();
@@ -29,10 +31,10 @@ function setup() {
     delay = new p5.Delay();
     delay2 = new p5.Delay();
     Tdelay = new p5.Delay();
-    reverb.set(10, 1, 6000);
-    reverb2.set(10, 1, 7000);
-    Treverb.set(10, 1, 8000);
-    Sawreverb.set(10, 1, 8000);
+    reverb.set(1, 0.1, 6000);
+    reverb2.set(1, 0.1, 7000);
+    Treverb.set(1, 0.1, 8000);
+    Sawreverb.set(1, 0.1, 8000);
     osc.disconnect();
     osc.connect(reverb);
     osc2.disconnect();
@@ -53,13 +55,13 @@ function setup() {
     Sawosc.connect(Sawreverb);
     Sawosc2.disconnect();
     Sawosc2.connect(Sawreverb);
-    env.setADSR(1.5, 0.05, 0, 0.5);
-    env2.setADSR(0.05, 0.05, 0, 0.2);
-    Tenv.setADSR(0.9, 0.05, 0, 0.5);
+    env.setADSR(0.05, 0.05, 0, 0.05);
+    env2.setADSR(0.05, 0.05, 0, 0.02);
+    Tenv.setADSR(0.09, 0.05, 0, 0.05);
     Sawenv.setADSR(0.05, 0.05, 0, 0.05);
-    delay.process(oDist, 0.75, 0.6);
-    delay2.process(oDist2, 0.9, 0.4);
-    Tdelay.process(tDist, 0.75, 0.6);
+    delay.process(oDist, 0.75, 0.16);
+    delay2.process(oDist2, 0.9, 0.14);
+    Tdelay.process(tDist, 0.75, 0.16);
     osc.amp(env);
     osc2.amp(env);
     osc3.amp(env2);
@@ -83,9 +85,9 @@ var tOscCopy = [48, 50, 52, 55, 57, 60, 62, 64, 67, 69, 72];
 var newOscArray = [48, 50, 52, 55, 57, 60, 62, 64, 67, 69, 72];
 var newOscCopy = [48, 50, 52, 55, 57, 60, 62, 64, 67, 69, 72];
 
-var auto = setInterval(function() { makeMusicGroupA(); }, 4000);
-var auto2 = setInterval(function() { randomize(); }, 2000);
-var auto3 = setInterval(function() { makeMusicGroupC(); }, 6500);
+var auto = setInterval(function() { makeMusicGroupA(); }, 500);
+var auto2 = setInterval(function() { randomize(); }, 750);
+var auto3 = setInterval(function() { makeMusicGroupC(); }, 1250);
 
 function randomize() {
     var target = Math.floor(random(0, 10));
@@ -96,7 +98,7 @@ function randomize() {
 
 var group_A_iterations = 0;
 var key_change_iterations_A = 0;
-
+var renderPosX;
 function makeMusicGroupA() {
     if (group_A_iterations < 3) {
         console.log('HIT on group A');
@@ -104,8 +106,13 @@ function makeMusicGroupA() {
         var note = sOscArray[idx];
         console.log(note, 'was selected for group A');
         osc.freq(midiToFreq(note));
+        env.play();
         osc2.freq(midiToFreq(findNote(note)));
         env.play();
+        var renderPosX = map(note, sOscCopy[0], sOscCopy[sOscCopy.length - 1], 0, w);
+        var renderPosX2 = map(findNote(note), sOscCopy[0], sOscCopy[sOscCopy.length - 1], 0, w);
+        dots.push(new Dot(renderPosX, w / 16, 100, [0, 125, 255], midiToFreq(note)));
+        dots.push(new Dot(renderPosX2, w / 16, 100, [0, 125, 255], midiToFreq(findNote(note))));
         sOscArray.splice(idx, 1);
         if (sOscArray.length === 0) {
             for (var i = 0; i < sOscCopy.length; i++) {
@@ -135,6 +142,10 @@ function makeMusicGroupB() {
     Tosc.freq(midiToFreq(note));
     Tosc2.freq(midiToFreq(findNote(note)));
     Tenv.play();
+    var renderPosX = map(note, tOscCopy[0], tOscCopy[tOscCopy.length - 1], 0, w);
+    var renderPosX2 = map(findNote(note), tOscCopy[0], tOscCopy[tOscCopy.length - 1], 0, w);
+    dots.push(new Dot(renderPosX, w / 16, 100, [0, 255, 125], midiToFreq(note)));
+    dots.push(new Dot(renderPosX2, w / 16, 100, [0, 255, 125], midiToFreq(findNote(note))));
     tOscArray.splice(idx, 1);
     if (tOscArray.length === 0) {
         for (var i = 0; i < sOscCopy.length; i++) {
@@ -158,6 +169,13 @@ function makeMusicGroupC() {
     console.log(note, 'was selected for group C');
     synth.triggerAttackRelease(midiToFreq(note), noteLength[Math.floor(random(noteLength.length))]);
     synth2.triggerAttackRelease(midiToFreq(findNote(note)), noteLength[Math.floor(random(noteLength.length))]);
+    var renderPosX = map(note, newOscCopy[0], newOscCopy[newOscCopy.length - 1], 0, w);
+    var renderPosX2 = map(findNote(note), newOscCopy[0], newOscCopy[newOscCopy.length - 1], 0, w);
+    dots.push(new Dot(renderPosX, h / 16, 100, [255, 125, 0], midiToFreq(note)));
+    dots.push(new Dot(renderPosX2, h / 16, 100, [255, 125, 0], midiToFreq(findNote(note))));
+        // stroke(255, 180);
+        // strokeWeight(getMasterVolume() * 100);
+        // point(renderPosX, h / 4);
     newOscArray.splice(idx, 1);
     if (newOscArray.length === 0) {
         for (var i = 0; i < newOscCopy.length; i++) {
@@ -181,10 +199,10 @@ var synth = new Tone.Synth({
         type: 'triangle4'
     },
     envelope: {
-        attack: 1.5,
-        decay: 1,
-        sustain: 0.5,
-        release: 2
+        attack: 0.05,
+        decay: 0.1,
+        sustain: 0.05,
+        release: 0.02
     }
 }).chain(dist, dl4, freeverb, Tone.Master);
 
@@ -193,34 +211,45 @@ var synth2 = new Tone.Synth({
         type: 'sine'
     },
     envelope: {
-        attack: 1.5,
-        decay: 1,
-        sustain: 0.5,
-        release: 2
+        attack: 0.05,
+        decay: 0.01,
+        sustain: 0.05,
+        release: 0.2
     }
 }).chain(dist, dl4, freeverb, Tone.Master);
 var noteLength = ['4n', '2n', '1m'];
 var duoNoteLength = ['8n', '16n', '4n'];
 var duo = new Tone.DuoSynth({
-    envelope: {
-        attack: 1,
-        decay: 0.5,
-        sustain: 0.3,
-        release: 0.8
+    vibratoRate: 10,
+    voice0: {
+        envelope: {
+            attack: 0.1,
+            decay: 0.05,
+            sustain: 0.0,
+            release: 0.08
+        }
+    },
+    voice1: {
+        envelope: {
+            attack: 0.1,
+            decay: 0.05,
+            sustain: 0.0,
+            release: 0.08
+        }
     }
 }).chain(dist, dl4, freeverb, Tone.Master);
 
-function mousePressed() {
+function mouseDragged() {
     var noteToPlay = map(mouseX, 0, w, 0, 15);
     noteToPlay = Math.floor(noteToPlay);
+    if (noteToPlay < 0){
+        noteToPlay = 0;
+    }if (noteToPlay > 14){
+        noteToPlay = 14;
+    }
     console.log(noteToPlay);
     duo.triggerAttackRelease(midiToFreq(sOscCopy[noteToPlay]), duoNoteLength[Math.floor(random(noteLength.length))]);
-    push();
-    strokeWeight(10);
-    stroke(10, 100);
-    fill(200, 50);
-    ellipse(mouseX, mouseY, noteToPlay * 10);
-    pop();
+    dots.push(new Dot(mouseX, mouseY, 150, [200, 100, 70], sOscCopy[noteToPlay]));
 }
 
 function findNote(note) {
@@ -540,46 +569,56 @@ function keyPressed() {
             break;
     }
 }
-
+var canvasResetPercent = 5;
 function draw() {
-    level = volume.getLevel();
-    console.log(level);
-    amount = map(level, 0, 0.2, 1, 1055);
-    trans = 0;
-    if (level < 0.13) {
-        trans = 40;
-    } else {
-        trans = 180;
+    background(0, canvasResetPercent);
+    for (var i = 0; i < dots.length; i++) {
+        dots[i].move();
+        dots[i].display();
+        if (dots[i].weight < 3) {
+            dots.splice(i, 1);
+        }
     }
-    if (amount > 200) {
-        amount = 350;
-    }
-    strokeWeight(amount / 2);
-    stroke(amount * 0.6, trans);
-    noFill();
-    posX = random(0, w);
-    posY = random(0, h);
-    point(posX, posY);
-    push();
-    strokeWeight(amount / 2);
-    stroke(amount * 0.4, trans);
-    noFill();
-    point(posX + amount, posY);
-    push();
-    strokeWeight(amount / 3);
-    stroke(amount * 0.2, trans);
-    noFill();
-    point(posX - amount, posY);
-    push();
-    strokeWeight(amount * 0.1);
-    noFill();
-    line(posX - amount, posY, posX + amount, posY);
-    pop();
-    pop();
-    pop();
 }
 
 $(document).ready(
     function(){
-        $("#defaultCanvas0").hide();
+        Tone.context.resume();
     });
+function mousePressed(){
+    Tone.context.resume();
+}
+function Dot(x, y, weight, color, freq){
+    this.x = x;
+    this.y = y;
+    this.weight = weight / 10;
+    this.color = color;
+    this.freq = freq;
+    this.offset = 0.1;
+    this.creationTime = millis();
+    this.move = function(){
+        if (abs(this.creationTime - millis()) < 500){
+            this.weight *= 1.075;
+        }else{
+            this.weight *= 0.985;
+        }
+        this.y += 10;
+        this.offset += this.offset;
+        this.x = this.x + 25 * (sin(this.freq * this.offset / (millis() / 1000)));
+        var highestColor = Math.max.apply(null, color);
+        var indexToReplace = this.color.indexOf(highestColor);
+        this.color[indexToReplace] *= 0.9875;
+    }
+    this.display = function(){
+        noFill();
+        stroke(this.color);
+        strokeWeight(this.weight);
+        point(this.x,this.y);
+    }
+}
+
+function windowResized(){
+    w = window.innerWidth;
+    h = window.innerHeight;
+    resizeCanvas(w, h);
+}

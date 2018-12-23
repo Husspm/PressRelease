@@ -236,8 +236,8 @@ uniform vec2 mousePos4;
 uniform vec2 particle;
 uniform float time;
 uniform sampler2D texture;
-float intensity = 10.0;
-float intensity2 = 23.0;
+float intensity = 5.0;
+float intensity2 = 5.0;
 
 void main(void)
 {
