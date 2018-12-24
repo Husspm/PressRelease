@@ -1,18 +1,19 @@
 <link rel="stylesheet" href="/assets/css/style2.css">
 <link rel="stylesheet" href="/assets/css/range.css">
 <link href="https://fonts.googleapis.com/css?family=VT323" rel="stylesheet">{{!-- <script src="/assets/js/p5.min.js"></script> --}}
+<link href="https://fonts.googleapis.com/css?family=Share+Tech+Mono|Source+Code+Pro" rel="stylesheet">
 <script src = "https://tonejs.github.io/build/Tone.min.js"></script>    
 <script src="/assets/js/p5.sound.min.js"></script>
 <script src="/assets/js/melodyMaker.js"></script>
 <div id = "settingsPanel" class ='container'>
     <div class = "row">
         <div class="col-sm-4">
-            <h3>Tremolo Settings</h3>
-            <label for = 'trem'>Tremolo Rate</label>
+            <h3>Vibrato Settings</h3>
+            <label for = 'trem'>Vibrato Rate</label>
             <input data-module = "trem" data-suffix = "value" id='frequency' type="range" value = '10' min='0.1' max = '20' step='0.005'>
-            <label for = 'tD'>Tremolo Depth</label>
+            <label for = 'tD'>Vibrato Depth</label>
             <input data-module = "trem" data-suffix = "value" id='depth' type="range" value = '0.5' min='0.1' max = '1' step='0.05'>
-            <label for = 'Twet'> Tremolo Volume</label>
+            <label for = 'Twet'> Vibrato Volume</label>
             <input data-module = "trem" data-suffix = "value" id='wet' type="range" value = '0.2' min='0.1' max = '1' step='0.05'>
         </div>
         <div class="col-sm-4">
@@ -45,6 +46,13 @@
             <input id = "key" type = "range" value = "0" min = "-12" max ="12" step = "1">
             <output id = "keyCenter"></output>
         </div>
+        <div class = "col-xs-4">
+            {{!-- <label for = "randomize">Randomize Notes</label>
+            <input id = "randomize" type = "range" value = "0" min = "0" max ="12" step = "1">
+            <output id = "randomizeAmt"></output> --}}
+        </div>
+    </div>
+    <div class = "row scaleButtons">
         <div class = "col-xs-4">
             <label for="synthType">Synth Type</label>
             <select id = "synthType">

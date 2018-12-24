@@ -21,8 +21,8 @@ var soundFilter = new Tone.Filter(250, "bandpass");
 soundFilter.Q.value = 1;
 var delay = new Tone.PingPongDelay(0.2, 0.8);
 delay.wet.value = 0.5;
-var trem = new Tone.Tremolo(10, 0.5);
-trem.start();
+var trem = new Tone.Vibrato(10, 0.1);
+// trem.start();
 var pitch = new Tone.PitchShift();
 var synth = new Tone.Synth({
     harmonicity: 2,
@@ -38,6 +38,7 @@ var synth = new Tone.Synth({
 }).chain(trem, delay, Tone.Master);
 var chorus = new Tone.Chorus(0.1, 12.5, 0.5);
 Tone.Master.chain(soundFilter, chorus);
+Tone.Transport.start();
 // var notes = [
 //     [48, 50, 51, 53, 55, 56, 58, 60],
 //     [48, 50, 52, 54, 55, 57, 59, 60],
@@ -51,11 +52,20 @@ var notes = [
         scale: [48, 50, 51, 53, 55, 57, 58, 60],
         name: "Harmonic Minor"
     },{
+        scale: [48, 51, 53, 55, 58],
+        name: "Minor Penta"
+    },{
         scale: [48, 50, 52, 53, 55, 57, 59, 60],
         name: "Major"
     },{
+        scale: [48, 50, 52, 55, 57],
+        name: "Major Penta"
+    },{
         scale: [48, 52, 55, 57, 62],
         name: "Major 6/9"
+    },{
+        scale: [48, 52, 55, 58, 60],
+        name: "Major dom7"
     },{
         scale: [48, 52, 55, 59, 60],
         name: "Major 7"
@@ -89,9 +99,15 @@ var notes = [
     },{
         scale: [48, 51, 54, 57, 60, 63, 66],
         name: "Minor 3rds"
+    },{
+        scale: [48, 52, 55, 58, 61, 66],
+        name: "Petrushka Chord"
+    },{
+        scale: [48, 54, 58, 63],
+        name: "Tristan Chord"
     }
 ];
-var noteLengths = ["16n", "8n", "4n", "2n", "1n"];
+var noteLengths = ["32n", "16n", "8n"];
 var currIndex = 0;
 var dots = [];
 var scale;
@@ -118,7 +134,7 @@ function mousePressed() {
         }else{
             synth.triggerAttackRelease(midiToFreq(noteToPlay), noteLengths[lengthIndex]);
         }
-        return false;
+        return false;//prevents touches on canvas from zooming or scrolling
     }
 }
 function mouseDragged() {
@@ -142,7 +158,7 @@ function mouseDragged() {
             }else{
                 synth.triggerAttackRelease(midiToFreq(noteToPlay), noteLengths[lengthIndex]);
             }
-            return false;
+            return false;//prevents touches on canvas from zooming or scrolling
         }
 }
 var lineWeight = 10;
@@ -197,12 +213,14 @@ var synthTypes = ["sine", "sine4", "sine8", "sawtooth", "sawtooth4", "sawtooth8"
 var useSampler = false;
 
 $(document).ready(function() {
-    var listTarget = $("#synthType");
-    for (var i = 0; i <  synthTypes.length; i++){
-    var option = $("<option>").attr({"id": synthTypes[i]});
-    option.html(synthTypes[i]);
-    listTarget.append(option);
-    }
+    synthTypes.map( (op) => {
+        $("#synthType").append($("<option>").attr("id", op).html(op));
+    });
+    // for (var i = 0; i <  synthTypes.length; i++){
+    // var option = $("<option>").attr({"id": synthTypes[i]});
+    // option.html(synthTypes[i]);
+    // listTarget.append(option);
+    // }
     scale = notes[0].scale;
     console.log('READY');
     $("#scale").attr("max", notes.length - 1);
@@ -255,6 +273,7 @@ var sampler = new Tone.Sampler({
     "C3" : "/assets/audio/sample4.wav"
 }).chain(trem, delay, Tone.Master);
 sampler.attack = 0.25;
+
 function windowResized() {
     w = window.innerWidth;
     h = window.innerHeight;

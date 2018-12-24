@@ -3,32 +3,33 @@ body {
     color: #505d8c;
     /* width: 90%; */
     filter: contrast(130%);
-    font-family: 'VT323', monospace;
+    font-family: 'Share Tech Mono', monospace;
     }
 output {
     color: #7380ac;
-    background: #ffe19f;
+    background: linear-gradient(#8b7c4800, #e8d283);
     text-align: center;
-    border: 3px solid;
+    border: 2px solid;
 }
 
 input[type=range] {
-    background: #ffe19f;
-    border: 4px solid;
+    background: linear-gradient(#fffffffa, #ffe19f70);
+    border: 2px solid;
     border-radius: 20px;
     height: 5%;
 }
 
 input[type=range]:focus {
-    background: #7380ac;
-    border: 4px solid #ffe19f;
+    background: linear-gradient(#7380ac, #00000038);
+        border: 4px solid #ffe19f;
 }
 
 h3,
 button {
+    font-family: 'Source Code Pro', monospace;
     text-align: center;
     padding: 3%;
-    background: #e8d283;
+    background: linear-gradient(#e8d283, #8b7c4800);
     border: solid 2px;
     /* margin-left: 5%; */
 }
@@ -50,7 +51,7 @@ label {
 }
 
 select {
-    background: black;
+    background: linear-gradient(white, #fff4d1);
 }
 canvas {
     border: #e8d283 solid 2px;
@@ -62,4 +63,7 @@ canvas {
 .row{
     border: solid 2px;
     box-shadow: inset 0px 0px 10px 2px #e8d283;
+}
+.scaleButtons {
+    padding: 10px;
 }
