@@ -7,13 +7,14 @@ body {
     }
 output {
     color: #7380ac;
-    background: linear-gradient(#8b7c4800, #e8d283);
+    background: linear-gradient(#8b7c4800, #ffea98);
     text-align: center;
     border: 2px solid;
 }
 
 input[type=range] {
     background: linear-gradient(#fffffffa, #ffe19f70);
+    background-size: 20px 25px;
     border: 2px solid;
     border-radius: 20px;
     height: 5%;
@@ -21,7 +22,9 @@ input[type=range] {
 
 input[type=range]:focus {
     background: linear-gradient(#7380ac, #00000038);
-        border: 4px solid #ffe19f;
+    border: 4px solid #ffe19f;
+    transition: background-size 1s ease-in;
+    background-size: 20px 50px;
 }
 
 h3,
@@ -29,7 +32,7 @@ button {
     font-family: 'Source Code Pro', monospace;
     text-align: center;
     padding: 3%;
-    background: linear-gradient(#e8d283, #8b7c4800);
+    background: linear-gradient(#ffea98, #8b7c4800);
     border: solid 2px;
     /* margin-left: 5%; */
 }
@@ -62,7 +65,7 @@ canvas {
 }
 .row{
     border: solid 2px;
-    box-shadow: inset 0px 0px 10px 2px #e8d283;
+    box-shadow: inset 0px 0px 10px 2px #ffea98;
 }
 .scaleButtons {
     padding: 10px;

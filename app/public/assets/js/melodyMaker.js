@@ -12,12 +12,13 @@ function setup() {
         createCanvas(w, h / 2);
     }
     pixelDensity(1);
-    for (var x = 0; x <= w; x += w / notes[0].length) {
+    scale = notes[0].scale;
+    for (var x = 0; x <= w; x += w / scale.length) {
         stroke(255);
         line(x, 0, x, h);
     }
 }
-var soundFilter = new Tone.Filter(250, "bandpass");
+var soundFilter = new Tone.Filter(5250, "lowpass");
 soundFilter.Q.value = 1;
 var delay = new Tone.PingPongDelay(0.2, 0.8);
 delay.wet.value = 0.5;
@@ -27,15 +28,16 @@ var pitch = new Tone.PitchShift();
 var synth = new Tone.Synth({
     harmonicity: 2,
     oscillator: {
-        type: 'sawtooth8'
+        type: 'sine'
     },
     envelope: {
-        attack: '16n',
+        attack: 0.1,
         decay: 0.1,
         sustain: 0.1,
         release: 0.1
     }
 }).chain(trem, delay, Tone.Master);
+
 var chorus = new Tone.Chorus(0.1, 12.5, 0.5);
 Tone.Master.chain(soundFilter, chorus);
 Tone.Transport.start();
@@ -198,7 +200,7 @@ function Dot(x, y, initial) {
         stroke(this.color, this.initial *= 0.991);
         strokeWeight(this.weight *= 0.991);
         this.downwardAcc += 0.05;
-        this.y += (1 + this.downwardAcc) * this.dirMod;
+        this.y += (h / 3000 + this.downwardAcc) * this.dirMod;
         this.x += this.velocity;
         point(this.x, this.y);
     }
@@ -216,11 +218,6 @@ $(document).ready(function() {
     synthTypes.map( (op) => {
         $("#synthType").append($("<option>").attr("id", op).html(op));
     });
-    // for (var i = 0; i <  synthTypes.length; i++){
-    // var option = $("<option>").attr({"id": synthTypes[i]});
-    // option.html(synthTypes[i]);
-    // listTarget.append(option);
-    // }
     scale = notes[0].scale;
     console.log('READY');
     $("#scale").attr("max", notes.length - 1);
@@ -235,19 +232,7 @@ $(document).ready(function() {
         if (this.id == 'type'){
             effects[this.dataset.module][this.id] = filterTypes[this.value];
         }else if (this.id == 'scale'){
-            scale = notes[this.value].scale;
-            var text = notes[this.value].name;
-            $("#scaleText").html(text);
-            var checkMinor = /Minor/;
-            if (checkMinor.test(text)){
-                currColor = colors[0];
-                lineColor = colors[1];
-                dirMod = 1;
-            }else{
-                currColor = colors[1];
-                lineColor = colors[0];
-                dirMod = -1;
-            }
+            adjustScale(this.value);
         }else if (this.id == 'key'){
             transpose = parseInt(this.value);
             console.log(transpose);
@@ -274,9 +259,37 @@ var sampler = new Tone.Sampler({
 }).chain(trem, delay, Tone.Master);
 sampler.attack = 0.25;
 
+function adjustScale(value){
+    currentScaleIndex = value;
+    scale = notes[value].scale;
+    var text = notes[value].name;
+    $("#scaleText").html(text);
+    var checkMinor = /Minor/;
+    if (checkMinor.test(text)){
+        currColor = colors[0];
+        lineColor = colors[1];
+        dirMod = 1;
+    }else{
+        currColor = colors[1];
+        lineColor = colors[0];
+        dirMod = -1;
+    }
+}
+
 function windowResized() {
     w = window.innerWidth;
     h = window.innerHeight;
     $("#settingsPanel").css("width", w - 20);
     resizeCanvas(w, h / 2);
+}
+var settings = [];
+function saveSettings(){
+    var setting = {index: currentScaleIndex, transpose: transpose};
+    settings.push(setting);
+}
+function keyPressed(){
+    adjustScale(settings[parseInt(key) - 1].index);
+    transpose = settings[parseInt(key) - 1].transpose;
+    $("#keyCenter").html(Tone.Frequency(scale[0] + transpose, "midi").toNote());
+
 }

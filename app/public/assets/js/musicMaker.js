@@ -6,88 +6,17 @@ function setup() {
     createCanvas(w, h, P2D);
     pixelDensity(1);
     background(0);
-    osc = new p5.SinOsc(); //osc, osc2, and all effects belong to groupA
-    osc2 = new p5.SinOsc();
-    osc3 = new p5.SqrOsc();
-    Tosc = new p5.TriOsc(); //Tosc and Tosc2 and all effects with T before it belong to groupB
-    Tosc2 = new p5.TriOsc();
-    Sawosc = new p5.SawOsc(); //Sawosc and Sawosc2 and all effects with Saw before it belong to keyPressedGroup
-    Sawosc2 = new p5.SawOsc();
-    env = new p5.Env();
-    env2 = new p5.Env();
-    Tenv = new p5.Env();
-    Sawenv = new p5.Env();
-    oDist = new p5.Distortion(0.0099); //groupA distortion
-    oDist2 = new p5.Distortion(0.0099); //rowC distortion
-    tDist = new p5.Distortion(0.0099); //groupB distortion
-    env.setRange(1, 0);
-    Tenv.setRange(0.8, 0);
-    env2.setRange(0.8, 0);
-    Sawenv.setRange(1, 0);
-    reverb = new p5.Reverb();
-    reverb2 = new p5.Reverb();
-    Treverb = new p5.Reverb();
-    Sawreverb = new p5.Reverb();
-    delay = new p5.Delay();
-    delay2 = new p5.Delay();
-    Tdelay = new p5.Delay();
-    reverb.set(1, 0.1, 6000);
-    reverb2.set(1, 0.1, 7000);
-    Treverb.set(1, 0.1, 8000);
-    Sawreverb.set(1, 0.1, 8000);
-    osc.disconnect();
-    osc.connect(reverb);
-    osc2.disconnect();
-    osc2.connect(reverb);
-    osc3.disconnect();
-    osc3.connect(reverb2);
-    reverb.connect(oDist);
-    reverb2.connect(oDist2);
-    Tosc.disconnect();
-    Tosc.connect(Treverb);
-    Tosc2.disconnect();
-    Tosc2.connect(Treverb);
-    Treverb.connect(tDist);
-    delay.setType(1);
-    delay2.setType(1);
-    Tdelay.setType(1);
-    Sawosc.disconnect();
-    Sawosc.connect(Sawreverb);
-    Sawosc2.disconnect();
-    Sawosc2.connect(Sawreverb);
-    env.setADSR(0.05, 0.05, 0, 0.05);
-    env2.setADSR(0.05, 0.05, 0, 0.02);
-    Tenv.setADSR(0.09, 0.05, 0, 0.05);
-    Sawenv.setADSR(0.05, 0.05, 0, 0.05);
-    delay.process(oDist, 0.75, 0.16);
-    delay2.process(oDist2, 0.9, 0.14);
-    Tdelay.process(tDist, 0.75, 0.16);
-    osc.amp(env);
-    osc2.amp(env);
-    osc3.amp(env2);
-    Tosc.amp(Tenv);
-    Tosc2.amp(Tenv);
-    Sawosc.amp(Sawenv);
-    Sawosc2.amp(Sawenv);
-    osc.start();
-    osc2.start();
-    osc3.start();
-    Tosc.start();
-    Tosc2.start();
-    Sawosc.start();
-    Sawosc2.start();
-    volume = new p5.Amplitude(0.25);
 }
-var sOscArray = [48, 50, 52, 54, 55, 57, 59, 60, 62, 64, 66, 67, 69, 71, 72];
-var sOscCopy = [48, 50, 52, 54, 55, 57, 59, 60, 62, 64, 66, 67, 69, 71, 72];
-var tOscArray = [48, 50, 52, 55, 57, 60, 62, 64, 67, 69, 72];
-var tOscCopy = [48, 50, 52, 55, 57, 60, 62, 64, 67, 69, 72];
-var newOscArray = [48, 50, 52, 55, 57, 60, 62, 64, 67, 69, 72];
-var newOscCopy = [48, 50, 52, 55, 57, 60, 62, 64, 67, 69, 72];
+var sOscArray = [48, 52, 54, 55, 57, 59];
+var sOscCopy = [48, 52, 54, 55, 57, 59];
+var tOscArray = [48, 52, 54, 55, 57, 59];
+var tOscCopy = [48, 52, 54, 55, 57, 59];
+var newOscArray = [48, 52, 54, 55, 57, 59];
+var newOscCopy = [48, 52, 54, 55, 57, 59];
 
-var auto = setInterval(function() { makeMusicGroupA(); }, 500);
-var auto2 = setInterval(function() { randomize(); }, 750);
-var auto3 = setInterval(function() { makeMusicGroupC(); }, 1250);
+var auto = setInterval(function() { makeMusicGroupA(); }, 5000);
+var auto2 = setInterval(function() { randomize(); }, 500);
+var auto3 = setInterval(function() { makeMusicGroupC(); }, 3000);
 
 function randomize() {
     var target = Math.floor(random(0, 10));
@@ -99,18 +28,129 @@ function randomize() {
 var group_A_iterations = 0;
 var key_change_iterations_A = 0;
 var renderPosX;
+Tone.Transport.start();
+Tone.Transport.bpm.value = 120;
+var dl4 = new Tone.PingPongDelay("4n", 0.25).toMaster();
+var dl2 = new Tone.PingPongDelay("8n", 0.25).toMaster();
+var dist = new Tone.Distortion(0.015).toMaster();
+var freeverb = new Tone.Freeverb().toMaster();
+var synth = new Tone.Synth({
+    oscillator: {
+        type: 'sawtooth4'
+    },
+    envelope: {
+        attack: 0.65,
+        decay: 0.71,
+        sustain: 0.05,
+        release: 0.02
+    }
+}).chain(dist, dl4, freeverb, Tone.Master);
+
+var synth2 = new Tone.Synth({
+    oscillator: {
+        type: 'sawtooth'
+    },
+    envelope: {
+        attack: 0.55,
+        decay: 0.71,
+        sustain: 0.05,
+        release: 0.2
+    }
+}).chain(dist, dl4, freeverb, Tone.Master);
+var noteLength = ['16n','8n','4n', '2n', '1n'];
+var duoNoteLength = ['8n', '16n', '4n'];
+var duo = new Tone.DuoSynth({
+    vibratoRate: 10,
+    voice0: {
+        oscillator: {
+        type: 'sawtooth'
+        },
+        envelope: {
+            attack: 0.1,
+            decay: 0.05,
+            sustain: 0.0,
+            release: 0.08
+        }
+    },
+    voice1: {
+        oscillator: {
+            type: 'sawtooth8'
+            },
+        envelope: {
+            attack: 0.1,
+            decay: 0.05,
+            sustain: 0.0,
+            release: 0.08
+        }
+    }
+}).chain(dist, dl4, freeverb, Tone.Master);
+var osc = new Tone.AMSynth({
+    harmonicity  : 2 ,
+    detune  : 0 ,
+    oscillator  : {
+    type  : 'sawtooth'
+    }  ,
+    envelope  : {
+    attack  : 0.71 ,
+    decay  : 0.71 ,
+    sustain  : 1 ,
+    release  : 0.5
+    }  ,
+    modulation  : {
+    type  : 'triangle'
+    }  ,
+    modulationEnvelope  : {
+    attack  : 0.75 ,
+    decay  : 0 ,
+    sustain  : 1 ,
+    release  : 0.5
+    }
+    }).chain(dist, dl2, freeverb, Tone.Master);
+
+var osc2 = new Tone.Synth({
+    oscillator: {
+        type: 'sawtooth16'
+    },
+    envelope: {
+        attack: 0.75,
+        decay: 0.71,
+        sustain: 0.05,
+        release: 0.02
+    }
+}).chain(dist, dl2, freeverb, Tone.Master);
+var osc3 = new Tone.Synth({
+    oscillator: {
+        type: 'triangle8'
+    },
+    envelope: {
+        attack: 0.75,
+        decay: 0.71,
+        sustain: 0.05,
+        release: 0.02
+    }
+}).chain(dist, dl2, freeverb, Tone.Master);
+var osc4 = new Tone.Synth({
+    oscillator: {
+        type: 'triangle16'
+    },
+    envelope: {
+        attack: 0.75,
+        decay: 0.71,
+        sustain: 0.05,
+        release: 0.02
+    }
+}).chain(dist, dl2, freeverb, Tone.Master);
+var volume = new Tone.FFT(64);
+Tone.Master.connect(volume);
 function makeMusicGroupA() {
-    if (group_A_iterations < 3) {
+    if (group_A_iterations < 12) {
         console.log('HIT on group A');
         var idx = Math.floor(random(sOscArray.length));
         var note = sOscArray[idx];
         console.log(note, 'was selected for group A');
-        osc.freq(midiToFreq(note));
-        env.play();
-        osc2.freq(midiToFreq(findNote(note)));
-        env.play();
-        var renderPosX = map(note, sOscCopy[0], sOscCopy[sOscCopy.length - 1], 0, w);
-        var renderPosX2 = map(findNote(note), sOscCopy[0], sOscCopy[sOscCopy.length - 1], 0, w);
+        osc.triggerAttackRelease(midiToFreq(note), noteLength[Math.floor(random(noteLength.length))]);
+        osc2.triggerAttackRelease(midiToFreq(findNote(note)), noteLength[Math.floor(random(noteLength.length))], `+${noteLength[Math.floor(random(noteLength.length))]}`);        var renderPosX = map(note, sOscCopy[0], sOscCopy[sOscCopy.length - 1], 0, w);
+        var renderPosX2 = map(findNote(note), sOscCopy[0] - 24, sOscCopy[sOscCopy.length - 1] + 24, 0, w);
         dots.push(new Dot(renderPosX, w / 16, 100, [0, 125, 255], midiToFreq(note)));
         dots.push(new Dot(renderPosX2, w / 16, 100, [0, 125, 255], midiToFreq(findNote(note))));
         sOscArray.splice(idx, 1);
@@ -128,7 +168,7 @@ function makeMusicGroupA() {
         }
     }
     group_A_iterations++;
-    if (group_A_iterations >= 4) {
+    if (group_A_iterations >= 12) {
         group_A_iterations = 0;
     }
 }
@@ -139,16 +179,15 @@ function makeMusicGroupB() {
     var idx = Math.floor(random(tOscArray.length));
     var note = tOscArray[idx];
     console.log(note, 'was selected for group B');
-    Tosc.freq(midiToFreq(note));
-    Tosc2.freq(midiToFreq(findNote(note)));
-    Tenv.play();
+    osc3.triggerAttackRelease(midiToFreq(note), noteLength[Math.floor(random(noteLength.length))]);
+    osc4.triggerAttackRelease(midiToFreq(findNote(note)), noteLength[Math.floor(random(noteLength.length))], `+${noteLength[Math.floor(random(noteLength.length))]}`);        
     var renderPosX = map(note, tOscCopy[0], tOscCopy[tOscCopy.length - 1], 0, w);
-    var renderPosX2 = map(findNote(note), tOscCopy[0], tOscCopy[tOscCopy.length - 1], 0, w);
+    var renderPosX2 = map(findNote(note), tOscCopy[0] - 24, tOscCopy[tOscCopy.length - 1] + 24, 0, w);
     dots.push(new Dot(renderPosX, w / 16, 100, [0, 255, 125], midiToFreq(note)));
     dots.push(new Dot(renderPosX2, w / 16, 100, [0, 255, 125], midiToFreq(findNote(note))));
     tOscArray.splice(idx, 1);
     if (tOscArray.length === 0) {
-        for (var i = 0; i < sOscCopy.length; i++) {
+        for (var i = 0; i < tOscCopy.length; i++) {
             if (key_change_iterations_B % 2 === 0) {
                 tOscCopy[i] += 5;
             } else {
@@ -161,91 +200,49 @@ function makeMusicGroupB() {
     }
 }
 var key_change_iterations_C = 0;
-
+var group_C_iterations = 0;
 function makeMusicGroupC() {
-    console.log('HIT on group C');
-    var idx = Math.floor(random(newOscArray.length));
-    var note = newOscArray[idx];
-    console.log(note, 'was selected for group C');
-    synth.triggerAttackRelease(midiToFreq(note), noteLength[Math.floor(random(noteLength.length))]);
-    synth2.triggerAttackRelease(midiToFreq(findNote(note)), noteLength[Math.floor(random(noteLength.length))]);
-    var renderPosX = map(note, newOscCopy[0], newOscCopy[newOscCopy.length - 1], 0, w);
-    var renderPosX2 = map(findNote(note), newOscCopy[0], newOscCopy[newOscCopy.length - 1], 0, w);
-    dots.push(new Dot(renderPosX, h / 16, 100, [255, 125, 0], midiToFreq(note)));
-    dots.push(new Dot(renderPosX2, h / 16, 100, [255, 125, 0], midiToFreq(findNote(note))));
-        // stroke(255, 180);
-        // strokeWeight(getMasterVolume() * 100);
-        // point(renderPosX, h / 4);
-    newOscArray.splice(idx, 1);
-    if (newOscArray.length === 0) {
-        for (var i = 0; i < newOscCopy.length; i++) {
-            if (key_change_iterations_C % 2 === 0) {
-                newOscCopy[i] += 5;
-            } else {
-                newOscCopy[i] -= 7;
+    if (group_C_iterations < 2){
+        console.log('HIT on group C');
+        var idx = Math.floor(random(newOscArray.length));
+        var note = newOscArray[idx];
+        console.log(note, 'was selected for group C');
+        synth.triggerAttackRelease(midiToFreq(note), noteLength[Math.floor(random(noteLength.length))]);
+        synth2.triggerAttackRelease(midiToFreq(findNote(note)), noteLength[Math.floor(random(noteLength.length))], `+${noteLength[Math.floor(random(noteLength.length))]}`);
+        var renderPosX = map(note, newOscCopy[0], newOscCopy[newOscCopy.length - 1], 0, w);
+        var renderPosX2 = map(findNote(note), newOscCopy[0] - 24, newOscCopy[newOscCopy.length - 1] + 24, 0, w);
+        dots.push(new Dot(renderPosX, h / 16, 100, [255, 125, 0], midiToFreq(note)));
+        dots.push(new Dot(renderPosX2, h / 16, 100, [255, 125, 0], midiToFreq(findNote(note))));
+            // stroke(255, 180);
+            // strokeWeight(getMasterVolume() * 100);
+            // point(renderPosX, h / 4);
+        newOscArray.splice(idx, 1);
+        if (newOscArray.length === 0) {
+            for (var i = 0; i < newOscCopy.length; i++) {
+                if (key_change_iterations_C % 2 === 0) {
+                    newOscCopy[i] += 5;
+                } else {
+                    newOscCopy[i] -= 7;
+                }
             }
+            console.log('gC array', newOscCopy);
+            newOscArray = newOscCopy.slice();
+            key_change_iterations_C++;
         }
-        console.log('gC array', newOscCopy);
-        newOscArray = newOscCopy.slice();
-        key_change_iterations_C++;
+    }
+    group_C_iterations++;
+    if (group_C_iterations >= 3) {
+        group_C_iterations = 0;
     }
 }
 
-var dl4 = new Tone.PingPongDelay(0.9, 0.4).toMaster();
-var dist = new Tone.Distortion(0.15).toMaster();
-var freeverb = new Tone.Freeverb().toMaster();
-var synth = new Tone.Synth({
-    oscillator: {
-        type: 'triangle4'
-    },
-    envelope: {
-        attack: 0.05,
-        decay: 0.1,
-        sustain: 0.05,
-        release: 0.02
-    }
-}).chain(dist, dl4, freeverb, Tone.Master);
-
-var synth2 = new Tone.Synth({
-    oscillator: {
-        type: 'sine'
-    },
-    envelope: {
-        attack: 0.05,
-        decay: 0.01,
-        sustain: 0.05,
-        release: 0.2
-    }
-}).chain(dist, dl4, freeverb, Tone.Master);
-var noteLength = ['4n', '2n', '1m'];
-var duoNoteLength = ['8n', '16n', '4n'];
-var duo = new Tone.DuoSynth({
-    vibratoRate: 10,
-    voice0: {
-        envelope: {
-            attack: 0.1,
-            decay: 0.05,
-            sustain: 0.0,
-            release: 0.08
-        }
-    },
-    voice1: {
-        envelope: {
-            attack: 0.1,
-            decay: 0.05,
-            sustain: 0.0,
-            release: 0.08
-        }
-    }
-}).chain(dist, dl4, freeverb, Tone.Master);
-
 function mouseDragged() {
-    var noteToPlay = map(mouseX, 0, w, 0, 15);
+    var noteToPlay = map(mouseX, 0, w, 0, sOscCopy.length);
     noteToPlay = Math.floor(noteToPlay);
     if (noteToPlay < 0){
         noteToPlay = 0;
-    }if (noteToPlay > 14){
-        noteToPlay = 14;
+    }if (noteToPlay > sOscCopy.length - 1){
+        noteToPlay = sOscCopy.length - 1;
     }
     console.log(noteToPlay);
     duo.triggerAttackRelease(midiToFreq(sOscCopy[noteToPlay]), duoNoteLength[Math.floor(random(noteLength.length))]);
@@ -569,9 +566,19 @@ function keyPressed() {
             break;
     }
 }
-var canvasResetPercent = 5;
+
+var canvasResetPercent = 25;
+var blocks = [];
 function draw() {
     background(0, canvasResetPercent);
+    blocks.forEach( function(b, index) {
+        b.move();
+        b.display();
+        if (b.x > w){
+            blocks.splice(index, 1);
+            blocks.push(new Block(0, b.y, random(50, 100)));
+        }
+    });
     for (var i = 0; i < dots.length; i++) {
         dots[i].move();
         dots[i].display();
@@ -580,7 +587,12 @@ function draw() {
         }
     }
 }
-
+function createBlocks(){
+    for(var i = 0; i < h; i+= h / 200){
+        blocks.push(new Block(0, i, Math.random(24, 44)));
+    }
+}
+createBlocks();
 $(document).ready(
     function(){
         Tone.context.resume();
@@ -597,14 +609,14 @@ function Dot(x, y, weight, color, freq){
     this.offset = 0.1;
     this.creationTime = millis();
     this.move = function(){
-        if (abs(this.creationTime - millis()) < 500){
-            this.weight *= 1.075;
+        if (abs(this.creationTime - millis()) < 200){
+            this.weight *= 1.175;
         }else{
             this.weight *= 0.985;
         }
-        this.y += 10;
+        this.y += 5;
         this.offset += this.offset;
-        this.x = this.x + 25 * (sin(this.freq * this.offset / (millis() / 1000)));
+        this.x = this.x + 35 * (sin(this.freq / 50  * (millis() / 1000)));
         var highestColor = Math.max.apply(null, color);
         var indexToReplace = this.color.indexOf(highestColor);
         this.color[indexToReplace] *= 0.9875;
@@ -616,7 +628,27 @@ function Dot(x, y, weight, color, freq){
         point(this.x,this.y);
     }
 }
-
+function Block(x,y,width){
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.step = Math.random() * 10 + 5;
+    this.move = function(){
+        this.x += this.step;
+        this.width *= 1.005;
+    }
+    this.display = function(){
+        push();
+        noStroke();
+        var scaleHeight = volume.getValue();
+        var index = floor(map(this.y, 0, h, 0, scaleHeight.length));
+        var actualHeight = abs(scaleHeight[index]);
+        fill(255, actualHeight * 3, 0, this.step * 8);
+        rect(this.x, this.y, this.width, actualHeight / this.step);
+        pop();
+        this.step += (actualHeight / 100);
+    }
+}
 function windowResized(){
     w = window.innerWidth;
     h = window.innerHeight;
