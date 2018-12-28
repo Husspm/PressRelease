@@ -28,7 +28,7 @@ h2 {
     border: solid white 4px;
 }
 #defaultCanvas0 {
-    filter: contrast(1.5);
+    filter: contrast(8.5);
     background: #ab702094;
 }
 .boxHolder:nth-child(even) {

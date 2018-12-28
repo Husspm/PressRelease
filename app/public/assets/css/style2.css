@@ -1,3 +1,6 @@
+:root{
+--lightcolor: #ffea98;
+}
 body {
     background: #e6e6e6;
     color: #505d8c;
@@ -7,7 +10,7 @@ body {
     }
 output {
     color: #7380ac;
-    background: linear-gradient(#8b7c4800, #ffea98);
+    background: linear-gradient(#8b7c4800, var(--lightcolor));
     text-align: center;
     border: 2px solid;
 }
@@ -57,7 +60,7 @@ select {
     background: linear-gradient(white, #fff4d1);
 }
 canvas {
-    border: #e8d283 solid 2px;
+    border: var(--lightcolor) solid 2px;
     box-shadow: #6f80b9 0px 0px 6px 2px;
 }
 #settingsPanel{

@@ -140,7 +140,7 @@ var osc4 = new Tone.Synth({
         release: 0.02
     }
 }).chain(dist, dl2, freeverb, Tone.Master);
-var volume = new Tone.FFT(64);
+var volume = new Tone.Analyser("fft", 128);
 Tone.Master.connect(volume);
 function makeMusicGroupA() {
     if (group_A_iterations < 12) {
@@ -567,18 +567,26 @@ function keyPressed() {
     }
 }
 
-var canvasResetPercent = 25;
-var blocks = [];
+var canvasResetPercent = 4;
+// var blocks = [];
+var scaleHeight;
+var bg = 0;
 function draw() {
-    background(0, canvasResetPercent);
-    blocks.forEach( function(b, index) {
-        b.move();
-        b.display();
-        if (b.x > w){
-            blocks.splice(index, 1);
-            blocks.push(new Block(0, b.y, random(50, 100)));
-        }
-    });
+    bg++;
+    if (bg > 254){
+        bg = 0;
+    }
+    scaleHeight = volume.getValue();
+    blendMode(DIFFERENCE);
+    background(bg, canvasResetPercent);
+    // for (var i = 0; i < blocks.length; i++) {
+    //     blocks[i].move();
+    //     blocks[i].display();
+    //     if (blocks[i].x > 1000 || blocks[i].x < 0) {
+    //         blocks.push(new Block(0, blocks[i].startingY, random(45, 100)));
+    //         blocks.splice(i, 1);
+    //     }
+    // }
     for (var i = 0; i < dots.length; i++) {
         dots[i].move();
         dots[i].display();
@@ -588,11 +596,10 @@ function draw() {
     }
 }
 function createBlocks(){
-    for(var i = 0; i < h; i+= h / 200){
+    for(var i = 0; i < h; i+= h / 128){
         blocks.push(new Block(0, i, Math.random(24, 44)));
     }
 }
-createBlocks();
 $(document).ready(
     function(){
         Tone.context.resume();
@@ -602,6 +609,7 @@ function mousePressed(){
 }
 function Dot(x, y, weight, color, freq){
     this.x = x;
+    this.startingY = y;
     this.y = y;
     this.weight = weight / 10;
     this.color = color;
@@ -612,14 +620,14 @@ function Dot(x, y, weight, color, freq){
         if (abs(this.creationTime - millis()) < 200){
             this.weight *= 1.175;
         }else{
-            this.weight *= 0.985;
+            this.weight *= 0.9985;
         }
         this.y += 5;
         this.offset += this.offset;
-        this.x = this.x + 35 * (sin(this.freq / 50  * (millis() / 1000)));
+        this.x = this.x + 45 * (sin(this.freq / 20  * (millis() / 1000)));
         var highestColor = Math.max.apply(null, color);
         var indexToReplace = this.color.indexOf(highestColor);
-        this.color[indexToReplace] *= 0.9875;
+        this.color[indexToReplace] *= 0.99875;
     }
     this.display = function(){
         noFill();
@@ -632,21 +640,22 @@ function Block(x,y,width){
     this.x = x;
     this.y = y;
     this.width = width;
-    this.step = Math.random() * 10 + 5;
+    this.step = (Math.random() * 1) + 0.125;
     this.move = function(){
-        this.x += this.step;
+        this.x += 10;
+        this.y += random(-10, 10);
         this.width *= 1.005;
     }
     this.display = function(){
         push();
         noStroke();
-        var scaleHeight = volume.getValue();
-        var index = floor(map(this.y, 0, h, 0, scaleHeight.length));
-        var actualHeight = abs(scaleHeight[index]);
-        fill(255, actualHeight * 3, 0, this.step * 8);
-        rect(this.x, this.y, this.width, actualHeight / this.step);
+        var index = Math.floor(map(this.y, 0, h, 0, scaleHeight.length / 2));
+        var actualHeight = map(Math.abs(scaleHeight[index] * 3), 0, 255, 255, 0);
+        var fillTmod = map(this.y, 0, h, 250, 10);
+        fill(255, actualHeight, 0, fillTmod);
+        rect(this.x, this.y, this.width, actualHeight / 2);
         pop();
-        this.step += (actualHeight / 100);
+        this.step += (actualHeight);
     }
 }
 function windowResized(){
