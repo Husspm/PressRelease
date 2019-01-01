@@ -12,11 +12,6 @@ function setup() {
         createCanvas(w, h / 2);
     }
     pixelDensity(1);
-    scale = notes[0].scale;
-    for (var x = 0; x <= w; x += w / scale.length) {
-        stroke(255);
-        line(x, 0, x, h);
-    }
 }
 var soundFilter = new Tone.Filter(5250, "lowpass");
 soundFilter.Q.value = 1;
@@ -24,9 +19,7 @@ var delay = new Tone.PingPongDelay(0.2, 0.8);
 delay.wet.value = 0.5;
 var trem = new Tone.Vibrato(10, 0.1);
 // trem.start();
-var pitch = new Tone.PitchShift();
 var synth = new Tone.Synth({
-    harmonicity: 2,
     oscillator: {
         type: 'sine'
     },
@@ -288,8 +281,37 @@ function saveSettings(){
     settings.push(setting);
 }
 function keyPressed(){
-    adjustScale(settings[parseInt(key) - 1].index);
-    transpose = settings[parseInt(key) - 1].transpose;
-    $("#keyCenter").html(Tone.Frequency(scale[0] + transpose, "midi").toNote());
+    // adjustScale(settings[parseInt(key) - 1].index);
+    // transpose = settings[parseInt(key) - 1].transpose;
+    // $("#keyCenter").html(Tone.Frequency(scale[0] + transpose, "midi").toNote());
+    runArp();
 
+}
+var pattern;
+function runArp(){
+    if (typeof(pattern) == 'undefined'){
+        let scalePlusT = [];
+        scale.forEach(function(n) {
+            n += transpose;
+            scalePlusT.push(n);
+        });
+        pattern = new Tone.Pattern(function(time, note){
+        synth.triggerAttackRelease(midiToFreq(note), "8n", time);
+        }, scalePlusT, "upDown");
+        pattern.start();
+        pattern.interval = "16n";
+    }else{
+        pattern.stop();
+        pattern.dispose();
+        let scalePlusT = [];
+        scale.forEach(function(n) {
+            n += transpose;
+            scalePlusT.push(n);
+        });
+        pattern = new Tone.Pattern(function(time, note){
+        synth.triggerAttackRelease(midiToFreq(note), "8n", time);
+        }, scalePlusT, "upDown");
+        pattern.start();
+        pattern.interval = "4n";
+    }
 }

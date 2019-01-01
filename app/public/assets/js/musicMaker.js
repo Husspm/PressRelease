@@ -576,7 +576,7 @@ function draw() {
     if (bg > 254){
         bg = 0;
     }
-    scaleHeight = volume.getValue();
+    // scaleHeight = volume.getValue();
     blendMode(DIFFERENCE);
     background(bg, canvasResetPercent);
     // for (var i = 0; i < blocks.length; i++) {
