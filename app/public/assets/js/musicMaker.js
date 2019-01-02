@@ -7,6 +7,7 @@ function setup() {
     pixelDensity(1);
     background(0);
 }
+
 var sOscArray = [48, 52, 54, 55, 57, 59];
 var sOscCopy = [48, 52, 54, 55, 57, 59];
 var tOscArray = [48, 52, 54, 55, 57, 59];
@@ -567,26 +568,25 @@ function keyPressed() {
     }
 }
 
-var canvasResetPercent = 4;
-// var blocks = [];
+var canvasResetPercent = 2;
+var blocks = [];
 var scaleHeight;
 var bg = 0;
 function draw() {
-    bg++;
-    if (bg > 254){
-        bg = 0;
-    }
-    // scaleHeight = volume.getValue();
-    blendMode(DIFFERENCE);
-    background(bg, canvasResetPercent);
-    // for (var i = 0; i < blocks.length; i++) {
-    //     blocks[i].move();
-    //     blocks[i].display();
-    //     if (blocks[i].x > 1000 || blocks[i].x < 0) {
-    //         blocks.push(new Block(0, blocks[i].startingY, random(45, 100)));
-    //         blocks.splice(i, 1);
-    //     }
+    // bg++;
+    // if (bg > 254){
+    //     bg = 0;
     // }
+    scaleHeight = volume.getValue();
+    background(bg, canvasResetPercent);
+    for (var i = 0; i < blocks.length; i++) {
+        blocks[i].move();
+        blocks[i].display();
+        if (blocks[i].x > (w - blocks[i].width) || blocks[i].x < 0) {
+            blocks.push(new Block(0, blocks[i].y, random(45, 100)));
+            blocks.splice(i, 1);
+        }
+    }
     for (var i = 0; i < dots.length; i++) {
         dots[i].move();
         dots[i].display();
@@ -603,6 +603,7 @@ function createBlocks(){
 $(document).ready(
     function(){
         Tone.context.resume();
+        createBlocks();
     });
 function mousePressed(){
     Tone.context.resume();
@@ -618,13 +619,13 @@ function Dot(x, y, weight, color, freq){
     this.creationTime = millis();
     this.move = function(){
         if (abs(this.creationTime - millis()) < 200){
-            this.weight *= 1.175;
+            this.weight *= 1.275;
         }else{
             this.weight *= 0.9985;
         }
         this.y += 5;
         this.offset += this.offset;
-        this.x = this.x + 45 * (sin(this.freq / 20  * (millis() / 1000)));
+        this.x = this.x + 45 * (sin(this.freq / 10  * (millis() / 1000)));
         var highestColor = Math.max.apply(null, color);
         var indexToReplace = this.color.indexOf(highestColor);
         this.color[indexToReplace] *= 0.99875;
@@ -640,22 +641,20 @@ function Block(x,y,width){
     this.x = x;
     this.y = y;
     this.width = width;
-    this.step = (Math.random() * 1) + 0.125;
+    this.step = Math.random() * 1 + 1.125;
     this.move = function(){
-        this.x += 10;
-        this.y += random(-10, 10);
+        this.x += this.step;
         this.width *= 1.005;
     }
     this.display = function(){
         push();
         noStroke();
+        var heightPlus = noise(this.x, this.y, this.step) * 2;
         var index = Math.floor(map(this.y, 0, h, 0, scaleHeight.length / 2));
-        var actualHeight = map(Math.abs(scaleHeight[index] * 3), 0, 255, 255, 0);
-        var fillTmod = map(this.y, 0, h, 250, 10);
-        fill(255, actualHeight, 0, fillTmod);
-        rect(this.x, this.y, this.width, actualHeight / 2);
+        var actualHeight = map(Math.abs(scaleHeight[index] * 2), 0, 255, 255, 0);
+        fill(255, actualHeight, this.step * 100, 50);
+        rect(this.x, this.y, this.width, (actualHeight / 50) + heightPlus * 2);
         pop();
-        this.step += (actualHeight);
     }
 }
 function windowResized(){

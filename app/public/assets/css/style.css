@@ -52,3 +52,9 @@ a {
     left: 0px;
     top: 20px;
 }
+@media only screen and (max-width: 920px){
+    .links{
+        position: inherit;  
+        width: 100%;
+    }
+}

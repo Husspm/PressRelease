@@ -105,7 +105,7 @@ var notes = [
 var noteLengths = ["32n", "16n", "8n"];
 var currIndex = 0;
 var dots = [];
-var scale;
+var scale = notes[0].scale;
 var transpose = 0;
 function mousePressed() {
     console.log(mouseY);
@@ -284,7 +284,11 @@ function keyPressed(){
     // adjustScale(settings[parseInt(key) - 1].index);
     // transpose = settings[parseInt(key) - 1].transpose;
     // $("#keyCenter").html(Tone.Frequency(scale[0] + transpose, "midi").toNote());
-    runArp();
+    if(key.toLowerCase() == "a"){
+        runArp();
+    }else if(key.toLowerCase() == 's'){
+        stopArp();
+    }
 
 }
 var pattern;
@@ -299,7 +303,7 @@ function runArp(){
         synth.triggerAttackRelease(midiToFreq(note), "8n", time);
         }, scalePlusT, "upDown");
         pattern.start();
-        pattern.interval = "16n";
+        pattern.interval = "4n";
     }else{
         pattern.stop();
         pattern.dispose();
@@ -313,5 +317,13 @@ function runArp(){
         }, scalePlusT, "upDown");
         pattern.start();
         pattern.interval = "4n";
+    }
+}
+function stopArp(){
+    if (pattern.state == "started"){
+        pattern.stop();
+    }
+    else {
+        return;
     }
 }
