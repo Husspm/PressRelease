@@ -228,7 +228,6 @@ $(document).ready(function() {
             adjustScale(this.value);
         }else if (this.id == 'key'){
             transpose = parseInt(this.value);
-            console.log(transpose);
             $("#keyCenter").html(Tone.Frequency(scale[0] + transpose, "midi").toNote());
         }else{
             effects[this.dataset.module][this.id][this.dataset.suffix] = this.value;
