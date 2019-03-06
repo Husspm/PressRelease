@@ -191,7 +191,7 @@ function Dot(x, y, initial) {
     this.dirMod = dirMod;
     this.show = function() {
         stroke(this.color, this.initial *= 0.991);
-        strokeWeight(this.weight *= 0.991);
+        strokeWeight(this.weight *= 0.981);
         this.downwardAcc += 0.05;
         this.y += (h / 3000 + this.downwardAcc) * this.dirMod;
         this.x += this.velocity;
@@ -233,6 +233,7 @@ $(document).ready(function() {
             effects[this.dataset.module][this.id][this.dataset.suffix] = this.value;
         }
     });
+    
     $('select').on("change", function(){
         console.log(this.options[this.options.selectedIndex].id);
         if (this.options[this.options.selectedIndex].id == "sampler"){
